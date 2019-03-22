@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import pl.football.league.entities.Footballer;
+import pl.football.league.entities.Team;
+
 public class Main extends Application {
 
     public void start(Stage primaryStage) throws Exception {
