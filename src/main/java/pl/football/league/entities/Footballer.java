@@ -1,9 +1,8 @@
 package pl.football.league.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="pilkarz")
@@ -24,8 +23,16 @@ public class Footballer {
     @Column(name ="numer")
     private int number;
 
-    @Column(name = "druzyna_kod_druzyny")
-    private int team;
+    @ManyToOne
+    @JoinColumn (name = "druzyna_kod_druzyny")
+    private Team team;
+
+
+    @ManyToMany
+    @JoinTable(name = "kibicowanie_pilkarzowi",
+            joinColumns = {@JoinColumn(name = "id_pilkarza")},
+            inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
+    private Set<Fan> fans;
 
     public int getFootballerID() {
         return footballerID;
@@ -67,12 +74,20 @@ public class Footballer {
         this.number = number;
     }
 
-    public int getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(int team) {
+    public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Set<Fan> getFans() {
+        return fans;
+    }
+
+    public void setFans(Set<Fan> fans) {
+        this.fans = fans;
     }
 
     @Override
