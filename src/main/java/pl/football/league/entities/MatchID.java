@@ -15,9 +15,7 @@ public class MatchID implements Serializable {
     @JoinColumn(name = "gosc")
     private Team away;
 
-    public MatchID(){
-
-    }
+    public MatchID(){}
 
     public MatchID(Team home, Team away){
         this.home = home;

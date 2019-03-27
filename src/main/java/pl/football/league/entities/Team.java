@@ -2,7 +2,6 @@ package pl.football.league.entities;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -10,7 +9,7 @@ import java.util.Set;
 public class Team {
     @Id
     @Column(name = "kod_druzyny")
-    private int teamID;
+    private long teamID;
 
     @Column(name = "nazwa")
     private String name;
@@ -31,7 +30,7 @@ public class Team {
     private int loses;
 
     @OneToOne
-    @JoinColumn (name = "trener_id_trenera")
+    @JoinColumn (name = "trener")
     private Coach coach;
 
     @ManyToMany
@@ -40,11 +39,11 @@ public class Team {
             inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
     private Set<Fan> teamFans;
 
-    public int getTeamID() {
+    public long getTeamID() {
         return teamID;
     }
 
-    public void setTeamID(int teamID) {
+    public void setTeamID(long teamID) {
         this.teamID = teamID;
     }
 

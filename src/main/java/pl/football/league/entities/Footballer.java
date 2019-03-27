@@ -1,7 +1,6 @@
 package pl.football.league.entities;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,7 +8,7 @@ import java.util.Set;
 public class Footballer {
     @Id
     @Column(name = "id_pilkarza")
-    private int footballerID;
+    private long footballerID;
 
     @Column(name = "imie")
     private String name;
@@ -21,10 +20,10 @@ public class Footballer {
     private String position;
 
     @Column(name ="numer")
-    private int number;
+    private Integer number;
 
     @ManyToOne
-    @JoinColumn (name = "druzyna_kod_druzyny")
+    @JoinColumn (name = "druzyna")
     private Team team;
 
 
@@ -34,11 +33,11 @@ public class Footballer {
             inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
     private Set<Fan> fans;
 
-    public int getFootballerID() {
+    public long getFootballerID() {
         return footballerID;
     }
 
-    public void setFootballerID(int footballerID) {
+    public void setFootballerID(long footballerID) {
         this.footballerID = footballerID;
     }
 
@@ -66,11 +65,11 @@ public class Footballer {
         this.position = position;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

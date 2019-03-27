@@ -8,7 +8,8 @@ import java.util.Set;
 public class Fan {
     @Id
     @Column(name = "id_kibica")
-    private int fanID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long fanID;
 
     @Column(name = "imie")
     private String name;
@@ -17,13 +18,13 @@ public class Fan {
     private String surname;
 
     @Column(name = "wiek")
-    private int age;
+    private Integer age;
 
     @Column(name = "pseudonim")
     private String nickname;
 
-    //@Column(name = "haslo")
-    //private  String password;
+    @Column(name = "haslo")
+    private  String password;
 
     @ManyToMany(mappedBy = "fans")
     private Set<Footballer> supportedFootballers;
@@ -31,11 +32,11 @@ public class Fan {
     @ManyToMany(mappedBy = "teamFans")
     private Set<Team> supportedTeams;
 
-    public int getFanID() {
+    public long getFanID() {
         return fanID;
     }
 
-    public void setFanID(int fanID) {
+    public void setFanID(long fanID) {
         this.fanID = fanID;
     }
 
@@ -55,11 +56,11 @@ public class Fan {
         this.surname = surname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -69,6 +70,14 @@ public class Fan {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Footballer> getSupportedFootballers() {

@@ -1,7 +1,5 @@
 package pl.football.league.entities;
 
-import com.sun.istack.Nullable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,7 +10,7 @@ import javax.persistence.Table;
 public class Coach {
     @Id
     @Column(name = "id_trenera")
-    private int coachID;
+    private long coachID;
 
     @Column(name = "imie")
     private String name;
@@ -23,11 +21,11 @@ public class Coach {
     @Column (name = "wiek", nullable = true)
     private Integer age;
 
-    public int getCoachID() {
+    public long getCoachID() {
         return coachID;
     }
 
-    public void setCoachID(int coachID) {
+    public void setCoachID(long coachID) {
         this.coachID = coachID;
     }
 
