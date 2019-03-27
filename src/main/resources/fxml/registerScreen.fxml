@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="nameTextField" layoutX="207.0" layoutY="40.0" />
+      <Label layoutX="143.0" layoutY="45.0" text="Imię" />
+      <TextField fx:id="surnameTextField" layoutX="207.0" layoutY="103.0" />
+      <TextField fx:id="nicknameTextField" layoutX="207.0" layoutY="169.0" />
+      <Label layoutX="113.0" layoutY="108.0" prefHeight="21.0" prefWidth="90.0" text="Nazwisko" />
+      <Label layoutX="136.0" layoutY="174.0" prefHeight="21.0" prefWidth="37.0" text="Login" />
+      <PasswordField fx:id="passwordTextField" layoutX="207.0" layoutY="231.0" />
+      <PasswordField fx:id="repeatPasswordTextField" layoutX="207.0" layoutY="291.0" />
+      <Label layoutX="137.0" layoutY="236.0" text="Hasło" />
+      <Label layoutX="84.0" layoutY="296.0" prefHeight="21.0" prefWidth="147.0" text="Powtórz hasło" />
+      <Button fx:id="acceptButton" layoutX="168.0" layoutY="406.0" mnemonicParsing="false" onAction="#addUserAndBack" text="Akceptuj" />
+      <Button fx:id="cancelButton" layoutX="349.0" layoutY="406.0" mnemonicParsing="false" onAction="#back" text="Anuluj" />
+      <Label layoutX="137.0" layoutY="349.0" text="Wiek" />
+      <TextField fx:id="ageTextField" layoutX="207.0" layoutY="344.0" />
+   </children>
+</Pane>
