@@ -23,7 +23,7 @@ public class Main extends Application {
         loader.setController(mainController);
         Parent root = loader.load();
 
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 600, 500));
         primaryStage.show();
     }
 

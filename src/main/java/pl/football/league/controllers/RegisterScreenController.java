@@ -1,6 +1,7 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -54,18 +55,36 @@ public class RegisterScreenController {
         password = passwordTextField.getText();
         repeatPassword = repeatPasswordTextField.getText();
 
+        if(name.equals("") || surname.equals("") || nickname.equals("") || password.equals("") || repeatPassword.equals("")){
+            Alert emptyField = new Alert(Alert.AlertType.WARNING);
+            emptyField.setTitle("Puste pole");
+            emptyField.setHeaderText("Jedno z obowiazkowych pol jest puste!");
+            emptyField.setContentText("Prosze je uzupelnic.");
+            emptyField.showAndWait();
+            return;
+        }
+
         try {
             age = Integer.parseUnsignedInt(ageTextField.getText());
             newUser.setAge(age);
         }
         catch(NumberFormatException e){
-            System.out.println("Podanno zla liczbe");
-            return;
+            if(!ageTextField.getText().equals("")) {
+                Alert wrongNumberAlert = new Alert(Alert.AlertType.ERROR);
+                wrongNumberAlert.setTitle("Zla liczba");
+                wrongNumberAlert.setHeaderText("Podano lanuch znakow zamiast liczby!");
+                wrongNumberAlert.setContentText("Prosze podac poprawne dane.");
+                wrongNumberAlert.showAndWait();
+                return;
+            }
         }
 
         if(!password.equals(repeatPassword)) {
-            System.out.println("Podane hasla nie sa takie same!");
-            System.out.println(password + " " + repeatPasswordTextField);
+            Alert diffrentPasswordsAlert = new Alert(Alert.AlertType.ERROR);
+            diffrentPasswordsAlert.setTitle("Rozne hasla");
+            diffrentPasswordsAlert.setHeaderText("Podano 2 rozne hasla!");
+            diffrentPasswordsAlert.setContentText("Prosze podac poprawne dane.");
+            diffrentPasswordsAlert.showAndWait();
             return;
         }
         newUser.setName(name);
@@ -80,7 +99,11 @@ public class RegisterScreenController {
             back();
         }
         catch(javax.persistence.RollbackException e){
-            System.out.println("Uzytkownik juz istnieje");
+            Alert userAlreadyExistAlert = new Alert(Alert.AlertType.ERROR);
+            userAlreadyExistAlert.setTitle("Zajety login");
+            userAlreadyExistAlert.setHeaderText("Uyztkownik o podanym loginie juz istnieje!");
+            userAlreadyExistAlert.setContentText("Prosze wybrac inny login.");
+            userAlreadyExistAlert.showAndWait();
             entityManager.getTransaction().rollback();
         }
     }

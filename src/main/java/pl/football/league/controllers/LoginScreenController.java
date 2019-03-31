@@ -2,9 +2,9 @@ package pl.football.league.controllers;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -42,14 +42,47 @@ public class LoginScreenController {
         String password = passwordTextField.getText();
         String hql = "from Fan f where f.nickname = :login and f.password = :password";
         Fan kibic;
+
         try {
             kibic = (Fan) entityManager.createQuery(hql)
                     .setParameter("login", login)
                     .setParameter("password", password)
                     .getSingleResult();
             System.out.println(kibic.getName());
+
+            MenuBarController menuBarController;
+            TableScreenController tableScreenController;
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/menuBar.fxml"));
+            FXMLLoader loaderCenter = new FXMLLoader(this.getClass().getResource("/fxml/table.fxml"));
+
+            menuBarController = new MenuBarController();
+            menuBarController.setEntityManager(entityManager);
+            menuBarController.setCurrentUser(kibic);
+            menuBarController.setMainController(this.mainController);
+
+            tableScreenController = new TableScreenController();
+            tableScreenController.setEntityManager(entityManager);
+            tableScreenController.setCurrentUser(kibic);
+            tableScreenController.setMainController(this.mainController);
+
+            loader.setController(menuBarController);
+            loaderCenter.setController(tableScreenController);
+            Pane vbox = loader.load();
+            Pane center = loaderCenter.load();
+            mainController.getBorderPane().setLeft(vbox);
+            mainController.getBorderPane().setCenter(center);
+            mainController.getStage().setResizable(true);
+            mainController.getStage().setMinWidth(844);
+            mainController.getStage().setMinHeight(600);
+
         } catch (NoResultException e) {
-            System.out.println("Bledne dane");
+            Alert loginFailedAlert = new Alert(Alert.AlertType.INFORMATION);
+            loginFailedAlert.setTitle("Blad logowania");
+            loginFailedAlert.setHeaderText("Podane dane logowania sa niepoprawne!");
+            loginFailedAlert.setContentText("Sprobuj ponowanie. ");
+            loginFailedAlert.showAndWait();
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
