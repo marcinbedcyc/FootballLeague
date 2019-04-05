@@ -8,16 +8,16 @@
 
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="244.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ToggleButton fx:id="homeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="24.0" prefWidth="405.0" text="Ekran startowy">
+      <ToggleButton fx:id="homeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableOpen" prefHeight="24.0" prefWidth="405.0" text="Ekran startowy">
          <toggleGroup>
             <ToggleGroup fx:id="menu" />
          </toggleGroup>
       </ToggleButton>
-      <ToggleButton fx:id="leagueTableButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="347.0" text="Tabela" toggleGroup="$menu" />
-      <ToggleButton fx:id="resultsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="316.0" text="Wyniki" toggleGroup="$menu" />
+      <ToggleButton fx:id="leagueTableButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableOpen" prefHeight="31.0" prefWidth="347.0" text="Tabela" toggleGroup="$menu" />
+      <ToggleButton fx:id="resultsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resultTableOpen" prefHeight="31.0" prefWidth="316.0" text="Wyniki" toggleGroup="$menu" />
       <ToggleButton fx:id="teamsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="304.0" text="Druzyny" toggleGroup="$menu" />
-      <ToggleButton fx:id="footballersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="309.0" text="Pilkarze" toggleGroup="$menu" />
-      <ToggleButton fx:id="coachesButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="310.0" text="Trenerzy" toggleGroup="$menu" />
+      <ToggleButton fx:id="footballersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#footballersTableOpen" prefHeight="31.0" prefWidth="309.0" text="Pilkarze" toggleGroup="$menu" />
+      <ToggleButton fx:id="coachesButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#coachesTableOpen" prefHeight="31.0" prefWidth="310.0" text="Trenerzy" toggleGroup="$menu" />
       <ToggleButton fx:id="fansButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="313.0" text="Kibice" toggleGroup="$menu" />
       <ToggleButton fx:id="optionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="340.0" text="Opcje" toggleGroup="$menu" />
       <Button fx:id="logoutButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" prefHeight="31.0" prefWidth="317.0" text="Wyloguj" />

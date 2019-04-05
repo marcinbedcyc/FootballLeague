@@ -53,7 +53,7 @@ public class LoginScreenController {
             MenuBarController menuBarController;
             TableScreenController tableScreenController;
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/menuBar.fxml"));
-            FXMLLoader loaderCenter = new FXMLLoader(this.getClass().getResource("/fxml/table.fxml"));
+            FXMLLoader loaderCenter = new FXMLLoader(this.getClass().getResource("/fxml/tableScreen.fxml"));
 
             menuBarController = new MenuBarController();
             menuBarController.setEntityManager(entityManager);
@@ -67,13 +67,13 @@ public class LoginScreenController {
 
             loader.setController(menuBarController);
             loaderCenter.setController(tableScreenController);
-            Pane vbox = loader.load();
+            Pane vBox = loader.load();
             Pane center = loaderCenter.load();
-            mainController.getBorderPane().setLeft(vbox);
+            mainController.getBorderPane().setLeft(vBox);
             mainController.getBorderPane().setCenter(center);
             mainController.getStage().setResizable(true);
-            mainController.getStage().setMinWidth(844);
-            mainController.getStage().setMinHeight(600);
+            mainController.getStage().setMinWidth(1000);
+            mainController.getStage().setMinHeight(700);
 
         } catch (NoResultException e) {
             Alert loginFailedAlert = new Alert(Alert.AlertType.INFORMATION);

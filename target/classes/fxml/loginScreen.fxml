@@ -9,7 +9,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="loginTextField" layoutX="207.0" layoutY="117.0" />
-      <PasswordField fx:id="passwordTextField" layoutX="207.0" layoutY="185.0" />
+      <PasswordField fx:id="passwordTextField" layoutX="207.0" layoutY="185.0" onAction="#logIn" />
       <Label layoutX="144.0" layoutY="122.0" text="Login:" />
       <Label layoutX="144.0" layoutY="190.0" prefHeight="21.0" prefWidth="61.0" text="Haslo:" />
       <Button fx:id="loginButton" layoutX="184.0" layoutY="236.0" mnemonicParsing="false" onAction="#logIn" prefHeight="31.0" prefWidth="77.0" text="Login" />
