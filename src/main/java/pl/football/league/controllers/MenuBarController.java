@@ -104,15 +104,19 @@ public class MenuBarController {
         coachesTableScreenController.setEntityManager(entityManager);
         coachesTableScreenController.setMainController(mainController);
 
-
         loader.setController(coachesTableScreenController);
-        try {
-            Parent root = loader.load();
-            mainController.getBorderPane().setCenter(root);
-        }
-        catch (IOException ex){
-            ex.printStackTrace();
-        }
+        tryLoader(loader);
+    }
+
+    @FXML
+    void teamsTableOpen() {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamsTable.fxml"));
+        TeamsTableScreenController teamsTableScreenController = new TeamsTableScreenController();
+
+        teamsTableScreenController.setDependencies(currentUser, entityManager, mainController);
+        loader.setController(teamsTableScreenController);
+
+        tryLoader(loader);
     }
 
 
@@ -133,6 +137,25 @@ public class MenuBarController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void fansTableOpen() {
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/fansTableScreen.fxml"));
+        FansScreenTableController fansScreenTableController = new FansScreenTableController();
+
+        fansScreenTableController.setCurrentUser(currentUser);
+        fansScreenTableController.setEntityManager(entityManager);
+        fansScreenTableController.setMainController(mainController);
+
+        loader.setController(fansScreenTableController);
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainController.getBorderPane().setCenter(root);
     }
 
     @FXML

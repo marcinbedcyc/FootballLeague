@@ -3,6 +3,7 @@ package pl.football.league.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -48,6 +49,15 @@ public class TeamScreenController {
     private VBox footbalersVBox;
 
     @FXML
+    private VBox fansVBox;
+
+    @FXML
+    private Button supportButton;
+
+    @FXML
+    private Button stopSupportButton;
+
+    @FXML
     void initialize() {
         name.setText(team.getName());
         coachLabel.setText(team.getCoach().getName() + " " + team.getCoach().getSurname());
@@ -74,14 +84,49 @@ public class TeamScreenController {
                         FootballerScreenController footballerScreenController = new FootballerScreenController();
                         Footballer footballer = entityManager.find(Footballer.class, f.getFootballerID());
 
-                        footballerScreenController.setFootballer(footballer);
-                        footballerScreenController.setCurrentUser(currentUser);
+                        footballerScreenController.setDependency(footballer, currentUser, entityManager);
                         loader.setController(footballerScreenController);
                         tryLoader(loader);
                 });
                 footbalersVBox.getChildren().add(footballerLabel);
             }
         }
+        supportButton.setDisable(false);
+        stopSupportButton.setDisable(true);
+
+        this.setFans();
+    }
+
+    private void setFans(){
+        fansVBox.getChildren().remove(0, fansVBox.getChildren().size());
+        for(Fan f: team.getTeamFans()){
+            Label fanLabel = TableControls.LabelDecorated(200, f.getNickname());
+            if(f.getFanID() == currentUser.getFanID()){
+                supportButton.setDisable(true);
+                stopSupportButton.setDisable(false);
+            }
+            fansVBox.getChildren().add(fanLabel);
+        }
+    }
+
+    @FXML
+    void stopSupport() {
+        entityManager.getTransaction().begin();
+        team.getTeamFans().remove(currentUser);
+        entityManager.getTransaction().commit();
+        supportButton.setDisable(false);
+        stopSupportButton.setDisable(true);
+        this.setFans();
+    }
+
+    @FXML
+    void support() {
+        entityManager.getTransaction().begin();
+        team.getTeamFans().add(currentUser);
+        entityManager.getTransaction().commit();
+        supportButton.setDisable(true);
+        stopSupportButton.setDisable(false);
+        this.setFans();
     }
 
     public Team getTeam() {

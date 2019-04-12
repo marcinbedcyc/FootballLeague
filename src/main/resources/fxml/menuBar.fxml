@@ -15,13 +15,13 @@
       </ToggleButton>
       <ToggleButton fx:id="leagueTableButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableOpen" prefHeight="31.0" prefWidth="347.0" text="Tabela" toggleGroup="$menu" />
       <ToggleButton fx:id="resultsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resultTableOpen" prefHeight="31.0" prefWidth="316.0" text="Wyniki" toggleGroup="$menu" />
-      <ToggleButton fx:id="teamsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="304.0" text="Druzyny" toggleGroup="$menu" />
+      <ToggleButton fx:id="teamsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#teamsTableOpen" prefHeight="31.0" prefWidth="304.0" text="Druzyny" toggleGroup="$menu" />
       <ToggleButton fx:id="footballersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#footballersTableOpen" prefHeight="31.0" prefWidth="309.0" text="Pilkarze" toggleGroup="$menu" />
       <ToggleButton fx:id="coachesButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#coachesTableOpen" prefHeight="31.0" prefWidth="310.0" text="Trenerzy" toggleGroup="$menu" />
-      <ToggleButton fx:id="fansButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="313.0" text="Kibice" toggleGroup="$menu" />
-      <ToggleButton fx:id="optionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="340.0" text="Opcje" toggleGroup="$menu" />
+      <ToggleButton fx:id="fansButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#fansTableOpen" prefHeight="31.0" prefWidth="313.0" text="Kibice" toggleGroup="$menu" />
+      <ToggleButton fx:id="optionButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="340.0" text="Opcje" toggleGroup="$menu" />
       <Button fx:id="logoutButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" prefHeight="31.0" prefWidth="317.0" text="Wyloguj" />
-      <ToggleButton fx:id="adminOptionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="292.0" text="Zarzadzaj" toggleGroup="$menu" />
+      <ToggleButton fx:id="adminOptionButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="292.0" text="Zarzadzaj" toggleGroup="$menu" />
       <Label fx:id="whoLogIn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="250.0" text="Label" />
    </children>
 </VBox>
