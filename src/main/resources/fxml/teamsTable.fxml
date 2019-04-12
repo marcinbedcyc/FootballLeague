@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="600.0" prefHeight="400.0" prefWidth="644.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER">
+         <children>
+            <Separator orientation="VERTICAL" prefWidth="2.0" />
+            <Label alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Druzyna" HBox.hgrow="ALWAYS" />
+            <Separator orientation="VERTICAL" />
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Trener" textAlignment="RIGHT" HBox.hgrow="ALWAYS" />
+            <Separator orientation="VERTICAL" />
+            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Data Zalożenia" HBox.hgrow="ALWAYS" />
+            <Separator orientation="VERTICAL" />
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+   </children>
+   <padding>
+      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+   </padding>
+</VBox>
