@@ -18,6 +18,7 @@
       <Label fx:id="team" layoutX="291.0" layoutY="190.0" text="ManchesterUnited" />
       <Label fx:id="position" layoutX="291.0" layoutY="248.0" text="PO" />
       <Label fx:id="shirtNumber" layoutX="291.0" layoutY="295.0" text="6" />
-      <Button fx:id="supportButton" layoutX="43.0" layoutY="37.0" mnemonicParsing="false" text="Kibicuj" />
+      <Button fx:id="supportButton" layoutX="43.0" layoutY="37.0" mnemonicParsing="false" onAction="#supportFootballer" text="Kibicuj" />
+      <Button fx:id="stopSupportButton" disable="true" layoutX="579.0" layoutY="37.0" mnemonicParsing="false" onAction="#stopSupport" prefHeight="31.0" prefWidth="154.0" text="Przestań kibicować" />
    </children>
 </Pane>

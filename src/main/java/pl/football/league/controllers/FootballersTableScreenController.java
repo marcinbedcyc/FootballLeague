@@ -54,7 +54,7 @@ public class FootballersTableScreenController {
                 FootballerScreenController footballerScreenController = new FootballerScreenController();
                 Footballer footballer1 = entityManager.find(Footballer.class, f.getFootballerID());
 
-                footballerScreenController.setDependency(footballer1, currentUser);
+                footballerScreenController.setDependency(footballer1, currentUser, entityManager);
                 loader.setController(footballerScreenController);
                 tryLoader(loader);
             });
