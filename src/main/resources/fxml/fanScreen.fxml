@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="651.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="96.0" layoutY="72.0" text="Imie" />
+      <Label layoutX="93.0" layoutY="120.0" text="Nazwisko" />
+      <Label layoutX="93.0" layoutY="179.0" text="Wiek" />
+      <Label layoutX="93.0" layoutY="223.0" text="Pseudonim" />
+      <Label fx:id="namelabel" layoutX="259.0" layoutY="72.0" text="Label" />
+      <Label fx:id="surnameLabel" layoutX="259.0" layoutY="120.0" text="Label" />
+      <Label fx:id="ageLabel" layoutX="259.0" layoutY="179.0" text="Label" />
+      <Label fx:id="nicknameLabel" layoutX="259.0" layoutY="223.0" text="Label" />
+      <VBox fx:id="footballersVBox" layoutX="382.0" layoutY="72.0" prefHeight="200.0" prefWidth="100.0" />
+      <Label layoutX="372.0" layoutY="37.0" text="Wspierani PIlkarze" />
+      <Label layoutX="516.0" layoutY="37.0" text="Wspierane druzyny" />
+      <VBox fx:id="teamsVBox" layoutX="529.0" layoutY="90.0" prefHeight="200.0" prefWidth="100.0" />
+   </children>
+</Pane>
