@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import javafx.stage.StageStyle;
 import pl.football.league.controllers.MainScreenController;
 
 public class Main extends Application {
@@ -23,7 +24,7 @@ public class Main extends Application {
         loader.setController(mainController);
         Parent root = loader.load();
 
-        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.show();
     }
 

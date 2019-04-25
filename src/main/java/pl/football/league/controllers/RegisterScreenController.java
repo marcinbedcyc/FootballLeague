@@ -16,6 +16,7 @@ public class RegisterScreenController {
     @FXML
     void initialize() {
         mainController.getStage().setResizable(true);
+        mainController.getStage().setMinWidth(400);
         mainController.getStage().setTitle("Rejestracja");
     }
 

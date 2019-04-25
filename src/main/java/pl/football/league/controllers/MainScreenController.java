@@ -29,6 +29,8 @@ public class MainScreenController {
             loginScreenController.setEntityManager(entityManager);
             loginScreenController.setMainController(this);
 
+            stage.setHeight(600);
+            stage.setWidth(1000);
             loader.setController(loginScreenController);
             pane = loader.load();
             borderPane.setCenter(pane);

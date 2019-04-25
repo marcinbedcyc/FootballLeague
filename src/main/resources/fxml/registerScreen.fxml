@@ -1,27 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" style="-fx-background-color: linear-gradient(to bottom, #8e8e8e, #373737);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField fx:id="nameTextField" layoutX="207.0" layoutY="40.0" />
-      <Label layoutX="143.0" layoutY="45.0" text="Imię" />
-      <TextField fx:id="surnameTextField" layoutX="207.0" layoutY="103.0" />
-      <TextField fx:id="nicknameTextField" layoutX="207.0" layoutY="169.0" />
-      <Label layoutX="113.0" layoutY="108.0" prefHeight="21.0" prefWidth="90.0" text="Nazwisko" />
-      <Label layoutX="136.0" layoutY="174.0" prefHeight="21.0" prefWidth="37.0" text="Login" />
-      <PasswordField fx:id="passwordTextField" layoutX="207.0" layoutY="231.0" />
-      <PasswordField fx:id="repeatPasswordTextField" layoutX="207.0" layoutY="291.0" />
-      <Label layoutX="137.0" layoutY="236.0" text="Hasło" />
-      <Label layoutX="84.0" layoutY="296.0" prefHeight="21.0" prefWidth="147.0" text="Powtórz hasło" />
-      <Button fx:id="acceptButton" layoutX="168.0" layoutY="406.0" mnemonicParsing="false" onAction="#addUserAndBack" text="Akceptuj" />
-      <Button fx:id="cancelButton" layoutX="349.0" layoutY="406.0" mnemonicParsing="false" onAction="#back" text="Anuluj" />
-      <Label layoutX="137.0" layoutY="349.0" text="Wiek" />
-      <TextField fx:id="ageTextField" layoutX="207.0" layoutY="344.0" />
+      <VBox alignment="CENTER" prefHeight="386.0" prefWidth="238.0" spacing="5.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="30.0" top="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <TextField fx:id="nameTextField" alignment="CENTER" prefHeight="32.0" prefWidth="266.0" promptText="Imię" style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0;" />
+            <TextField fx:id="surnameTextField" alignment="CENTER" promptText="Nazwisko" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;" />
+            <TextField fx:id="nicknameTextField" alignment="CENTER" promptText="Pseudonim" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-text-fill: white;" />
+            <PasswordField fx:id="passwordTextField" alignment="CENTER" promptText="Hasło" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-text-fill: white;" />
+            <PasswordField fx:id="repeatPasswordTextField" alignment="CENTER" promptText="Powtórz hasło" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-text-fill: white;" />
+            <TextField fx:id="ageTextField" alignment="CENTER" promptText="Wiek" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0; -fx-text-fill: white;" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+               <children>
+                  <Button fx:id="acceptButton" mnemonicParsing="false" onAction="#addUserAndBack" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: forestgreen; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;" text="AKCEPTUJ">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#back" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: forestgreen; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;" text="ANULUJ">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <HBox.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </HBox.margin>
+      </VBox>
    </children>
-</Pane>
+</HBox>

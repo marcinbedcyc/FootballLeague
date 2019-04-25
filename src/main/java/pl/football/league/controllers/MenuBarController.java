@@ -134,6 +134,8 @@ public class MenuBarController {
             pane = loader.load();
             mainController.getBorderPane().setCenter(pane);
             mainController.getBorderPane().setLeft(null);
+            mainController.getStage().setWidth(1000);
+            mainController.getStage().setHeight(600);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -167,6 +169,17 @@ public class MenuBarController {
         resultTableScreenController.setMainController(mainController);
 
         loader.setController(resultTableScreenController);
+        tryLoader(loader);
+    }
+
+    @FXML
+    void openOption(){
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/optionScreen.fxml"));
+        OptionScreenController optionScreenController = new OptionScreenController();
+
+        optionScreenController.setDependencies(entityManager, currentUser);
+        loader.setController(optionScreenController);
+
         tryLoader(loader);
     }
 
