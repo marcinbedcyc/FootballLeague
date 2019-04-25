@@ -113,6 +113,7 @@ public class TeamScreenController {
     void stopSupport() {
         entityManager.getTransaction().begin();
         team.getTeamFans().remove(currentUser);
+        currentUser.getSupportedTeams().remove(team);
         entityManager.getTransaction().commit();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
@@ -123,6 +124,7 @@ public class TeamScreenController {
     void support() {
         entityManager.getTransaction().begin();
         team.getTeamFans().add(currentUser);
+        currentUser.getSupportedTeams().add(team);
         entityManager.getTransaction().commit();
         supportButton.setDisable(true);
         stopSupportButton.setDisable(false);

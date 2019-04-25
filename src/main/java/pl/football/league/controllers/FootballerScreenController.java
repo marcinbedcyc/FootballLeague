@@ -62,6 +62,7 @@ public class FootballerScreenController {
     public void supportFootballer(){
         entityManager.getTransaction().begin();
         footballer.getFans().add(currentUser);
+        currentUser.getSupportedFootballers().add(footballer);
         entityManager.getTransaction().commit();
         supportButton.setDisable(true);
         stopSupportButton.setDisable(false);
@@ -71,6 +72,7 @@ public class FootballerScreenController {
     void stopSupport() {
         entityManager.getTransaction().begin();
         footballer.getFans().remove(currentUser);
+        currentUser.getSupportedFootballers().remove(footballer);
         entityManager.getTransaction().commit();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
