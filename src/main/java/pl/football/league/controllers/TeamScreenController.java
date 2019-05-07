@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import pl.football.league.entities.Coach;
 import pl.football.league.entities.Fan;
@@ -23,6 +22,7 @@ public class TeamScreenController {
     private EntityManager entityManager;
     private MainScreenController mainScreenController;
     private Fan currentUser;
+    private List<Footballer> footballers;
 
     @FXML
     private Label name;
@@ -59,53 +59,65 @@ public class TeamScreenController {
 
     @FXML
     void initialize() {
-        name.setText(team.getName());
-        coachLabel.setText(team.getCoach().getName() + " " + team.getCoach().getSurname());
-        String result;
-        if(team.getCreationDate() == null){
-            result = "-";
-        }
-        else {
-            result = team.getCreationDate().toString();
-        }
-        date.setText(result);
-        points.setText(String.valueOf(team.getPoints()));
-        wins.setText(String.valueOf(team.getWins()));
-        draws.setText(String.valueOf(team.getDraws()));
-        loses.setText(String.valueOf(team.getLoses()));
-
-        List<Footballer> footballers = entityManager.createQuery("select f from Footballer f").getResultList();
-
-        for(Footballer f : footballers){
-            if(f.getTeam().getTeamID() == team.getTeamID()){
-                Label footballerLabel = TableControls.LabelDecorated(200, f.getName() + " " + f.getSurname());
-                footballerLabel.setOnMouseClicked((MouseEvent event)->{
-                        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
-                        FootballerScreenController footballerScreenController = new FootballerScreenController();
-                        Footballer footballer = entityManager.find(Footballer.class, f.getFootballerID());
-
-                        footballerScreenController.setDependency(footballer, currentUser, entityManager);
-                        loader.setController(footballerScreenController);
-                        tryLoader(loader);
-                });
-                footbalersVBox.getChildren().add(footballerLabel);
-            }
-        }
+        footballers = entityManager.createQuery("select f from Footballer f").getResultList();
+        setTeamInfo();
+        setFootballers();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
+        setFans();
+        coachLabel.setOnMouseClicked(event -> {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/coachScreen.fxml"));
+            CoachScreenController coachScreenController = new CoachScreenController();
 
-        this.setFans();
+            coachScreenController.setDependencies(team.getCoach(),entityManager, mainScreenController, currentUser);
+            loader.setController(coachScreenController);
+            tryLoader(loader);
+        });
     }
 
     private void setFans(){
         fansVBox.getChildren().remove(0, fansVBox.getChildren().size());
-        for(Fan f: team.getTeamFans()){
-            Label fanLabel = TableControls.LabelDecorated(200, f.getNickname());
-            if(f.getFanID() == currentUser.getFanID()){
-                supportButton.setDisable(true);
-                stopSupportButton.setDisable(false);
+
+        if(team.getTeamFans().isEmpty()){
+            Label emptyLabel = TableControls.Label(150, "Brak kibiców");
+            emptyLabel.setMaxWidth(1.7976931348623157E308);
+            fansVBox.getChildren().add(emptyLabel);
+        }
+        else {
+            for (Fan f : team.getTeamFans()) {
+                Label fanLabel = TableControls.LabelVGrow(150, f.getNickname());
+                fanLabel.setOnMouseClicked(event->{
+                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/fanScreen.fxml"));
+                    FanScreenController fanScreenController = new FanScreenController();
+
+                    fanScreenController.setDependencies(f, entityManager, mainScreenController, currentUser);
+                    loader.setController(fanScreenController);
+                    tryLoader(loader);
+                });
+                if (f.getFanID() == currentUser.getFanID()) {
+                    supportButton.setDisable(true);
+                    stopSupportButton.setDisable(false);
+                }
+                fansVBox.getChildren().add(fanLabel);
             }
-            fansVBox.getChildren().add(fanLabel);
+        }
+    }
+
+    private void setFootballers(){
+        for(Footballer f : footballers){
+            if(f.getTeam().getTeamID() == team.getTeamID()){
+                Label footballerLabel = TableControls.LabelVGrow(150, f.getName() + " " + f.getSurname());
+                footballerLabel.setOnMouseClicked(event->{
+                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
+                    FootballerScreenController footballerScreenController = new FootballerScreenController();
+                    Footballer footballer = entityManager.find(Footballer.class, f.getFootballerID());
+
+                    footballerScreenController.setDependency(footballer, currentUser, entityManager, mainScreenController);
+                    loader.setController(footballerScreenController);
+                    tryLoader(loader);
+                });
+                footbalersVBox.getChildren().add(footballerLabel);
+            }
         }
     }
 
@@ -185,5 +197,22 @@ public class TeamScreenController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setTeamInfo(){
+        name.setText(team.getName());
+        coachLabel.setText(team.getCoach().getName() + " " + team.getCoach().getSurname());
+        String result;
+        if(team.getCreationDate() == null){
+            result = "-";
+        }
+        else {
+            result = team.getCreationDate().toString();
+        }
+        date.setText(result);
+        points.setText(String.valueOf(team.getPoints()));
+        wins.setText(String.valueOf(team.getWins()));
+        draws.setText(String.valueOf(team.getDraws()));
+        loses.setText(String.valueOf(team.getLoses()));
     }
 }

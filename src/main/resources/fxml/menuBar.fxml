@@ -1,27 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="244.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="700.0" minWidth="-Infinity" prefHeight="420.0" prefWidth="244.0" style="-fx-background-color: linear-gradient(to bottom, #8e8e8e, #373737);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ToggleButton fx:id="homeButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableOpen" prefHeight="24.0" prefWidth="405.0" text="Ekran startowy">
+      <ImageView fitHeight="132.0" fitWidth="131.0" onMouseClicked="#start" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ToggleButton id="homeButton" fx:id="homeButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#start" prefHeight="35.0" prefWidth="405.0" selected="true" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Start">
          <toggleGroup>
             <ToggleGroup fx:id="menu" />
          </toggleGroup>
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/home.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding>
       </ToggleButton>
-      <ToggleButton fx:id="leagueTableButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#tableOpen" prefHeight="31.0" prefWidth="347.0" text="Tabela" toggleGroup="$menu" />
-      <ToggleButton fx:id="resultsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resultTableOpen" prefHeight="31.0" prefWidth="316.0" text="Wyniki" toggleGroup="$menu" />
-      <ToggleButton fx:id="teamsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#teamsTableOpen" prefHeight="31.0" prefWidth="304.0" text="Druzyny" toggleGroup="$menu" />
-      <ToggleButton fx:id="footballersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#footballersTableOpen" prefHeight="31.0" prefWidth="309.0" text="Pilkarze" toggleGroup="$menu" />
-      <ToggleButton fx:id="coachesButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#coachesTableOpen" prefHeight="31.0" prefWidth="310.0" text="Trenerzy" toggleGroup="$menu" />
-      <ToggleButton fx:id="fansButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#fansTableOpen" prefHeight="31.0" prefWidth="313.0" text="Kibice" toggleGroup="$menu" />
-      <ToggleButton fx:id="optionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openOption" prefHeight="31.0" prefWidth="340.0" text="Opcje" toggleGroup="$menu" />
-      <Button fx:id="logoutButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" prefHeight="31.0" prefWidth="317.0" text="Wyloguj" />
-      <ToggleButton fx:id="adminOptionButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="31.0" prefWidth="292.0" text="Zarzadzaj" toggleGroup="$menu" />
-      <Label fx:id="whoLogIn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="250.0" text="Label" />
+      <ToggleButton fx:id="leagueTableButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#tableOpen" prefHeight="35.0" prefWidth="347.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Tabela" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/table.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></ToggleButton>
+      <ToggleButton fx:id="resultsButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#resultTableOpen" prefHeight="35.0" prefWidth="316.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Wyniki" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/trophy.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <ToggleButton fx:id="teamsButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#teamsTableOpen" prefHeight="35.0" prefWidth="304.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Druzyny" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/team.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <ToggleButton fx:id="footballersButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#footballersTableOpen" prefHeight="35.0" prefWidth="309.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Pilkarze" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/footballer.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <ToggleButton fx:id="coachesButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#coachesTableOpen" prefHeight="35.0" prefWidth="310.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Trenerzy" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/trainer.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <ToggleButton fx:id="fansButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#fansTableOpen" prefHeight="35.0" prefWidth="313.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Kibice" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/fan.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <ToggleButton fx:id="optionButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#openOption" prefHeight="35.0" prefWidth="340.0" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Opcje" toggleGroup="$menu">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/settings.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <Button fx:id="logoutButton" alignment="TOP_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="292.0" style="-fx-border-width: 0;" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Wyloguj">
+         <graphic>
+            <ImageView fitHeight="29.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/exit.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="40.0" top="6.0" />
+         </padding></Button>
+      <ToggleButton fx:id="adminOptionButton" alignment="CENTER_LEFT" disable="true" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="292.0" style="-fx-border-width: 0;" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Zarzadzaj" toggleGroup="$menu">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets left="40.0" />
+         </padding></ToggleButton>
+      <Label fx:id="whoLogIn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="250.0" text="Label" textFill="WHITE" />
    </children>
+   <padding>
+      <Insets top="30.0" />
+   </padding>
 </VBox>

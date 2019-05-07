@@ -1,35 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="name" layoutX="233.0" layoutY="39.0" text="Nazwa druzyny">
+      <Label fx:id="name" text="Nazwa Druzyny">
          <font>
-            <Font size="20.0" />
+            <Font name="Arial Bold" size="41.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#514a4a" />
+                  <Stop color="#00872a" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
       </Label>
-      <Label layoutX="82.0" layoutY="103.0" text="Trener" />
-      <Label fx:id="coachLabel" layoutX="205.0" layoutY="103.0" text="Label" />
-      <Label layoutX="86.0" layoutY="159.0" text="Data zalozenia" />
-      <Label fx:id="date" layoutX="205.0" layoutY="159.0" text="Label" />
-      <Label layoutX="88.0" layoutY="214.0" text="Ilosc puntkow" />
-      <Label fx:id="points" layoutX="205.0" layoutY="214.0" text="Label" />
-      <Label layoutX="107.0" layoutY="261.0" text="Wygrane" />
-      <Label fx:id="wins" layoutX="205.0" layoutY="261.0" text="Label" />
-      <Label layoutX="116.0" layoutY="310.0" text="Remisy" />
-      <Label fx:id="draws" layoutX="198.0" layoutY="310.0" text="Label" />
-      <Label layoutX="119.0" layoutY="347.0" text="Przegrane" />
-      <Label fx:id="loses" layoutX="205.0" layoutY="347.0" text="Label" />
-      <VBox fx:id="footbalersVBox" layoutX="317.0" layoutY="114.0" prefHeight="254.0" prefWidth="100.0" />
-      <Label layoutX="342.0" layoutY="93.0" text="Pilkarze" />
-      <Button fx:id="supportButton" layoutX="71.0" layoutY="39.0" mnemonicParsing="false" onAction="#support" text="Kibicuj" />
-      <Button fx:id="stopSupportButton" layoutX="427.0" layoutY="39.0" mnemonicParsing="false" onAction="#stopSupport" text="Przestań kibicować" />
-      <Label layoutX="474.0" layoutY="93.0" text="Kibice" />
-      <VBox fx:id="fansVBox" layoutX="449.0" layoutY="141.0" prefHeight="200.0" prefWidth="100.0" />
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="377.0" prefWidth="600.0" spacing="20.0" VBox.vgrow="ALWAYS">
+         <children>
+            <GridPane hgap="5.0" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="59.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefWidth="90.0" text="Trener" />
+                  <Label fx:id="coachLabel" maxWidth="1.7976931348623157E308" style="-fx-font-size: 15;" stylesheets="@../css/label.css" text="sajfahsjfhaskjfh" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Label>
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Data zalozenia" GridPane.rowIndex="1" />
+                  <Label fx:id="date" maxWidth="1.7976931348623157E308" text="Label" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Ilosc puntkow" GridPane.rowIndex="2" />
+                  <Label fx:id="points" maxWidth="1.7976931348623157E308" text="Label" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Wygrane" GridPane.rowIndex="3" />
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Remisy" GridPane.rowIndex="4" />
+                  <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Przegrane" GridPane.rowIndex="5" />
+                  <Label fx:id="wins" maxWidth="1.7976931348623157E308" text="Label" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Label fx:id="draws" maxWidth="1.7976931348623157E308" text="Label" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Label fx:id="loses" maxWidth="1.7976931348623157E308" text="Label" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+               </children>
+            </GridPane>
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="246.0" prefWidth="180.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-border-width: 0 0 2 0; -fx-border-color: darkgray; -fx-background-color: forestgreen;" text="Pilkarze" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="600.0" maxWidth="1.7976931348623157E308" minHeight="0.0" prefWidth="180.0" VBox.vgrow="NEVER">
+                     <content>
+                        <VBox fx:id="footbalersVBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="178.0" style="-fx-background-color: transparent;" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="180.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: forestgreen; -fx-text-fill: white; -fx-border-width: 0 0 2 0; -fx-border-color: darkgray;" text="Kibice" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Label>
+                  <ScrollPane fitToWidth="true" maxHeight="600.0" maxWidth="1.7976931348623157E308" minHeight="0.0" prefWidth="180.0" VBox.vgrow="NEVER">
+                     <content>
+                        <VBox fx:id="fansVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="supportButton" mnemonicParsing="false" onAction="#support" styleClass="greenBuuton" stylesheets="@../css/menuBarButton.css" text="Kibicuj">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Separator opacity="0.0" prefHeight="9.0" prefWidth="232.0" />
+            <Button fx:id="stopSupportButton" mnemonicParsing="false" onAction="#stopSupport" styleClass="greenBuuton" stylesheets="@../css/menuBarButton.css" text="Przestań kibicować">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
    </children>
-</Pane>
+   <padding>
+      <Insets bottom="30.0" left="10.0" right="10.0" top="30.0" />
+   </padding>
+</VBox>

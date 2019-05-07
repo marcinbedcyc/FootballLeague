@@ -79,6 +79,12 @@ public class MenuBarController {
     }
 
     @FXML
+    void start(){
+        tableOpen();
+        homeButton.setSelected(true);
+    }
+
+    @FXML
     void footballersTableOpen() {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballersTableScreen.fxml"));
         FootballersTableScreenController footballersTableScreenController = new FootballersTableScreenController();
@@ -177,7 +183,7 @@ public class MenuBarController {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/optionScreen.fxml"));
         OptionScreenController optionScreenController = new OptionScreenController();
 
-        optionScreenController.setDependencies(entityManager, currentUser);
+        optionScreenController.setDependencies(entityManager, currentUser, mainController);
         loader.setController(optionScreenController);
 
         tryLoader(loader);

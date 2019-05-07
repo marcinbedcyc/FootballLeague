@@ -1,28 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="600.0" prefHeight="400.0" prefWidth="644.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="vbox" alignment="TOP_CENTER" minHeight="-Infinity" minWidth="600.0" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER">
+      <Label alignment="CENTER" text="DRUŻYNY LIGI">
+         <font>
+            <Font name="Arial Bold" size="41.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#514a4a" />
+                  <Stop color="#00872a" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin>
+      </Label>
+      <GridPane alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Separator orientation="VERTICAL" prefWidth="2.0" />
-            <Label alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Druzyna" HBox.hgrow="ALWAYS" />
-            <Separator orientation="VERTICAL" />
-            <Label alignment="TOP_CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Trener" textAlignment="RIGHT" HBox.hgrow="ALWAYS" />
-            <Separator orientation="VERTICAL" />
-            <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: white;" text="Data Zalożenia" HBox.hgrow="ALWAYS" />
-            <Separator orientation="VERTICAL" />
+            <Label fx:id="teamLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" stylesheets="@../css/menuBarButton.css" text="Druzyna">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
+            <Label fx:id="coachLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" stylesheets="@../css/menuBarButton.css" text="Trener" textAlignment="RIGHT" GridPane.columnIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
+            <Label fx:id="dateLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="187.0" prefHeight="30.0" prefWidth="187.0" stylesheets="@../css/menuBarButton.css" text="Data Zalożenia" GridPane.columnIndex="2">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Label>
          </children>
-      </HBox>
-      <Separator prefWidth="200.0" />
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+         <padding>
+            <Insets right="17.0" />
+         </padding>
+      </GridPane>
+      <ScrollPane fitToWidth="true" maxHeight="700.0" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane fx:id="gridPane">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </children>
    <padding>
-      <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+      <Insets bottom="30.0" left="10.0" right="10.0" top="30.0" />
    </padding>
 </VBox>

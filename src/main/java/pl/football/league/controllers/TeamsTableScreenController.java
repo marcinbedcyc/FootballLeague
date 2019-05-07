@@ -2,12 +2,9 @@ package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import pl.football.league.entities.Fan;
@@ -15,15 +12,31 @@ import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.TableControls;
 
 import javax.persistence.EntityManager;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 public class TeamsTableScreenController {
     private EntityManager entityManager;
     private MainScreenController mainScreenController;
-    private Fan cuurentUser;
+    private Fan currentUser;
+    private List<Team> teams;
+
+    @FXML
+    private Label teamLabel;
+
+    @FXML
+    private Label coachLabel;
+
+    @FXML
+    private Label dateLabel;
+
+    @FXML
+    private VBox vbox;
+
+    @FXML
+    private GridPane gridPane;
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -33,63 +46,18 @@ public class TeamsTableScreenController {
         this.mainScreenController = mainScreenController;
     }
 
-    public void setCuurentUser(Fan cuurentUser) {
-        this.cuurentUser = cuurentUser;
+    public void setCurrentUser(Fan currentUser) {
+        this.currentUser = currentUser;
     }
-
-    @FXML
-    private VBox vbox;
 
     @FXML
     void initialize() {
-        List<Team> teams = entityManager.createQuery("select T from Team T").getResultList();
-
-        HBox hBox;
-        for(Team t: teams){
-            hBox = new HBox();
-            hBox.setSpacing(0);
-            hBox.setAlignment(Pos.CENTER);
-
-            Label nameLabel = TableControls.LabelVGrow(200,t.getName());
-            hBox.setHgrow(nameLabel, Priority.ALWAYS);
-            nameLabel.setOnMouseClicked((MouseEvent)->{
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
-                TeamScreenController teamScreenController = new TeamScreenController();
-
-                teamScreenController.setDependencies(t,entityManager, mainScreenController, cuurentUser);
-                loader.setController(teamScreenController);
-
-                tryLoader(loader);
-            });
-            Label coachLabel = TableControls.LabelVGrow(200, t.getCoach().getName() + " " + t.getCoach().getSurname());
-            hBox.setHgrow(coachLabel, Priority.ALWAYS);
-            coachLabel.setOnMouseClicked((MouseEvent)->{
-                FXMLLoader loader =  new FXMLLoader(this.getClass().getResource("/fxml/coachScreen.fxml"));
-                CoachScreenController coachScreenController = new CoachScreenController();
-
-                coachScreenController.setDependencies(t.getCoach(),entityManager);
-                loader.setController(coachScreenController);
-
-                tryLoader(loader);
-
-            });
-            Date data = t.getCreationDate();
-            String result;
-            if(data == null)
-                result = "-";
-            else
-                result = data.toString();
-            Label dateLabel = TableControls.LabelVGrow(200, result);
-            hBox.setHgrow(dateLabel, Priority.ALWAYS);
-            
-            hBox.getChildren().addAll(nameLabel, new Separator(Orientation.VERTICAL), coachLabel, new Separator(Orientation.VERTICAL),
-                    dateLabel);
-            vbox.getChildren().add(hBox);
-        }
+        setSorts();
+        fillTable();
     }
 
     public void setDependencies(Fan currentUser, EntityManager entityManager, MainScreenController mainScreenController){
-        setCuurentUser(currentUser);
+        setCurrentUser(currentUser);
         setEntityManager(entityManager);
         setMainScreenController(mainScreenController);
     }
@@ -102,5 +70,76 @@ public class TeamsTableScreenController {
             e.printStackTrace();
         }
 
+    }
+
+    private void fillTable(){
+        int i = 0;
+
+        gridPane.getChildren().remove(0, gridPane.getChildren().size());
+        for(Team t: teams){
+            Label nameLabel = TableControls.LabelVGrow(200,t.getName());
+            gridPane.setHgrow(nameLabel, Priority.ALWAYS);
+            gridPane.setVgrow(nameLabel, Priority.ALWAYS);
+            nameLabel.setOnMouseClicked(event ->{
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
+                TeamScreenController teamScreenController = new TeamScreenController();
+
+                teamScreenController.setDependencies(t,entityManager, mainScreenController, currentUser);
+                loader.setController(teamScreenController);
+
+                tryLoader(loader);
+            });
+
+            Label coachLabel = TableControls.LabelVGrow(200, t.getCoach().getName() + " " + t.getCoach().getSurname());
+            gridPane.setHgrow(coachLabel, Priority.ALWAYS);
+            gridPane.setVgrow(coachLabel, Priority.ALWAYS);
+            coachLabel.setOnMouseClicked(event ->{
+                FXMLLoader loader =  new FXMLLoader(this.getClass().getResource("/fxml/coachScreen.fxml"));
+                CoachScreenController coachScreenController = new CoachScreenController();
+
+                coachScreenController.setDependencies(t.getCoach(),entityManager, mainScreenController, currentUser);
+                loader.setController(coachScreenController);
+
+                tryLoader(loader);
+
+            });
+
+            Date data = t.getCreationDate();
+            String result;
+            if(data == null)
+                result = "-";
+            else
+                result = data.toString();
+
+            Label dateLabel = TableControls.Label(200, result);
+            dateLabel.setMaxWidth(1.7976931348623157E308);
+            dateLabel.setMaxHeight(1.7976931348623157E308);
+            gridPane.setHgrow(dateLabel, Priority.ALWAYS);
+            gridPane.setVgrow(dateLabel, Priority.ALWAYS);
+
+            gridPane.addRow(i, nameLabel, coachLabel, dateLabel);
+            i++;
+        }
+    }
+
+    private void setSorts(){
+        teams = entityManager.createQuery("select T from Team T").getResultList();
+
+        teamLabel.setOnMouseClicked(event -> {
+            teams.sort(Comparator.comparing(Team::getName));
+            fillTable();
+        });
+
+        coachLabel.setOnMouseClicked(event -> {
+            teams.sort((Team o1, Team o2) -> {
+                return o1.getCoach().getSurname().compareTo(o2.getCoach().getSurname());
+            });
+            fillTable();
+        });
+
+        /*dateLabel.setOnMouseClicked(event -> {
+            teams.sort(Comparator.comparing(Team::getCreationDate));
+            fillTable();
+        });*/
     }
 }

@@ -72,8 +72,9 @@ public class LoginScreenController {
             mainController.getBorderPane().setLeft(vBox);
             mainController.getBorderPane().setCenter(center);
             mainController.getStage().setResizable(true);
-            mainController.getStage().setMinWidth(1000);
+            mainController.getStage().setMinWidth(1200);
             mainController.getStage().setMinHeight(700);
+            mainController.getStage().setTitle("FootballLeague");
 
         } catch (NoResultException e) {
             Alert loginFailedAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -107,6 +108,7 @@ public class LoginScreenController {
             loader.setController(registerScreenController);
             pane = loader.load();
             mainController.getBorderPane().setCenter(pane);
+            mainController.getBorderPane().setMinWidth(320);
         } catch (IOException e) {
             e.printStackTrace();
         }

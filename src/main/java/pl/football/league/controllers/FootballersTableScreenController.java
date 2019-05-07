@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pl.football.league.entities.Fan;
@@ -26,67 +27,30 @@ public class FootballersTableScreenController {
     private EntityManager entityManager;
     private MainScreenController mainController;
     private Fan currentUser;
+    private List<Footballer> footballers;
 
     @FXML
-    private ListView<HBox> listView;
+    private Label nameLabel;
+
+    @FXML
+    private Label surnameLabel;
+
+    @FXML
+    private Label teamLabel;
+
+    @FXML
+    private Label numberLabel;
+
+    @FXML
+    private Label positionLabel;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     void initialize() {
-        List<Footballer> footballers = entityManager.createQuery("select F from Footballer F").getResultList();
-        //ObservableList<Label> content = new LinkedList<Label>();
-        footballers.sort(new Comparator<Footballer>() {
-            @Override
-            public int compare(Footballer o1, Footballer o2) {
-                return o1.getSurname().compareTo(o2.getSurname());
-            }
-        });
-        HBox hbox;
-
-        for (Footballer f : footballers) {
-            hbox = new HBox();
-            hbox.setSpacing(0);
-            hbox.setAlignment(Pos.CENTER);
-
-            Label name = TableControls.LabelVGrow(150, f.getName());
-            hbox.setHgrow(name, Priority.ALWAYS);
-            name.setOnMouseClicked((MouseEvent event)->{
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
-                FootballerScreenController footballerScreenController = new FootballerScreenController();
-                Footballer footballer1 = entityManager.find(Footballer.class, f.getFootballerID());
-
-                footballerScreenController.setDependency(footballer1, currentUser, entityManager);
-                loader.setController(footballerScreenController);
-                tryLoader(loader);
-            });
-
-            Label surname = TableControls.LabelVGrow(150, f.getSurname());
-            hbox.setHgrow(surname, Priority.ALWAYS);
-            surname.setOnMouseClicked(name.getOnMouseClicked());
-
-            Label teamLabel = TableControls.LabelVGrow(150, f.getTeam().getName());
-            hbox.setHgrow(teamLabel, Priority.ALWAYS);
-            teamLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
-                    TeamScreenController teamScreenController = new TeamScreenController();
-                    Team team = entityManager.find(Team.class, f.getTeam().getTeamID());
-
-                    teamScreenController.setDependencies(team, entityManager, mainController, currentUser);
-                    loader.setController(teamScreenController);
-                    tryLoader(loader);
-                }
-            });
-
-            Label number = TableControls.Label(50, String.valueOf(f.getNumber()));
-
-            Label position = TableControls.Label(50, f.getPosition());
-
-            hbox.getChildren().addAll(name, new Separator(Orientation.VERTICAL), surname, new Separator(Orientation.VERTICAL),
-                    teamLabel, new Separator(Orientation.VERTICAL), number, new Separator(Orientation.VERTICAL), position);
-            listView.getItems().add(hbox);
-        }
-
+        setSorts();
+        fillTable();
     }
 
     public void setEntityManager(EntityManager entityManager) {
@@ -108,5 +72,79 @@ public class FootballersTableScreenController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void fillTable(){
+        int i=0;
+        gridPane.getChildren().remove(0, gridPane.getChildren().size());
+
+        for (Footballer f : footballers) {
+            Label name = TableControls.LabelVGrow(150, f.getName());
+            gridPane.setHgrow(name, Priority.ALWAYS);
+            name.setOnMouseClicked(event->{
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
+                FootballerScreenController footballerScreenController = new FootballerScreenController();
+                Footballer footballer1 = entityManager.find(Footballer.class, f.getFootballerID());
+
+                footballerScreenController.setDependency(footballer1, currentUser, entityManager, mainController);
+                loader.setController(footballerScreenController);
+                tryLoader(loader);
+            });
+
+            Label surname = TableControls.LabelVGrow(150, f.getSurname());
+            gridPane.setHgrow(surname, Priority.ALWAYS);
+            surname.setOnMouseClicked(name.getOnMouseClicked());
+
+            Label teamLabel = TableControls.LabelVGrow(150, f.getTeam().getName());
+            gridPane.setHgrow(teamLabel, Priority.ALWAYS);
+            teamLabel.setOnMouseClicked(event ->{
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
+                TeamScreenController teamScreenController = new TeamScreenController();
+                Team team = entityManager.find(Team.class, f.getTeam().getTeamID());
+
+                teamScreenController.setDependencies(team, entityManager, mainController, currentUser);
+                loader.setController(teamScreenController);
+                tryLoader(loader);
+            });
+
+            Label number = TableControls.Label(50, String.valueOf(f.getNumber()));
+
+            Label position = TableControls.Label(60, f.getPosition());
+            gridPane.addRow(i, name, surname, teamLabel, number, position );
+            i++;
+        }
+
+    }
+
+    private void setSorts() {
+        footballers = entityManager.createQuery("select F from Footballer F").getResultList();
+        footballers.sort(Comparator.comparing(Footballer::getSurname));
+
+        surnameLabel.setOnMouseClicked(event -> {
+            footballers.sort(Comparator.comparing(Footballer::getSurname));
+            fillTable();
+        });
+
+        nameLabel.setOnMouseClicked(event -> {
+            footballers.sort(Comparator.comparing(Footballer::getName));
+            fillTable();
+        });
+
+        teamLabel.setOnMouseClicked(event->{
+            footballers.sort((Footballer f1, Footballer f2) -> {
+                return f1.getTeam().getName().compareTo(f2.getTeam().getName());
+            });
+            fillTable();
+        });
+
+        positionLabel.setOnMouseClicked(event -> {
+            footballers.sort(Comparator.comparing(Footballer::getPosition));
+            fillTable();
+        });
+
+        numberLabel.setOnMouseClicked(event -> {
+            footballers.sort(Comparator.comparing(Footballer::getNumber));
+            fillTable();
+        });
     }
 }
