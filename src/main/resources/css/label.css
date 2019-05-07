@@ -1,0 +1,9 @@
+.label{
+    -fx-background-color: transparent;
+    -fx-font-size: 20;
+    -fx-text-fill: forestgreen;
+    -fx-font-weight: bold;
+}
+.label:hover{
+    -fx-background-color: lightgray;
+}
