@@ -1,14 +1,12 @@
 package pl.football.league.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name ="trener")
 public class Coach {
     @Id
+    @GeneratedValue
     @Column(name = "id_trenera")
     private long coachID;
 
@@ -20,6 +18,17 @@ public class Coach {
 
     @Column (name = "wiek", nullable = true)
     private Integer age;
+
+    public Coach(){
+
+    }
+
+    public Coach(long id, String name, String surname, Integer age){
+        coachID = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+    }
 
     public long getCoachID() {
         return coachID;

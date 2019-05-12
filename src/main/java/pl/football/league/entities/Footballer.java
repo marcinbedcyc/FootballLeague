@@ -1,5 +1,7 @@
 package pl.football.league.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -7,6 +9,7 @@ import java.util.Set;
 @Table(name="pilkarz")
 public class Footballer {
     @Id
+    @GeneratedValue
     @Column(name = "id_pilkarza")
     private long footballerID;
 
@@ -25,6 +28,19 @@ public class Footballer {
     @ManyToOne
     @JoinColumn (name = "druzyna")
     private Team team;
+
+    public Footballer(){
+
+    }
+
+    public Footballer(long id, String name, String surname, String position, Integer number, Team team ){
+        this.footballerID = id;
+        this.name = name;
+        this.surname = surname;
+        this.position = position;
+        this.number = number;
+        this.team = team;
+    }
 
 
     @ManyToMany

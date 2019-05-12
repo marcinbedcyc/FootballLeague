@@ -1,5 +1,7 @@
 package pl.football.league.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Set;
@@ -8,6 +10,7 @@ import java.util.Set;
 @Table(name = "druzyna")
 public class Team {
     @Id
+    @GeneratedValue
     @Column(name = "kod_druzyny")
     private long teamID;
 
