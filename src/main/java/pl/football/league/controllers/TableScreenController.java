@@ -61,12 +61,14 @@ public class TableScreenController {
         this.entityManager = entityManager;
     }
 
-    public Fan getCurrentUser() {
-        return currentUser;
-    }
-
     public void setCurrentUser(Fan currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public void setDependencies(MainScreenController mainScreenController, EntityManager entityManager, Fan currentUser){
+        setMainController(mainScreenController);
+        setEntityManager(entityManager);
+        setCurrentUser(currentUser);
     }
 
     private void tryLoader(FXMLLoader loader) {

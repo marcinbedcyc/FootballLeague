@@ -2,6 +2,7 @@ package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -147,9 +148,18 @@ public class FootballerScreenController {
     private void setFootballerInfo(){
         name.setText(footballer.getName());
         surname.setText(footballer.getSurname());
-        team.setText(footballer.getTeam().getName());
+        if(footballer.getTeam() != null)
+            team.setText(footballer.getTeam().getName());
+        else {
+            team.setText("-");
+            team.setCursor(Cursor.DEFAULT);
+            team.setStyle("-fx-background-color: transparent; -fx-font-size: 20;  -fx-text-fill: forestgreen;  -fx-font-weight: bold;");
+        }
         position.setText(footballer.getPosition());
-        shirtNumber.setText(String.valueOf(footballer.getNumber()));
+        if(footballer.getNumber() != null)
+            shirtNumber.setText(String.valueOf(footballer.getNumber()));
+        else
+            shirtNumber.setText("-");
         titleLabel.setText(footballer.getName() + " " +  footballer.getSurname());
     }
 

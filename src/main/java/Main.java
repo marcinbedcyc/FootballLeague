@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import javafx.stage.StageStyle;
 import pl.football.league.controllers.MainScreenController;
 
 public class Main extends Application {

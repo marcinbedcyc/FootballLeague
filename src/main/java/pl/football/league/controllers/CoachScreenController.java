@@ -2,6 +2,7 @@ package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import pl.football.league.entities.Coach;
@@ -9,6 +10,7 @@ import pl.football.league.entities.Fan;
 import pl.football.league.entities.Team;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.io.IOException;
 
 public class CoachScreenController {
@@ -36,20 +38,26 @@ public class CoachScreenController {
     void initialize() {
         nameLabel.setText(coach.getName());
         surnameLabel.setText(coach.getSurname());
-        ageLabel.setText(String.valueOf(coach.getAge()));
+        ageLabel.setText((coach.getAge() != null) ? String.valueOf(coach.getAge()) : "-");
         titleLabel.setText(coach.getName() + " " + coach.getSurname());
 
-        Team team = (Team) entityManager.createQuery("select T from Team T where T.coach.id = ?1").setParameter(1,
-                coach.getCoachID()).getSingleResult();
-        teamLabel.setText(team.getName());
-        teamLabel.setOnMouseClicked(event -> {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
-            TeamScreenController teamScreenController = new TeamScreenController();
+        try {
+            Team team = (Team) entityManager.createQuery("select T from Team T where T.coach.id = ?1").setParameter(1,
+                    coach.getCoachID()).getSingleResult();
+            teamLabel.setText(team.getName());
+            teamLabel.setOnMouseClicked(event -> {
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
+                TeamScreenController teamScreenController = new TeamScreenController();
 
-            teamScreenController.setDependencies(team, entityManager, mainScreenController, currentUser);
-            loader.setController(teamScreenController);
-            tryLoader(loader);
-        });
+                teamScreenController.setDependencies(team, entityManager, mainScreenController, currentUser);
+                loader.setController(teamScreenController);
+                tryLoader(loader);
+            });
+        }catch (NoResultException e) {
+            teamLabel.setText("Brak druzyny");
+            teamLabel.setCursor(Cursor.DEFAULT);
+            teamLabel.setStyle("-fx-background-color: transparent; -fx-font-size: 20;  -fx-text-fill: forestgreen;  -fx-font-weight: bold;");
+        }
     }
 
     public void setCoach(Coach coach) {

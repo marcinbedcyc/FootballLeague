@@ -72,8 +72,7 @@ public class CoachesTableScreenController {
                 FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/coachScreen.fxml"));
                 CoachScreenController coachScreenController = new CoachScreenController();
 
-                coachScreenController.setCoach(c);
-                coachScreenController.setEntityManager(entityManager);
+                coachScreenController.setDependencies(c, entityManager, mainController, currentUser);
                 loader.setController(coachScreenController);
                 tryLoader(loader);
             });

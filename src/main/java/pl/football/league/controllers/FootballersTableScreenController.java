@@ -84,9 +84,8 @@ public class FootballersTableScreenController {
             name.setOnMouseClicked(event->{
                 FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
                 FootballerScreenController footballerScreenController = new FootballerScreenController();
-                Footballer footballer1 = entityManager.find(Footballer.class, f.getFootballerID());
 
-                footballerScreenController.setDependency(footballer1, currentUser, entityManager, mainController);
+                footballerScreenController.setDependency(f, currentUser, entityManager, mainController);
                 loader.setController(footballerScreenController);
                 tryLoader(loader);
             });
@@ -95,19 +94,32 @@ public class FootballersTableScreenController {
             gridPane.setHgrow(surname, Priority.ALWAYS);
             surname.setOnMouseClicked(name.getOnMouseClicked());
 
-            Label teamLabel = TableControls.LabelVGrow(150, f.getTeam().getName());
-            gridPane.setHgrow(teamLabel, Priority.ALWAYS);
-            teamLabel.setOnMouseClicked(event ->{
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
-                TeamScreenController teamScreenController = new TeamScreenController();
-                Team team = entityManager.find(Team.class, f.getTeam().getTeamID());
+            Label teamLabel;
+            if(f.getTeam()!= null) {
+                teamLabel = TableControls.LabelVGrow(150, f.getTeam().getName());
+                gridPane.setHgrow(teamLabel, Priority.ALWAYS);
+                teamLabel.setOnMouseClicked(event -> {
+                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
+                    TeamScreenController teamScreenController = new TeamScreenController();
 
-                teamScreenController.setDependencies(team, entityManager, mainController, currentUser);
-                loader.setController(teamScreenController);
-                tryLoader(loader);
-            });
+                    teamScreenController.setDependencies(f.getTeam(), entityManager, mainController, currentUser);
+                    loader.setController(teamScreenController);
+                    tryLoader(loader);
+                });
+            }
+            else{
+                teamLabel = TableControls.Label(150, "-");
+                teamLabel.setMaxWidth(1.7976931348623157E308);
+                gridPane.setHgrow(teamLabel, Priority.ALWAYS);
+            }
 
-            Label number = TableControls.Label(50, String.valueOf(f.getNumber()));
+            Label number;
+            if(f.getNumber() != null) {
+                number = TableControls.Label(50, String.valueOf(f.getNumber()));
+            }
+            else {
+                number = TableControls.Label(50, "-");
+            }
 
             Label position = TableControls.Label(60, f.getPosition());
             gridPane.addRow(i, name, surname, teamLabel, number, position );
@@ -132,6 +144,10 @@ public class FootballersTableScreenController {
 
         teamLabel.setOnMouseClicked(event->{
             footballers.sort((Footballer f1, Footballer f2) -> {
+                if(f1.getTeam() == null)
+                    return (f2.getTeam() == null ) ? 0 : -1;
+                if(f2.getTeam() == null)
+                    return 1;
                 return f1.getTeam().getName().compareTo(f2.getTeam().getName());
             });
             fillTable();
@@ -143,7 +159,13 @@ public class FootballersTableScreenController {
         });
 
         numberLabel.setOnMouseClicked(event -> {
-            footballers.sort(Comparator.comparing(Footballer::getNumber));
+            footballers.sort((Footballer f1, Footballer f2) -> {
+                if(f1.getNumber() == null)
+                    return (f2.getNumber() == null ) ? 0 : -1;
+                if(f2.getNumber() == null)
+                    return 1;
+                return f1.getNumber().compareTo(f2.getNumber());
+            });
             fillTable();
         });
     }

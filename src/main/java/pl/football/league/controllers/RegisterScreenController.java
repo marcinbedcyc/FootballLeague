@@ -5,19 +5,27 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import pl.football.league.entities.Fan;
+import pl.football.league.entities.Footballer;
+import pl.football.league.entities.Team;
+import pl.football.league.fxmlUtils.Alerts;
 
 import javax.persistence.EntityManager;
+import java.util.*;
 
 public class RegisterScreenController {
     private EntityManager entityManager;
     private MainScreenController mainController;
+    private boolean separatelyWindow = false;
 
     @FXML
     void initialize() {
-        mainController.getStage().setResizable(true);
-        mainController.getStage().setMinWidth(400);
-        mainController.getStage().setTitle("Rejestracja");
+        if(!separatelyWindow) {
+            mainController.getStage().setResizable(true);
+            mainController.getStage().setMinWidth(400);
+            mainController.getStage().setTitle("Rejestracja");
+        }
     }
 
     @FXML
@@ -57,10 +65,7 @@ public class RegisterScreenController {
         repeatPassword = repeatPasswordTextField.getText();
 
         if(name.equals("") || surname.equals("") || nickname.equals("") || password.equals("") || repeatPassword.equals("")){
-            Alert emptyField = new Alert(Alert.AlertType.WARNING);
-            emptyField.setTitle("Puste pole");
-            emptyField.setHeaderText("Jedno z obowiazkowych pol jest puste!");
-            emptyField.setContentText("Prosze je uzupelnic.");
+            Alert emptyField = Alerts.emptyField();
             emptyField.showAndWait();
             return;
         }
@@ -71,27 +76,24 @@ public class RegisterScreenController {
         }
         catch(NumberFormatException e){
             if(!ageTextField.getText().equals("")) {
-                Alert wrongNumberAlert = new Alert(Alert.AlertType.ERROR);
-                wrongNumberAlert.setTitle("Zla liczba");
-                wrongNumberAlert.setHeaderText("Podano lanuch znakow zamiast liczby!");
-                wrongNumberAlert.setContentText("Prosze podac poprawne dane.");
+                Alert wrongNumberAlert = Alerts.wrongNumber();
                 wrongNumberAlert.showAndWait();
                 return;
             }
         }
 
         if(!password.equals(repeatPassword)) {
-            Alert diffrentPasswordsAlert = new Alert(Alert.AlertType.ERROR);
-            diffrentPasswordsAlert.setTitle("Rozne hasla");
-            diffrentPasswordsAlert.setHeaderText("Podano 2 rozne hasla!");
-            diffrentPasswordsAlert.setContentText("Prosze podac poprawne dane.");
-            diffrentPasswordsAlert.showAndWait();
+            Alert diffrentPasswordsAlert = Alerts.diffrentPasswords();
             return;
         }
         newUser.setName(name);
         newUser.setSurname(surname);
         newUser.setNickname(nickname);
         newUser.setPassword(password);
+        Set<Footballer> emptyFootballerSet = new HashSet<>();
+        Set<Team> emptyTeamSet = new HashSet<>();
+        newUser.setSupportedFootballers(emptyFootballerSet);
+        newUser.setSupportedTeams(emptyTeamSet);
 
         entityManager.getTransaction().begin();
         try {
@@ -99,19 +101,22 @@ public class RegisterScreenController {
             entityManager.getTransaction().commit();
             back();
         }
-        catch(javax.persistence.RollbackException e){
-            Alert userAlreadyExistAlert = new Alert(Alert.AlertType.ERROR);
-            userAlreadyExistAlert.setTitle("Zajety login");
-            userAlreadyExistAlert.setHeaderText("Uyztkownik o podanym loginie juz istnieje!");
-            userAlreadyExistAlert.setContentText("Prosze wybrac inny login.");
-            userAlreadyExistAlert.showAndWait();
+        catch(Exception e){
             entityManager.getTransaction().rollback();
+            e.printStackTrace();
+            Alert transactionFail = Alerts.transactionFail();
+            transactionFail.showAndWait();
         }
     }
 
     @FXML
     void back() {
-        mainController.initialize();
+        if(separatelyWindow){
+            Stage stage = (Stage)cancelButton.getScene().getWindow();
+            stage.close();
+        }
+        else
+            mainController.initialize();
     }
 
     public MainScreenController getMainController() {
@@ -124,5 +129,9 @@ public class RegisterScreenController {
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public void setSeparatelyWindow(){
+        separatelyWindow = true;
     }
 }

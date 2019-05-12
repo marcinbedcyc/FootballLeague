@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import java.io.IOException;
 
 public class MainScreenController {
-
     private EntityManager entityManager;
     private Stage stage;
 

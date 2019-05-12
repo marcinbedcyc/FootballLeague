@@ -10,13 +10,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import pl.football.league.entities.Fan;
+import pl.football.league.fxmlUtils.Alerts;
+import pl.football.league.fxmlUtils.TableControls;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.io.IOException;
 
 public class LoginScreenController {
-
     private EntityManager entityManager;
     private MainScreenController mainController;
 
@@ -41,14 +42,13 @@ public class LoginScreenController {
         String login = loginTextField.getText();
         String password = passwordTextField.getText();
         String hql = "from Fan f where f.nickname = :login and f.password = :password";
-        Fan kibic;
+        Fan curentUser;
 
         try {
-            kibic = (Fan) entityManager.createQuery(hql)
+            curentUser = (Fan) entityManager.createQuery(hql)
                     .setParameter("login", login)
                     .setParameter("password", password)
                     .getSingleResult();
-            System.out.println(kibic.getName());
 
             MenuBarController menuBarController;
             TableScreenController tableScreenController;
@@ -56,14 +56,10 @@ public class LoginScreenController {
             FXMLLoader loaderCenter = new FXMLLoader(this.getClass().getResource("/fxml/tableScreen.fxml"));
 
             menuBarController = new MenuBarController();
-            menuBarController.setEntityManager(entityManager);
-            menuBarController.setCurrentUser(kibic);
-            menuBarController.setMainController(this.mainController);
+            menuBarController.setDependencies(mainController, entityManager, curentUser);
 
             tableScreenController = new TableScreenController();
-            tableScreenController.setEntityManager(entityManager);
-            tableScreenController.setCurrentUser(kibic);
-            tableScreenController.setMainController(this.mainController);
+            tableScreenController.setDependencies(mainController, entityManager, curentUser);
 
             loader.setController(menuBarController);
             loaderCenter.setController(tableScreenController);
@@ -77,11 +73,7 @@ public class LoginScreenController {
             mainController.getStage().setTitle("FootballLeague");
 
         } catch (NoResultException e) {
-            Alert loginFailedAlert = new Alert(Alert.AlertType.INFORMATION);
-            loginFailedAlert.setTitle("Blad logowania");
-            loginFailedAlert.setHeaderText("Podane dane logowania sa niepoprawne!");
-            loginFailedAlert.setContentText("Sprobuj ponowanie. ");
-            loginFailedAlert.showAndWait();
+            Alert loginFailedAlert = Alerts.loginFail();
         }catch (IOException e){
             e.printStackTrace();
         }
