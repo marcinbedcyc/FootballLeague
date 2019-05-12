@@ -162,7 +162,7 @@
          <padding>
             <Insets left="40.0" top="6.0" />
          </padding></Button>
-      <ToggleButton fx:id="adminOptionButton" alignment="CENTER_LEFT" disable="true" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="292.0" style="-fx-border-width: 0;" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Zarzadzaj" toggleGroup="$menu">
+      <ToggleButton fx:id="adminOptionButton" alignment="CENTER_LEFT" maxHeight="35.0" maxWidth="1.7976931348623157E308" minHeight="35.0" mnemonicParsing="false" onAction="#openManagment" prefHeight="35.0" prefWidth="292.0" style="-fx-border-width: 0;" styleClass="barButton" stylesheets="@../css/menuBarButton.css" text="Zarzadzaj" toggleGroup="$menu">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

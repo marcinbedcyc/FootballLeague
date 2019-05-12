@@ -189,6 +189,16 @@ public class MenuBarController {
         tryLoader(loader);
     }
 
+    @FXML
+    void openManagment(){
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/managmentScreen.fxml"));
+        ManagementScreenController managementScreenController = new ManagementScreenController();
+
+        managementScreenController.setEntityManager(entityManager);
+        loader.setController(managementScreenController);
+        tryLoader(loader);
+    }
+
 
     public void setMainController(MainScreenController mainController) {
         this.mainController = mainController;
@@ -200,6 +210,12 @@ public class MenuBarController {
 
     public void setCurrentUser(Fan currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public void setDependencies(MainScreenController mainScreenController, EntityManager entityManager, Fan currentUser){
+        setMainController(mainScreenController);
+        setEntityManager(entityManager);
+        setCurrentUser(currentUser);
     }
 
     private void tryLoader(FXMLLoader loader){
