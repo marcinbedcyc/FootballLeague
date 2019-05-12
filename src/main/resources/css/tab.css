@@ -1,0 +1,36 @@
+.tab-pane .tab {
+    -fx-background-color: lightgray;
+    -fx-background-radius: 10 10 0 0;
+    -fx-background-insets: 0 3 0 0;
+    -fx-padding: 5 15 5 15;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: forestgreen;
+    -fx-text-fill: white;
+}
+.tab-pane .tab:hover{
+    -fx-background-color: darkgray;
+    -fx-text-fill: white;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+}
+
+.tab-pane .tab-header-background{
+    -fx-background-color: dimgray;
+}
+
+
+
+
+

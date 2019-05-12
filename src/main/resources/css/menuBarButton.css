@@ -29,3 +29,12 @@
     -fx-font-weight: bold;
     -fx-background-radius: 15;
 }
+
+.combo-box .cell{
+    -fx-text-fill: white;
+    -fx-background-color: dimgray;
+}
+.combo-box .cell:hover{
+    -fx-text-fill: white;
+    -fx-background-color: forestgreen;
+}
