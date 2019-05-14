@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 public class AddCoachScreenController {
     private EntityManager entityManager;
     private Stage stage;
+    private Coach coach;
 
     @FXML
     private Label titleLabel;
@@ -35,7 +36,7 @@ public class AddCoachScreenController {
     void addCoachAndBack() {
         String name, surname;
         int age;
-        Coach coach = new Coach();
+        coach = new Coach();
 
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -96,6 +97,10 @@ public class AddCoachScreenController {
     public  void setDependecies(EntityManager entityManager, Stage stage){
         setEntityManager(entityManager);
         setStage(stage);
+    }
+
+    public Coach getCoach() {
+        return coach;
     }
 }
 

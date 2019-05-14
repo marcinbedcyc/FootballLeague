@@ -18,6 +18,7 @@ public class RegisterScreenController {
     private EntityManager entityManager;
     private MainScreenController mainController;
     private boolean separatelyWindow = false;
+    private Fan newUser;
 
     @FXML
     void initialize() {
@@ -56,7 +57,7 @@ public class RegisterScreenController {
     void addUserAndBack() {
         String name, surname, nickname, password, repeatPassword;
         int age;
-        Fan newUser = new Fan();
+        newUser = new Fan();
 
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -133,5 +134,9 @@ public class RegisterScreenController {
 
     public void setSeparatelyWindow(){
         separatelyWindow = true;
+    }
+
+    public Fan getNewUser() {
+        return newUser;
     }
 }

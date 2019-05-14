@@ -96,6 +96,8 @@ public class ManagementScreenController {
             footballers = entityManager.createQuery("select F from Footballer  F", Footballer.class).getResultList();
         if(teams == null)
             teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
+        if(matches == null)
+            matches = entityManager.createQuery("select M from  Match M", Match.class).getResultList();
         fillTeamsTable();
     }
 
@@ -114,7 +116,8 @@ public class ManagementScreenController {
             secondStage.setMinHeight(600);
             secondStage.setTitle("Dodawanie Trenera");
             secondStage.showAndWait();
-            secondStage.setOnCloseRequest(event -> fillCoachesTable());
+            if(addCoachScreenController.getCoach() != null)
+                coaches.add(addCoachScreenController.getCoach());
             fillCoachesTable();
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,7 +140,9 @@ public class ManagementScreenController {
             secondStage.setMinHeight(600);
             secondStage.setTitle("Dodawanie Kibica");
             secondStage.showAndWait();
-            secondStage.setOnCloseRequest(event -> fillFansTable());
+            if(registerScreenController.getNewUser() != null)
+                fans.add(registerScreenController.getNewUser());
+            fillFansTable();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -158,7 +163,9 @@ public class ManagementScreenController {
             secondStage.setMinHeight(600);
             secondStage.setTitle("Dodawanie Piłkarza");
             secondStage.showAndWait();
-            secondStage.setOnCloseRequest(event -> fillFootballersTable());
+            if(addFootballerScreenController.getFootballer() != null)
+                footballers.add(addFootballerScreenController.getFootballer());
+            fillFootballersTable();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,7 +186,9 @@ public class ManagementScreenController {
             secondStage.setMinHeight(600);
             secondStage.setTitle("Dodawanie Meczu");
             secondStage.showAndWait();
-            secondStage.setOnCloseRequest(event -> fillMatchesTable());
+            if(addMatchScreenController.getMatch() != null)
+                matches.add(addMatchScreenController.getMatch());
+            fillMatchesTable();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,7 +210,9 @@ public class ManagementScreenController {
             secondStage.setTitle("Dodawanie ");
             secondStage.setTitle("Dodawanie Drużyny");
             secondStage.showAndWait();
-            secondStage.setOnCloseRequest(event -> fillTeamsTable());
+            if(addTeamScreenController.getTeam() != null)
+                teams.add(addTeamScreenController.getTeam());
+            fillTeamsTable();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -500,13 +511,20 @@ public class ManagementScreenController {
                 try {
                     entityManager.getTransaction().begin();
                     for (Footballer f : footballers) {
-                        if (f.getTeam().getTeamID() == t.getTeamID())
-                            f.setTeam(null);
+                        if(f.getTeam() != null)
+                            if (f.getTeam().getTeamID() == t.getTeamID())
+                                f.setTeam(null);
+                    }
+                    for(Match m : matches){
+                        if(m.getMatchID().getHome().getTeamID() == t.getTeamID() || m.getMatchID().getAway().getTeamID() == t.getTeamID()) {
+                            entityManager.remove(m);
+                        }
                     }
                     entityManager.remove(t);
                     teams.remove(t);
                     entityManager.getTransaction().commit();
                     fillTeamsTable();
+                    matches = entityManager.createQuery("select M from  Match M", Match.class).getResultList();
                 }
                 catch(Exception e){
                     entityManager.getTransaction().rollback();

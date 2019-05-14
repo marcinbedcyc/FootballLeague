@@ -18,6 +18,7 @@ public class AddFootballerScreenController {
     private EntityManager entityManager;
     private Stage stage;
     private List<Team> teams;
+    private Footballer footballer;
 
     @FXML
     private TextField nameTextField;
@@ -43,7 +44,7 @@ public class AddFootballerScreenController {
     @FXML
     void addFootballerAndBack() {
         String name, surname, position;
-        Footballer footballer = new Footballer();
+        footballer = new Footballer();
 
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -127,5 +128,9 @@ public class AddFootballerScreenController {
     public  void setDependecies(EntityManager entityManager, Stage stage){
         setEntityManager(entityManager);
         setStage(stage);
+    }
+
+    public Footballer getFootballer() {
+        return footballer;
     }
 }

@@ -20,6 +20,7 @@ public class AddMatchScreenController {
     private EntityManager entityManager;
     private Stage stage;
     private List<Team> teams;
+    private Match match;
 
     @FXML
     private ComboBox<Team> homeTeamComboBox;
@@ -44,7 +45,7 @@ public class AddMatchScreenController {
 
     @FXML
     void addMatchAndBack() {
-        Match match = new Match();
+        match = new Match();
         MatchID id = new MatchID();
 
         if(homeTeamComboBox.getValue() != null)
@@ -123,5 +124,9 @@ public class AddMatchScreenController {
     public  void setDependecies(EntityManager entityManager, Stage stage){
         setEntityManager(entityManager);
         setStage(stage);
+    }
+
+    public Match getMatch() {
+        return match;
     }
 }

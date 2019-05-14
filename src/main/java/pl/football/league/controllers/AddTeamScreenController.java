@@ -22,6 +22,7 @@ public class AddTeamScreenController {
     private Stage stage;
     private List<Coach> coaches;
     private List<Team> teams;
+    private Team team;
 
     @FXML
     private TextField nameTextField;
@@ -65,7 +66,7 @@ public class AddTeamScreenController {
 
     @FXML
     void addTeamAndBack() {
-        Team team = new Team();
+        team = new Team();
         String name;
 
         name = nameTextField.getText();
@@ -147,5 +148,9 @@ public class AddTeamScreenController {
         if (coachComboBox.getItems().isEmpty()) {
             coachComboBox.setPromptText("Brak wolnych trenerów");
         }
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }
