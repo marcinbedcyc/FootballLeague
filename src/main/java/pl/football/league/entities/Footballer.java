@@ -25,13 +25,19 @@ public class Footballer {
     @Column(name ="numer")
     private Integer number;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "druzyna")
     private Team team;
 
     public Footballer(){
 
     }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "kibicowanie_pilkarzowi",
+            joinColumns = {@JoinColumn(name = "id_pilkarza")},
+            inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
+    private Set<Fan> fans;
 
     public Footballer(long id, String name, String surname, String position, Integer number, Team team ){
         this.footballerID = id;
@@ -42,12 +48,6 @@ public class Footballer {
         this.team = team;
     }
 
-
-    @ManyToMany
-    @JoinTable(name = "kibicowanie_pilkarzowi",
-            joinColumns = {@JoinColumn(name = "id_pilkarza")},
-            inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
-    private Set<Fan> fans;
 
     public long getFootballerID() {
         return footballerID;

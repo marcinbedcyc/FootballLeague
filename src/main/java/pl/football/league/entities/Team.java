@@ -32,11 +32,11 @@ public class Team {
     @Column(name = "porazki")
     private int loses;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "trener")
     private Coach coach;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "kibicowanie_druzynie",
             joinColumns = {@JoinColumn(name = "kod_druzyny")},
             inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
