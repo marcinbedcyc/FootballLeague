@@ -36,7 +36,7 @@ public class Team {
     @JoinColumn (name = "trener")
     private Coach coach;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "kibicowanie_druzynie",
             joinColumns = {@JoinColumn(name = "kod_druzyny")},
             inverseJoinColumns = {@JoinColumn(name = "id_kibica")})

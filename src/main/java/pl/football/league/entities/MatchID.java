@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class MatchID implements Serializable {
@@ -40,5 +41,19 @@ public class MatchID implements Serializable {
 
     public void setAway(Team away) {
         this.away = away;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MatchID)) return false;
+        MatchID matchID = (MatchID) o;
+        return Objects.equals(home, matchID.home) &&
+                Objects.equals(away, matchID.away);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(home, away);
     }
 }
