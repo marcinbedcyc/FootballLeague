@@ -210,8 +210,13 @@ public class ManagementScreenController {
             secondStage.setTitle("Dodawanie ");
             secondStage.setTitle("Dodawanie Drużyny");
             secondStage.showAndWait();
-            if(addTeamScreenController.getTeam() != null)
+            if(addTeamScreenController.getTeam() != null) {
                 teams.add(addTeamScreenController.getTeam());
+            }
+            if(addTeamScreenController.getCoach() != null ){
+                coaches.add(addTeamScreenController.getCoach());
+            }
+            fillCoachesTable();
             fillTeamsTable();
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,9 +230,15 @@ public class ManagementScreenController {
     private void fillCoachesTable(){
         int row = 0;
         coachGridPane.getChildren().remove(0, coachGridPane.getChildren().size());
+        Tooltip nameTooltip = new Tooltip("Imię trenera");
+        nameTooltip.setStyle("-fx-font-size: 15px");
+        Tooltip surnameTooltip = new Tooltip("Nazwisko trenera");
+        surnameTooltip.setStyle("-fx-font-size: 15px");
         for (Coach c : coaches) {
             TextField name = new TextField(c.getName());
+            name.setTooltip(nameTooltip);
             TextField surname = new TextField(c.getSurname());
+            surname.setTooltip(surnameTooltip);
             ComboBox<Integer> age = TableControls.comboBoxAge(c.getAge());
             Button edit = TableControls.greenButton("Zapisz");
             edit.setOnMouseClicked(event -> {
@@ -240,6 +251,7 @@ public class ManagementScreenController {
                     else
                         c.setAge(age.getValue());
                     entityManager.getTransaction().commit();
+                    Alerts.success().showAndWait();
                 }
                 catch(Exception e){
                     entityManager.getTransaction().rollback();
@@ -263,6 +275,7 @@ public class ManagementScreenController {
                         entityManager.remove(c);
                         entityManager.getTransaction().commit();
                         fillCoachesTable();
+                        Alerts.success().showAndWait();
                     }
                     catch(Exception exception){
                         entityManager.getTransaction().rollback();
@@ -280,11 +293,23 @@ public class ManagementScreenController {
     private void fillFansTable(){
         int row = 0;
         fanGridPane.getChildren().remove(0, fanGridPane.getChildren().size());
+        Tooltip nameTooltip = new Tooltip("Imię kibica");
+        nameTooltip.setStyle("-fx-font-size: 15px");
+        Tooltip surnameTooltip = new Tooltip("Nazwisko kibica");
+        surnameTooltip.setStyle("-fx-font-size: 15px");
+        Tooltip passwordTooltip = new Tooltip("Hasło kibica");
+        passwordTooltip.setStyle("-fx-font-size: 15px");
+        Tooltip nicknameTooltip = new Tooltip("Pseudonim kibica");
+        nicknameTooltip.setStyle("-fx-font-size: 15px");
         for (Fan f : fans) {
             TextField name = new TextField(f.getName());
+            name.setTooltip(nameTooltip);
             TextField surname = new TextField(f.getSurname());
+            surname.setTooltip(surnameTooltip);
             TextField password = new TextField(f.getPassword());
+            password.setTooltip(passwordTooltip);
             TextField nickname = new TextField(f.getNickname());
+            nickname.setTooltip(nicknameTooltip);
             ComboBox<Integer> age = TableControls.comboBoxAge(f.getAge());
             Button edit = TableControls.greenButton("Zapisz");
             edit.setOnMouseClicked(event -> {
@@ -299,6 +324,7 @@ public class ManagementScreenController {
                     f.setPassword(password.getText());
                     f.setNickname(nickname.getText());
                     entityManager.getTransaction().commit();
+                    Alerts.success().showAndWait();
                 }
                 catch (Exception e){
                     entityManager.getTransaction().rollback();
@@ -315,6 +341,7 @@ public class ManagementScreenController {
                     entityManager.remove(f);
                     entityManager.getTransaction().commit();
                     fillFansTable();
+                    Alerts.success().showAndWait();
                 }catch(Exception e){
                     entityManager.getTransaction().rollback();
                     e.printStackTrace();
@@ -336,10 +363,16 @@ public class ManagementScreenController {
         positions.add("OB");
         positions.add("PO");
         positions.add("NA");
+        Tooltip nameTooltip = new Tooltip("Imię piłkarza");
+        nameTooltip.setStyle("-fx-font-size: 15px");
+        Tooltip surnameTooltip = new Tooltip("Nazwisko piłkarza");
+        surnameTooltip.setStyle("-fx-font-size: 15px");
 
         for (Footballer f : footballers) {
             TextField name = new TextField(f.getName());
+            name.setTooltip(nameTooltip);
             TextField surname = new TextField(f.getSurname());
+            surname.setTooltip(surnameTooltip);
             ComboBox<String> position = new ComboBox<>();
             position.getItems().addAll(positions);
             position.setValue(f.getPosition());
@@ -375,6 +408,7 @@ public class ManagementScreenController {
                         f.setNumber(number.getValue());
                     f.setTeam(team.getValue());
                     entityManager.getTransaction().commit();
+                    Alerts.success().showAndWait();
                 }catch(Exception e){
                     entityManager.getTransaction().rollback();
                     e.printStackTrace();
@@ -391,10 +425,11 @@ public class ManagementScreenController {
                     Set<Fan> fanSet = f.getFans();
                     entityManager.remove(f);
                     for (Fan fan : fanSet) {
-                        entityManager.refresh(fan);
+                        entityManager.refresh(entityManager.find(Fan.class, fan.getFanID()));
                     }
                     entityManager.getTransaction().commit();
                     fillFootballersTable();
+                    Alerts.success().showAndWait();
                 }
                 catch(Exception e){
                     entityManager.getTransaction().rollback();
@@ -435,6 +470,7 @@ public class ManagementScreenController {
                     entityManager.getTransaction().commit();
                     entityManager.refresh(m.getMatchID().getHome());
                     entityManager.refresh(m.getMatchID().getAway());
+                    Alerts.success().showAndWait();
                 }
                 catch (Exception e){
                     entityManager.getTransaction().rollback();
@@ -456,6 +492,7 @@ public class ManagementScreenController {
                     entityManager.refresh(home);
                     entityManager.refresh(away);
                     fillMatchesTable();
+                    Alerts.success().showAndWait();
                 }
                 catch(Exception e){
                     entityManager.getTransaction().rollback();
@@ -497,6 +534,7 @@ public class ManagementScreenController {
                     } else
                         t.setCreationDate(null);
                     entityManager.getTransaction().commit();
+                    Alerts.success().showAndWait();
                 }
                 catch(Exception e){
                     entityManager.getTransaction().rollback();
@@ -523,11 +561,15 @@ public class ManagementScreenController {
                     entityManager.remove(t);
                     teams.remove(t);
                     entityManager.getTransaction().commit();
+                    for(Fan f: t.getTeamFans())
+                        entityManager.refresh(f);
                     fillTeamsTable();
                     matches = entityManager.createQuery("select M from  Match M", Match.class).getResultList();
+                    Alerts.success().showAndWait();
                 }
                 catch(Exception e){
-                    entityManager.getTransaction().rollback();
+                    if(entityManager.getTransaction().isActive())
+                        entityManager.getTransaction().rollback();
                     e.printStackTrace();
                     Alert transactionFail = Alerts.transactionFail();
                     transactionFail.showAndWait();
@@ -537,7 +579,6 @@ public class ManagementScreenController {
             teamGridPane.addRow(row, teamName, creationDate, coachComboBox, edit, delete);
             row++;
         }
-
     }
 
     private void setFreeCoaches(){

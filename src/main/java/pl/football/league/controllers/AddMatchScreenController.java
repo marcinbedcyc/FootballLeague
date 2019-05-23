@@ -12,6 +12,7 @@ import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.Alerts;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -75,16 +76,28 @@ public class AddMatchScreenController {
         match.setResultHome(resultHomeTeamComboBox.getValue());
         match.setMatchDate(Date.valueOf(dateMatch.getValue()));
 
+        try {
+            entityManager.createQuery("select M from Match  M where M.matchID.home = :home AND M.matchID.away = :away")
+                    .setParameter("home", homeTeamComboBox.getValue())
+                    .setParameter("away", awayTeamComboBox.getValue())
+                    .getSingleResult();
+            match = null;
+            Alerts.matchInBase().showAndWait();
+            return;
+        }
+        catch (NoResultException e){}
+
         try{
             entityManager.getTransaction().begin();
             entityManager.persist(match);
             entityManager.getTransaction().commit();
-            entityManager.refresh(match.getMatchID().getHome());
-            entityManager.refresh(match.getMatchID().getAway());
+            entityManager.refresh(entityManager.find(Team.class, match.getMatchID().getHome().getTeamID()));
+            entityManager.refresh(entityManager.find(Team.class, match.getMatchID().getAway().getTeamID()));
             back();
         }catch (Exception e ){
             entityManager.getTransaction().rollback();
             e.printStackTrace();
+            match = null;
             Alert transactionFail = Alerts.transactionFail();
             transactionFail.showAndWait();
         }

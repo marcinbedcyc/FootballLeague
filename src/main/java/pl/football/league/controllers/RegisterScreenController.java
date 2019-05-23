@@ -85,6 +85,7 @@ public class RegisterScreenController {
 
         if(!password.equals(repeatPassword)) {
             Alert diffrentPasswordsAlert = Alerts.diffrentPasswords();
+            diffrentPasswordsAlert.showAndWait();
             return;
         }
         newUser.setName(name);
@@ -105,7 +106,7 @@ public class RegisterScreenController {
         catch(Exception e){
             entityManager.getTransaction().rollback();
             e.printStackTrace();
-            Alert transactionFail = Alerts.transactionFail();
+            Alert transactionFail = Alerts.wrongLoginAlert();
             transactionFail.showAndWait();
         }
     }

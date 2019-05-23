@@ -23,6 +23,7 @@ public class AddTeamScreenController {
     private List<Coach> coaches;
     private List<Team> teams;
     private Team team;
+    private Coach coach;
 
     @FXML
     private TextField nameTextField;
@@ -58,6 +59,9 @@ public class AddTeamScreenController {
             secondStage.setTitle("Dodawanie Trenera");
             secondStage.showAndWait();
             coaches = entityManager.createQuery("select C from Coach  C", Coach.class).getResultList();
+            if(addCoachScreenController.getCoach() != null) {
+                coach = addCoachScreenController.getCoach();
+            }
             setCoachComboBox();
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,5 +156,9 @@ public class AddTeamScreenController {
 
     public Team getTeam() {
         return team;
+    }
+
+    public Coach getCoach() {
+        return coach;
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -14,7 +15,6 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
-
 
 <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="772.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -57,7 +57,7 @@
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Stare Hasło" GridPane.rowIndex="3" />
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nowe Hasło" GridPane.rowIndex="4" />
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Powtórz Nowe Hasło" GridPane.rowIndex="5" />
-                  <TextField fx:id="nameTextField" onMouseClicked="#edit" GridPane.columnIndex="1" />
+                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
                   <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="nicknameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <PasswordField fx:id="oldPasswordTextFIeld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -117,6 +117,9 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
    <padding>
