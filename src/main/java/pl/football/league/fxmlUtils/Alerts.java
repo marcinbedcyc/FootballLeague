@@ -4,115 +4,78 @@ import javafx.scene.control.Alert;
 
 public class Alerts {
     public static Alert wrongLoginAlert(){
-        Alert  userAlreadyExistAlert = new Alert(Alert.AlertType.ERROR);
-        userAlreadyExistAlert.setTitle("Zajety login");
-        userAlreadyExistAlert.setHeaderText("Uyztkownik o podanym loginie juz istnieje!");
-        userAlreadyExistAlert.setContentText("Prosze wybrac inny login.");
-        return  userAlreadyExistAlert;
+        return  alert("Zajety login", "Uyztkownik o podanym loginie juz istnieje!", "Prosze wybrac inny login.");
     }
 
     public static Alert diffrentPasswords(){
-        Alert diffrentPasswordsAlert = new Alert(Alert.AlertType.ERROR);
-        diffrentPasswordsAlert.setTitle("Rozne hasla");
-        diffrentPasswordsAlert.setHeaderText("Podano 2 rozne hasla!");
-        diffrentPasswordsAlert.setContentText("Prosze podac poprawne dane.");
-        return  diffrentPasswordsAlert;
+        return  alert("Rozne hasla", "Podano 2 rozne hasla!", "Prosze podac poprawne dane.");
     }
 
     public static Alert wrongPassword(){
-        Alert wrongPassword = new Alert(Alert.AlertType.ERROR);
-        wrongPassword.setTitle("Zle haslo");
-        wrongPassword.setHeaderText("Podane haslo jest nieprawidlowe");
-        wrongPassword.setContentText("Prosze podac poprawne haslo.");
-
-        return  wrongPassword;
+        return  alert("Zle haslo","Podane haslo jest nieprawidlowe",  "Prosze podac poprawne haslo.");
     }
 
     public static  Alert emptyPasswordField(){
-        Alert emptyPasswdFiled = new Alert(Alert.AlertType.ERROR);
-        emptyPasswdFiled.setTitle("Puste pole z haslem");
-        emptyPasswdFiled.setHeaderText("Nie podano nowego hasla");
-        emptyPasswdFiled.setContentText("Prosze podac nowe haslo.");
-        return emptyPasswdFiled;
+        return alert("Puste pole z haslem", "Nie podano nowego hasla", "Prosze podac nowe haslo.");
     }
 
     public static Alert emptyField(){
-        Alert emptyField = new Alert(Alert.AlertType.WARNING);
-        emptyField.setTitle("Puste pole");
-        emptyField.setHeaderText("Jedno z obowiazkowych pol jest puste!");
-        emptyField.setContentText("Prosze je uzupelnic.");
-        return emptyField;
+        return alert("Puste pole", "Jedno z obowiazkowych pol jest puste!", "Prosze je uzupelnic.");
     }
 
     public static Alert noCoach(){
-        Alert noCoach = new Alert(Alert.AlertType.WARNING);
-        noCoach.setTitle("Brak Trenera");
-        noCoach.setHeaderText("Nie wybrano trenera drużyny");
-        noCoach.setContentText("Prosze wybrać trenera z listy");
-        return noCoach;
+        return alert("Brak Trenera", "Nie wybrano trenera drużyny", "Prosze wybrać trenera z listy");
     }
 
     public static Alert busyCoach(){
-        Alert busyCoach = new Alert(Alert.AlertType.ERROR);
-        busyCoach.setTitle("Nie można usunąć");
-        busyCoach.setHeaderText("Nie można usunąć, trener ma przypisaną drużynę.");
-        busyCoach.setContentText("Usun druzyne lub zmien trenera drużynie aby usunąć tego trenera.");
-        return busyCoach;
+        return alert("Nie można usunąć", "Nie można usunąć, trener ma przypisaną drużynę.", "Usun druzyne lub zmien trenera drużynie aby usunąć tego trenera.");
     }
 
     public static Alert sameTeams(){
-        Alert sameTeams = new Alert(Alert.AlertType.WARNING);
-        sameTeams.setTitle("Takie same drużyny");
-        sameTeams.setHeaderText("Wybrano taką samą drużynę jako gospodarza i gościa meczu!");
-        sameTeams.setContentText("Prosze zmienić jedną z drużyn.");
-        return sameTeams;
+        return alert("Takie same drużyny", "Wybrano taką samą drużynę jako gospodarza i gościa meczu!", "Prosze zmienić jedną z drużyn.");
     }
 
     public static Alert noHomeTeam(){
-        Alert noHomeTeam = new Alert(Alert.AlertType.WARNING);
-        noHomeTeam.setTitle("Brak gospodarza");
-        noHomeTeam.setHeaderText("Nie wybrano gospodarza meczu.");
-        noHomeTeam.setContentText("Proszę wybrać gopodarza meczu!");
-        return  noHomeTeam;
+        return  alert("Brak gospodarza", "Nie wybrano gospodarza meczu.", "Proszę wybrać gopodarza meczu!");
     }
 
     public static Alert noAwayTeam(){
-        Alert noAwayTeam = new Alert(Alert.AlertType.WARNING);
-        noAwayTeam.setTitle("Brak gościa");
-        noAwayTeam.setHeaderText("Nie wybrano gościa meczu.");
-        noAwayTeam.setContentText("Proszę wybrać gościa meczu!");
-        return  noAwayTeam;
+        return  alert("Brak gościa", "Nie wybrano gościa meczu.", "Proszę wybrać gościa meczu!");
     }
 
     public static Alert noPosition(){
-        Alert noPostion = new Alert(Alert.AlertType.WARNING);
-        noPostion.setTitle("Brak pozycji");
-        noPostion.setHeaderText("Nie określono pozycji dla zawodnika!");
-        noPostion.setContentText("Prosze wybrać.");
-        return noPostion;
+        return alert("Brak pozycji", "Nie określono pozycji dla zawodnika!", "Prosze wybrać.");
     }
 
     public static Alert transactionFail(){
-        Alert transactionFail = new Alert(Alert.AlertType.ERROR);
-        transactionFail.setTitle("Blad");
-        transactionFail.setHeaderText("Blad przy dodowania pilkarza");
-        transactionFail.setContentText("Prosze sprobowac jeszcze raz.");
-        return transactionFail;
+        return alert("Blad", "Blad przy modyfikowaniu bazy", "Prosze sprobowac jeszcze raz.");
     }
 
     public static Alert wrongNumber(){
-        Alert wrongNumberAlert = new Alert(Alert.AlertType.ERROR);
-        wrongNumberAlert.setTitle("Zla liczba");
-        wrongNumberAlert.setHeaderText("Podano lanuch znakow zamiast liczby!");
-        wrongNumberAlert.setContentText("Prosze podac poprawne dane.");
-        return wrongNumberAlert;
+        return alert("Zla liczba", "Podano lanuch znakow zamiast liczby!", "Prosze podac poprawne dane.");
     }
 
     public static Alert loginFail(){
-        Alert loginFailedAlert = new Alert(Alert.AlertType.INFORMATION);
-        loginFailedAlert.setTitle("Blad logowania");
-        loginFailedAlert.setHeaderText("Podane dane logowania sa niepoprawne!");
-        loginFailedAlert.setContentText("Sprobuj ponowanie. ");
-        return loginFailedAlert;
+        return alert("Blad logowania", "Podane dane logowania sa niepoprawne!", "Sprobuj ponowanie. ");
+    }
+
+    public static Alert success(){
+        Alert succesAlert = alert("Powodzenie", "Operacja zakończona powodzeniem!", "Naciśnij OK");
+        succesAlert.setAlertType(Alert.AlertType.INFORMATION);
+        return succesAlert;
+    }
+
+    public static Alert matchInBase(){
+        return alert("Mecz w bazie", "Taki meczy istnieje już w bazie.", "Proszę wybrać inne drużyny");
+
+    }
+
+    private static Alert alert(String title, String header, String context){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(context);
+        alert.getDialogPane().getStylesheets().add(Alerts.class.getResource("/css/myDialogs.css").toExternalForm());
+        return alert;
     }
 }
