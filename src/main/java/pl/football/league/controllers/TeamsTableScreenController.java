@@ -137,9 +137,15 @@ public class TeamsTableScreenController {
             fillTable();
         });
 
-        /*dateLabel.setOnMouseClicked(event -> {
-            teams.sort(Comparator.comparing(Team::getCreationDate));
+        dateLabel.setOnMouseClicked(event -> {
+            teams.sort((Team t1, Team t2) ->{
+                if(t1.getCreationDate() == null)
+                    return (t2.getCreationDate() == null ) ? 0 : -1;
+                if(t2.getCreationDate() == null)
+                    return 1;
+                return t1.getCreationDate().compareTo(t2.getCreationDate());
+            });
             fillTable();
-        });*/
+        });
     }
 }

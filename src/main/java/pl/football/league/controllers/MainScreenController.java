@@ -2,6 +2,7 @@ package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ public class MainScreenController {
     void initialize() {
         Pane pane;
         LoginScreenController loginScreenController;
+        stage.getIcons().add(new Image(MainScreenController.class.getResourceAsStream("/images/soccer.png")));
 
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/loginScreen.fxml"));

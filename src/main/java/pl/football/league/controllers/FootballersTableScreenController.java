@@ -1,21 +1,13 @@
 package pl.football.league.controllers;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Separator;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pl.football.league.entities.Fan;
 import pl.football.league.entities.Footballer;
-import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.TableControls;
 
 import javax.persistence.EntityManager;
@@ -129,7 +121,7 @@ public class FootballersTableScreenController {
     }
 
     private void setSorts() {
-        footballers = entityManager.createQuery("select F from Footballer F").getResultList();
+        footballers = entityManager.createQuery("select F from Footballer F", Footballer.class).getResultList();
         footballers.sort(Comparator.comparing(Footballer::getSurname));
 
         surnameLabel.setOnMouseClicked(event -> {

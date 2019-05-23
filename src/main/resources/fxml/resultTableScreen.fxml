@@ -65,7 +65,7 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </GridPane>
-      <ScrollPane fitToWidth="true" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+      <ScrollPane fitToWidth="true" maxHeight="700.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" vbarPolicy="ALWAYS">
          <content>
             <GridPane fx:id="gridPane">
               <columnConstraints>

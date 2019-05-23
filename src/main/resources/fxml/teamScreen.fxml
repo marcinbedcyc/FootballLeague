@@ -50,7 +50,7 @@
               </rowConstraints>
                <children>
                   <Label alignment="CENTER_RIGHT" prefWidth="90.0" text="Trener" />
-                  <Label fx:id="coachLabel" maxWidth="1.7976931348623157E308" style="-fx-font-size: 15;" stylesheets="@../css/label.css" text="sajfahsjfhaskjfh" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                  <Label fx:id="coachLabel" maxWidth="1.7976931348623157E308" style="-fx-font-size: 20;" stylesheets="@../css/label.css" text="sajfahsjfhaskjfh" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

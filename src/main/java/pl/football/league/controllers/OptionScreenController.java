@@ -53,38 +53,37 @@ public class OptionScreenController {
     }
 
     @FXML
-    void edit(){
+    void edit() {
         boolean succes = true;
         entityManager.getTransaction().begin();
         currentUser.setName(nameTextField.getText());
         currentUser.setSurname(surnameTextField.getText());
+
         try {
-            int age = Integer.parseInt(agetextField.getText());
+            int age = Integer.parseUnsignedInt(agetextField.getText());
             currentUser.setAge(age);
-        }
-        catch(NumberFormatException e){
-            System.out.println("Zla liczba");
+        } catch (NumberFormatException e) {
+            Alerts.wrongNumber().showAndWait();
             succes = false;
         }
-        if(currentUser.getPassword().equals(oldPasswordTextFIeld.getText())) {
+
+        if (currentUser.getPassword().equals(oldPasswordTextFIeld.getText())) {
             if (newPasswordTextField.getText().isEmpty() || newPasswordRepeatTextField.getText().isEmpty()) {
-                    Alerts.emptyPasswordField().showAndWait();
+                Alerts.emptyPasswordField().showAndWait();
+                succes = false;
+            } else {
+                if (newPasswordTextField.getText().equals(newPasswordRepeatTextField.getText())) {
+                    currentUser.setPassword(newPasswordTextField.getText());
+                } else {
+                    Alerts.diffrentPasswords().showAndWait();
                     succes = false;
                 }
-                else {
-                    if (newPasswordTextField.getText().equals(newPasswordRepeatTextField.getText())) {
-                        currentUser.setPassword(newPasswordTextField.getText());
-                    }
-                    else {
-                        Alerts.diffrentPasswords().showAndWait();
-                        succes = false;
-                    }
-                }
             }
-        else {
-            if(!oldPasswordTextFIeld.getText().isEmpty())
+        } else {
+            if (!oldPasswordTextFIeld.getText().isEmpty()) {
                 Alerts.wrongPassword().showAndWait();
-            succes = false;
+                succes = false;
+            }
         }
 
         entityManager.getTransaction().commit();
@@ -93,19 +92,15 @@ public class OptionScreenController {
         try {
             currentUser.setNickname(nicknameTextField.getText());
             entityManager.getTransaction().commit();
-        }
-        catch(javax.persistence.RollbackException e){
+        } catch (javax.persistence.RollbackException e) {
             Alert userAlreadyExistAlert = Alerts.wrongLoginAlert();
             userAlreadyExistAlert.showAndWait();
             entityManager.getTransaction().rollback();
             succes = false;
         }
 
-        if(succes) {
-            Alert ok = new Alert(Alert.AlertType.INFORMATION);
-            ok.setTitle("Dane zmienione");
-            ok.setHeaderText("Zmieniono dane użytkownika z powodzeniem!");
-            ok.showAndWait();
+        if (succes) {
+            Alerts.success().showAndWait();
         }
     }
 
@@ -121,32 +116,31 @@ public class OptionScreenController {
         this.mainScreenController = mainScreenController;
     }
 
-    public void setDependencies(EntityManager entityManager, Fan currentUser, MainScreenController mainScreenController){
+    public void setDependencies(EntityManager entityManager, Fan currentUser, MainScreenController mainScreenController) {
         setEntityManager(entityManager);
         setCurrentUser(currentUser);
         setMainScreenController(mainScreenController);
     }
 
-    private void setInfo(){
+    private void setInfo() {
         nameTextField.setText(currentUser.getName());
         surnameTextField.setText(currentUser.getSurname());
         nicknameTextField.setText(currentUser.getNickname());
         String result;
-        if(currentUser.getAge() != null ){
+        if (currentUser.getAge() != null) {
             result = String.valueOf(currentUser.getAge());
-        }
-        else{
+        } else {
             result = "-";
         }
         agetextField.setText(result);
     }
 
-    private void fillTables(){
-        int i =0;
+    private void fillTables() {
+        int i = 0;
         footballersGridPane.getChildren().remove(0, footballersGridPane.getChildren().size());
         teamsGridPane.getChildren().remove(0, teamsGridPane.getChildren().size());
 
-        if(currentUser.getSupportedFootballers() != null) {
+        if (currentUser.getSupportedFootballers() != null) {
             for (Footballer f : currentUser.getSupportedFootballers()) {
                 Label footballerLabel = TableControls.LabelVGrow(100, f.getSurname());
                 Label x = TableControls.LabelX(30);
@@ -159,18 +153,18 @@ public class OptionScreenController {
                     loader.setController(footballerScreenController);
                     tryLoader(loader);
                 });
-                x.setOnMouseClicked(event ->{
-                        entityManager.getTransaction().begin();
-                        f.getFans().remove(currentUser);
-                        currentUser.getSupportedFootballers().remove(f);
-                        entityManager.getTransaction().commit();
-                        fillTables();
-                    });
+                x.setOnMouseClicked(event -> {
+                    entityManager.getTransaction().begin();
+                    f.getFans().remove(currentUser);
+                    currentUser.getSupportedFootballers().remove(f);
+                    entityManager.getTransaction().commit();
+                    fillTables();
+                });
                 footballersGridPane.addRow(i, footballerLabel, x);
                 i++;
             }
         }
-        if(currentUser.getSupportedFootballers() != null) {
+        if (currentUser.getSupportedFootballers() != null) {
             i = 0;
             for (Team t : currentUser.getSupportedTeams()) {
                 Label teamLabel = TableControls.LabelVGrow(200, t.getName());
@@ -179,7 +173,7 @@ public class OptionScreenController {
                     FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
 
                     TeamScreenController teamScreenController = new TeamScreenController();
-                    teamScreenController.setDependencies(t,entityManager, mainScreenController, currentUser);
+                    teamScreenController.setDependencies(t, entityManager, mainScreenController, currentUser);
 
                     loader.setController(teamScreenController);
                     tryLoader(loader);
@@ -197,12 +191,11 @@ public class OptionScreenController {
         }
     }
 
-    private void tryLoader(FXMLLoader loader){
+    private void tryLoader(FXMLLoader loader) {
         try {
             Parent root = loader.load();
             mainScreenController.getBorderPane().setCenter(root);
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

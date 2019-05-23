@@ -74,7 +74,10 @@ public class LoginScreenController {
 
         } catch (NoResultException e) {
             Alert loginFailedAlert = Alerts.loginFail();
+            loginFailedAlert.showAndWait();
         }catch (IOException e){
+            Alert loginFailedAlert = Alerts.loginFail();
+            loginFailedAlert.showAndWait();
             e.printStackTrace();
         }
     }
