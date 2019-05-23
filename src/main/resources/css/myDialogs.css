@@ -1,0 +1,25 @@
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: forestgreen;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button{
+    -fx-background-color: crimson;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 15;
+}
