@@ -309,6 +309,8 @@ public class ManagementScreenController {
             TextField password = new TextField(f.getPassword());
             password.setTooltip(passwordTooltip);
             TextField nickname = new TextField(f.getNickname());
+            if(f.getNickname().equals("admin"))
+                nickname.setDisable(true);
             nickname.setTooltip(nicknameTooltip);
             ComboBox<Integer> age = TableControls.comboBoxAge(f.getAge());
             Button edit = TableControls.greenButton("Zapisz");
