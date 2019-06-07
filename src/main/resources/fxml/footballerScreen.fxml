@@ -49,19 +49,19 @@
                </rowConstraints>
                <children>
                   <Label alignment="CENTER_RIGHT" prefWidth="90.0" text="Imię" />
-                  <Label fx:id="name" maxWidth="1.7976931348623157E308" text="Paul" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                  <Label fx:id="nameLabel" maxWidth="1.7976931348623157E308" text="Paul" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="1" />
-                  <Label fx:id="surname" maxWidth="1.7976931348623157E308" text="Pogba" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                  <Label fx:id="surnameLabel" maxWidth="1.7976931348623157E308" text="Pogba" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Klub" GridPane.rowIndex="2" />
-                  <Label fx:id="team" maxWidth="1.7976931348623157E308" stylesheets="@../css/label.css" text="Manchester" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                  <Label fx:id="teamLabel" maxWidth="1.7976931348623157E308" stylesheets="@../css/label.css" text="Manchester" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -70,13 +70,13 @@
                      </cursor>
                   </Label>
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Pozycja" GridPane.rowIndex="3" />
-                  <Label fx:id="position" maxWidth="1.7976931348623157E308" text="PO" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
+                  <Label fx:id="positionLabel" maxWidth="1.7976931348623157E308" text="PO" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Numer" GridPane.rowIndex="4" />
-                  <Label fx:id="shirtNumber" maxWidth="1.7976931348623157E308" text="6" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label fx:id="shirtNumberLabel" maxWidth="1.7976931348623157E308" text="6" textFill="FORESTGREEN" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
