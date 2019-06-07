@@ -101,6 +101,8 @@ public class RegisterScreenController extends ItemAddService {
     @FXML
     void back() {
         if(separatelyWindow){
+            if(isCanceled)
+                buffer.put();
             Stage stage = (Stage)cancelButton.getScene().getWindow();
             stage.close();
         }

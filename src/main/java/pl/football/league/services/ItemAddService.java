@@ -12,14 +12,17 @@ public class ItemAddService extends ItemShowService {
     protected Buffer buffer;
     protected Stage stage;
     protected AddItemTask addItemTask;
+    protected boolean isCanceled;
 
     public void setDependencies(Fan currentUser, EntityManager entityManager, MainScreenController mainScreenController, Object currentData, Stage stage,  Buffer buffer){
         super.setDependencies(currentUser, entityManager, mainScreenController, currentData);
         setBuffer(buffer);
         setStage(stage);
+        isCanceled = true;
     }
 
     public void addItem(Object item){
+        isCanceled = false;
         addItemTask = new AddItemTask(entityManager, item, buffer);
         new Thread(addItemTask).start();
     }

@@ -81,6 +81,8 @@ public class AddFootballerScreenController extends ItemAddService {
 
     @FXML
     void back() {
+        if(isCanceled)
+            buffer.put();
         stage.close();
     }
 

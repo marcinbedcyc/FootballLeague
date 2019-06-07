@@ -14,7 +14,7 @@ public class Buffer {
         return isBufferFree;
     }
 
-    synchronized void put(){
+    public synchronized void put(){
         if(!isBufferFree){
             try {
                 wait();

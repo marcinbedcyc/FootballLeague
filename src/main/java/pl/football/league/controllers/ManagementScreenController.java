@@ -106,12 +106,12 @@ public class ManagementScreenController extends MainService {
         AddCoachScreenController addCoachScreenController = new AddCoachScreenController();
         ReceiverItemTask receiverAddingCoach = new ReceiverItemTask(bufferAddCoach);
 
+        Thread thread = new Thread(receiverAddingCoach);
+        thread.start();
+
         addCoachStage.setTitle("Dodawanie Trenera");
         addCoachScreenController.setDependencies(currentUser, entityManager,mainScreenController, null, addCoachStage, bufferAddCoach);
         loadNewStage("/fxml/addWindows/addCoachScreen.fxml", addCoachScreenController, addCoachStage);
-
-        Thread thread = new Thread(receiverAddingCoach);
-        thread.start();
 
         receiverAddingCoach.setOnSucceeded(event ->{
             if(addCoachScreenController.getCurrentData() != null)
@@ -127,13 +127,13 @@ public class ManagementScreenController extends MainService {
         ReceiverItemTask receiverAddingFan = new ReceiverItemTask(bufferAddFan);
         RegisterScreenController registerScreenController = new RegisterScreenController();
 
+        Thread thread = new Thread(receiverAddingFan);
+        thread.start();
+
         addFanStage.setTitle("Dodawanie Kibica");
         registerScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addFanStage, bufferAddFan);
         registerScreenController.setSeparatelyWindow();
         loadNewStage("/fxml/registerScreen.fxml", registerScreenController, addFanStage);
-
-        Thread thread = new Thread(receiverAddingFan);
-        thread.start();
 
         receiverAddingFan.setOnSucceeded(event -> {
             if (registerScreenController.getCurrentData() != null)
@@ -149,12 +149,12 @@ public class ManagementScreenController extends MainService {
         ReceiverItemTask receiverAddingFootballer = new ReceiverItemTask(bufferAddFootbalelr);
         AddFootballerScreenController addFootballerScreenController = new AddFootballerScreenController();
 
+        Thread thread = new Thread(receiverAddingFootballer);
+        thread.start();
+
         addFootballerStage.setTitle("Dodawanie Piłkarza");
         addFootballerScreenController.setDependencies(currentUser, entityManager,mainScreenController, null, addFootballerStage, bufferAddFootbalelr );
         loadNewStage("/fxml/addWindows/addFootballerScreen.fxml", addFootballerScreenController, addFootballerStage);
-
-        Thread thread = new Thread(receiverAddingFootballer);
-        thread.start();
 
         receiverAddingFootballer.setOnSucceeded(event -> {
             if(addFootballerScreenController.getCurrentData() != null)
@@ -170,12 +170,12 @@ public class ManagementScreenController extends MainService {
         AddMatchScreenController addMatchScreenController = new AddMatchScreenController();
         ReceiverItemTask receiverAddingMatch = new ReceiverItemTask(bufferAddMatch);
 
+        Thread thread = new Thread(receiverAddingMatch);
+        thread.start();
+
         addMatchStage.setTitle("Dodawanie Meczu");
         addMatchScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addMatchStage, bufferAddMatch);
         loadNewStage("/fxml/addWindows/addMatchScreen.fxml", addMatchScreenController, addMatchStage);
-
-        Thread thread = new Thread(receiverAddingMatch);
-        thread.start();
 
         receiverAddingMatch.setOnSucceeded(event -> {
             if (addMatchScreenController.getCurrentData() != null) {
@@ -194,12 +194,12 @@ public class ManagementScreenController extends MainService {
         AddTeamScreenController addTeamScreenController = new AddTeamScreenController();
         ReceiverItemTask receiverItemAddingTeam = new ReceiverItemTask(bufferAddTeam);
 
+        Thread thread = new Thread(receiverItemAddingTeam);
+        thread.start();
+
         addTeamStage.setTitle("Dodawanie Drużyny");
         addTeamScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addTeamStage, bufferAddTeam);
         loadNewStage("/fxml/addWindows/addTeamScreen.fxml", addTeamScreenController, addTeamStage);
-
-        Thread thread = new Thread(receiverItemAddingTeam);
-        thread.start();
 
         receiverItemAddingTeam.setOnSucceeded(event -> {
             if(addTeamScreenController.getCurrentData() != null) {
