@@ -1,17 +1,13 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import pl.football.league.services.MainService;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
 
-public class MainScreenController {
-    private EntityManager entityManager;
+public class MainScreenController extends MainService {
     private Stage stage;
 
     @FXML
@@ -19,33 +15,15 @@ public class MainScreenController {
 
     @FXML
     void initialize() {
-        Pane pane;
-        LoginScreenController loginScreenController;
+        stage.setHeight(600);
+        stage.setWidth(1000);
         stage.getIcons().add(new Image(MainScreenController.class.getResourceAsStream("/images/soccer.png")));
+        stage.setOnCloseRequest(event -> closeService());
 
-        try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/loginScreen.fxml"));
-
-            loginScreenController = new LoginScreenController();
-            loginScreenController.setEntityManager(entityManager);
-            loginScreenController.setMainController(this);
-
-            stage.setHeight(600);
-            stage.setWidth(1000);
-            loader.setController(loginScreenController);
-            pane = loader.load();
-            borderPane.setCenter(pane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+        LoginScreenController loginScreenController = new LoginScreenController();
+        loginScreenController.setDependencies(null, entityManager, this);
+        mainScreenController = this;
+        loadCenterScene("/fxml/loginScreen.fxml", loginScreenController);
     }
 
     public Stage getStage() {

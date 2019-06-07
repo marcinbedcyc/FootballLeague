@@ -1,27 +1,25 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import pl.football.league.entities.*;
 import pl.football.league.fxmlUtils.Alerts;
 import pl.football.league.fxmlUtils.TableControls;
+import pl.football.league.services.MainService;
+import pl.football.league.threads.Buffer;
+import pl.football.league.threads.ReceiverItemTask;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class ManagementScreenController {
-    private EntityManager entityManager;
+public class ManagementScreenController extends MainService {
     private List<Coach> coaches;
     private List<Coach> freeCoaches;
     private List<Fan> fans;
@@ -103,124 +101,116 @@ public class ManagementScreenController {
 
     @FXML
     void addCoach(){
-        Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addWindows/addCoachScreen.fxml"));
+        Buffer bufferAddCoach = new Buffer();
+        Stage addCoachStage = new Stage();
         AddCoachScreenController addCoachScreenController = new AddCoachScreenController();
-        addCoachScreenController.setDependecies(entityManager, secondStage);
-        loader.setController(addCoachScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinWidth(320);
-            secondStage.setMinHeight(600);
-            secondStage.setTitle("Dodawanie Trenera");
-            secondStage.showAndWait();
-            if(addCoachScreenController.getCoach() != null)
-                coaches.add(addCoachScreenController.getCoach());
+        ReceiverItemTask receiverAddingCoach = new ReceiverItemTask(bufferAddCoach);
+
+        addCoachStage.setTitle("Dodawanie Trenera");
+        addCoachScreenController.setDependencies(currentUser, entityManager,mainScreenController, null, addCoachStage, bufferAddCoach);
+        loadNewStage("/fxml/addWindows/addCoachScreen.fxml", addCoachScreenController, addCoachStage);
+
+        Thread thread = new Thread(receiverAddingCoach);
+        thread.start();
+
+        receiverAddingCoach.setOnSucceeded(event ->{
+            if(addCoachScreenController.getCurrentData() != null)
+                coaches.add((Coach)addCoachScreenController.getCurrentData());
             fillCoachesTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @FXML
     void addFan() {
-        Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registerScreen.fxml"));
+        Buffer bufferAddFan = new Buffer();
+        Stage addFanStage = new Stage();
+        ReceiverItemTask receiverAddingFan = new ReceiverItemTask(bufferAddFan);
         RegisterScreenController registerScreenController = new RegisterScreenController();
-        registerScreenController.setEntityManager(entityManager);
+
+        addFanStage.setTitle("Dodawanie Kibica");
+        registerScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addFanStage, bufferAddFan);
         registerScreenController.setSeparatelyWindow();
-        loader.setController(registerScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinWidth(320);
-            secondStage.setMinHeight(600);
-            secondStage.setTitle("Dodawanie Kibica");
-            secondStage.showAndWait();
-            if(registerScreenController.getNewUser() != null)
-                fans.add(registerScreenController.getNewUser());
+        loadNewStage("/fxml/registerScreen.fxml", registerScreenController, addFanStage);
+
+        Thread thread = new Thread(receiverAddingFan);
+        thread.start();
+
+        receiverAddingFan.setOnSucceeded(event -> {
+            if (registerScreenController.getCurrentData() != null)
+                fans.add((Fan) registerScreenController.getCurrentData());
             fillFansTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @FXML
     void addFootballer(){
-        Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addWindows/addFootballerScreen.fxml"));
+        Buffer bufferAddFootbalelr = new Buffer();
+        Stage addFootballerStage = new Stage();
+        ReceiverItemTask receiverAddingFootballer = new ReceiverItemTask(bufferAddFootbalelr);
         AddFootballerScreenController addFootballerScreenController = new AddFootballerScreenController();
-        addFootballerScreenController.setDependecies(entityManager, secondStage);
-        loader.setController(addFootballerScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinWidth(320);
-            secondStage.setMinHeight(600);
-            secondStage.setTitle("Dodawanie Piłkarza");
-            secondStage.showAndWait();
-            if(addFootballerScreenController.getFootballer() != null)
-                footballers.add(addFootballerScreenController.getFootballer());
+
+        addFootballerStage.setTitle("Dodawanie Piłkarza");
+        addFootballerScreenController.setDependencies(currentUser, entityManager,mainScreenController, null, addFootballerStage, bufferAddFootbalelr );
+        loadNewStage("/fxml/addWindows/addFootballerScreen.fxml", addFootballerScreenController, addFootballerStage);
+
+        Thread thread = new Thread(receiverAddingFootballer);
+        thread.start();
+
+        receiverAddingFootballer.setOnSucceeded(event -> {
+            if(addFootballerScreenController.getCurrentData() != null)
+                footballers.add((Footballer)addFootballerScreenController.getCurrentData());
             fillFootballersTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @FXML
     void addMatch(){
-        Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addWindows/addMatchScreen.fxml"));
+        Buffer bufferAddMatch = new Buffer();
+        Stage addMatchStage = new Stage();
         AddMatchScreenController addMatchScreenController = new AddMatchScreenController();
-        addMatchScreenController.setDependecies(entityManager, secondStage);
-        loader.setController(addMatchScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinWidth(320);
-            secondStage.setMinHeight(600);
-            secondStage.setTitle("Dodawanie Meczu");
-            secondStage.showAndWait();
-            if(addMatchScreenController.getMatch() != null)
-                matches.add(addMatchScreenController.getMatch());
+        ReceiverItemTask receiverAddingMatch = new ReceiverItemTask(bufferAddMatch);
+
+        addMatchStage.setTitle("Dodawanie Meczu");
+        addMatchScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addMatchStage, bufferAddMatch);
+        loadNewStage("/fxml/addWindows/addMatchScreen.fxml", addMatchScreenController, addMatchStage);
+
+        Thread thread = new Thread(receiverAddingMatch);
+        thread.start();
+
+        receiverAddingMatch.setOnSucceeded(event -> {
+            if (addMatchScreenController.getCurrentData() != null) {
+                matches.add((Match) addMatchScreenController.getCurrentData());
+                entityManager.refresh(((Match) addMatchScreenController.getCurrentData()).getMatchID().getHome());
+                entityManager.refresh(((Match) addMatchScreenController.getCurrentData()).getMatchID().getAway());
+            }
             fillMatchesTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @FXML
     void addTeam(){
-        Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addWindows/addTeamScreen.fxml"));
+        Buffer bufferAddTeam = new Buffer();
+        Stage addTeamStage = new Stage();
         AddTeamScreenController addTeamScreenController = new AddTeamScreenController();
-        addTeamScreenController.setDependecies(entityManager, secondStage);
-        loader.setController(addTeamScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinWidth(320);
-            secondStage.setMinHeight(600);
-            secondStage.setTitle("Dodawanie ");
-            secondStage.setTitle("Dodawanie Drużyny");
-            secondStage.showAndWait();
-            if(addTeamScreenController.getTeam() != null) {
-                teams.add(addTeamScreenController.getTeam());
+        ReceiverItemTask receiverItemAddingTeam = new ReceiverItemTask(bufferAddTeam);
+
+        addTeamStage.setTitle("Dodawanie Drużyny");
+        addTeamScreenController.setDependencies(currentUser, entityManager, mainScreenController, null, addTeamStage, bufferAddTeam);
+        loadNewStage("/fxml/addWindows/addTeamScreen.fxml", addTeamScreenController, addTeamStage);
+
+        Thread thread = new Thread(receiverItemAddingTeam);
+        thread.start();
+
+        receiverItemAddingTeam.setOnSucceeded(event -> {
+            if(addTeamScreenController.getCurrentData() != null) {
+                teams.add((Team)addTeamScreenController.getCurrentData());
             }
             if(addTeamScreenController.getCoach() != null ){
                 coaches.add(addTeamScreenController.getCoach());
             }
             fillCoachesTable();
             fillTeamsTable();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public void setEntityManager(EntityManager entityManager) {
@@ -352,6 +342,8 @@ public class ManagementScreenController {
                 }
 
             });
+            if(f.getNickname().equals("admin"))
+                delete.setDisable(true);
             fanGridPane.addRow(row, name, surname, password, nickname, age, edit, delete);
             row++;
         }
@@ -576,6 +568,7 @@ public class ManagementScreenController {
                     Alert transactionFail = Alerts.transactionFail();
                     transactionFail.showAndWait();
                 }
+                for(Team t1:teams) entityManager.refresh(t1);
             });
 
             teamGridPane.addRow(row, teamName, creationDate, coachComboBox, edit, delete);

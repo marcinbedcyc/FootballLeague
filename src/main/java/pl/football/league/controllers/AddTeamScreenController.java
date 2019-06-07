@@ -1,28 +1,22 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import pl.football.league.entities.Coach;
 import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.Alerts;
+import pl.football.league.services.ItemAddService;
+import pl.football.league.threads.Buffer;
+import pl.football.league.threads.ReceiverItemTask;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
+import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 
-public class AddTeamScreenController {
-    private EntityManager entityManager;
-    private Stage stage;
-    private List<Coach> coaches;
-    private List<Team> teams;
-    private Team team;
+public class AddTeamScreenController extends ItemAddService {
     private Coach coach;
 
     @FXML
@@ -45,38 +39,42 @@ public class AddTeamScreenController {
 
     @FXML
     void addCoach() {
+        Buffer bufferAddCoach = new Buffer();
         Stage secondStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addWindows/addCoachScreen.fxml"));
+
+        ReceiverItemTask receiverAddingCoachFinish = new ReceiverItemTask(bufferAddCoach);
+        Thread t2 = new Thread(receiverAddingCoachFinish);
+        t2.start();
+
         AddCoachScreenController addCoachScreenController = new AddCoachScreenController();
-        addCoachScreenController.setDependecies(entityManager, secondStage);
-        loader.setController(addCoachScreenController);
-        Parent root;
-        try {
-            root = loader.load();
-            secondStage.setScene(new Scene(root, 320, 600));
-            secondStage.setMinHeight(600);
-            secondStage.setMinWidth(320);
-            secondStage.setTitle("Dodawanie Trenera");
-            secondStage.showAndWait();
-            coaches = entityManager.createQuery("select C from Coach  C", Coach.class).getResultList();
-            if(addCoachScreenController.getCoach() != null) {
-                coach = addCoachScreenController.getCoach();
+        addCoachScreenController.setDependencies(null, entityManager, null, null, secondStage, bufferAddCoach);
+        secondStage.setTitle("Dodawanie Trenera");
+        loadNewStage("/fxml/addWindows/addCoachScreen.fxml", addCoachScreenController, secondStage);
+
+        receiverAddingCoachFinish.setOnSucceeded(event -> {
+            if(addCoachScreenController.getCurrentData() != null) {
+                coach = (Coach)addCoachScreenController.getCurrentData();
             }
-            setCoachComboBox();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            setCoachComboBox(entityManager.createQuery("select C from Coach  C", Coach.class).getResultList());
+        });
     }
 
     @FXML
     void addTeamAndBack() {
-        team = new Team();
+        currentData = new Team();
         String name;
 
         name = nameTextField.getText();
+        try {
+            entityManager.createQuery("select T from Team T where T.name LIKE :param").setParameter("param", name).getSingleResult();
+            Alerts.sameTeamName().showAndWait();
+            return;
+        }catch (NoResultException e){
+            System.out.println("ok");
+        }
 
         if (!name.equals("")) {
-            team.setName(nameTextField.getText());
+            ((Team)currentData).setName(nameTextField.getText());
         } else {
             Alert emptyField = Alerts.emptyField();
             emptyField.showAndWait();
@@ -88,27 +86,18 @@ public class AddTeamScreenController {
             noCoach.showAndWait();
             return;
         } else {
-            team.setCoach(coachComboBox.getValue());
+            ((Team)currentData).setCoach(coachComboBox.getValue());
         }
 
-        team.setCreationDate(Date.valueOf(creationDate.getValue()));
-        team.setPoints(0);
-        team.setWins(0);
-        team.setDraws(0);
-        team.setLoses(0);
-        team.setTeamFans(new HashSet<>());
+        ((Team)currentData).setCreationDate(Date.valueOf(creationDate.getValue()));
+        ((Team)currentData).setPoints(0);
+        ((Team)currentData).setWins(0);
+        ((Team)currentData).setDraws(0);
+        ((Team)currentData).setLoses(0);
+        ((Team)currentData).setTeamFans(new HashSet<>());
 
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(team);
-            entityManager.getTransaction().commit();
-            back();
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            Alert transactionFail = Alerts.transactionFail();
-            transactionFail.showAndWait();
-        }
+        addItem(currentData);
+        back();
     }
 
     @FXML
@@ -118,27 +107,13 @@ public class AddTeamScreenController {
 
     @FXML
     void initialize() {
-        coaches = entityManager.createQuery("select C from Coach  C", Coach.class).getResultList();
-        teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
-        setCoachComboBox();
+        setCoachComboBox(entityManager.createQuery("select C from Coach  C", Coach.class).getResultList());
         creationDate.setValue(LocalDate.now());
     }
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setDependecies(EntityManager entityManager, Stage stage) {
-        setEntityManager(entityManager);
-        setStage(stage);
-    }
-
-    private void setCoachComboBox(){
+    private void setCoachComboBox(List<Coach> coaches){
         coachComboBox.getItems().clear();
+        List<Team>teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
         boolean busyCoach;
         for (Coach c : coaches) {
             busyCoach = false;
@@ -152,10 +127,6 @@ public class AddTeamScreenController {
         if (coachComboBox.getItems().isEmpty()) {
             coachComboBox.setPromptText("Brak wolnych trenerów");
         }
-    }
-
-    public Team getTeam() {
-        return team;
     }
 
     public Coach getCoach() {

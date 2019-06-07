@@ -5,24 +5,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.stage.Stage;
 import pl.football.league.entities.Match;
 import pl.football.league.entities.MatchID;
 import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.Alerts;
+import pl.football.league.services.ItemAddService;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
-public class AddMatchScreenController {
-    private EntityManager entityManager;
-    private Stage stage;
-    private List<Team> teams;
-    private Match match;
-
+public class AddMatchScreenController extends ItemAddService {
     @FXML
     private ComboBox<Team> homeTeamComboBox;
 
@@ -46,7 +40,7 @@ public class AddMatchScreenController {
 
     @FXML
     void addMatchAndBack() {
-        match = new Match();
+        currentData = new Match();
         MatchID id = new MatchID();
 
         if(homeTeamComboBox.getValue() != null)
@@ -71,36 +65,24 @@ public class AddMatchScreenController {
             return;
         }
 
-        match.setMatchID(id);
-        match.setResultAway(resultAwayTeamComboBox.getValue());
-        match.setResultHome(resultHomeTeamComboBox.getValue());
-        match.setMatchDate(Date.valueOf(dateMatch.getValue()));
+        ((Match)currentData).setMatchID(id);
+        ((Match)currentData).setResultAway(resultAwayTeamComboBox.getValue());
+        ((Match)currentData).setResultHome(resultHomeTeamComboBox.getValue());
+        ((Match)currentData).setMatchDate(Date.valueOf(dateMatch.getValue()));
 
         try {
             entityManager.createQuery("select M from Match  M where M.matchID.home = :home AND M.matchID.away = :away")
                     .setParameter("home", homeTeamComboBox.getValue())
                     .setParameter("away", awayTeamComboBox.getValue())
                     .getSingleResult();
-            match = null;
+            currentData = null;
             Alerts.matchInBase().showAndWait();
             return;
         }
         catch (NoResultException e){}
 
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(match);
-            entityManager.getTransaction().commit();
-            entityManager.refresh(entityManager.find(Team.class, match.getMatchID().getHome().getTeamID()));
-            entityManager.refresh(entityManager.find(Team.class, match.getMatchID().getAway().getTeamID()));
-            back();
-        }catch (Exception e ){
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            match = null;
-            Alert transactionFail = Alerts.transactionFail();
-            transactionFail.showAndWait();
-        }
+        addItem(currentData);
+        back();
     }
 
     @FXML
@@ -110,7 +92,7 @@ public class AddMatchScreenController {
 
     @FXML
     void initialize() {
-        teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
+        List<Team> teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
 
         homeTeamComboBox.getItems().addAll(teams);
         awayTeamComboBox.getItems().addAll(teams);
@@ -124,22 +106,5 @@ public class AddMatchScreenController {
         resultAwayTeamComboBox.setValue(0);
 
         dateMatch.setValue(LocalDate.now());
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public  void setDependecies(EntityManager entityManager, Stage stage){
-        setEntityManager(entityManager);
-        setStage(stage);
-    }
-
-    public Match getMatch() {
-        return match;
     }
 }

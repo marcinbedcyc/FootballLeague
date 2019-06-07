@@ -1,27 +1,16 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import pl.football.league.entities.Fan;
 import pl.football.league.entities.Footballer;
 import pl.football.league.fxmlUtils.TableControls;
+import pl.football.league.services.ItemShowService;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
-import java.util.Set;
-
-public class FootballerScreenController {
-    private Footballer footballer;
-    private Fan currentUser;
-    private EntityManager entityManager;
-    private MainScreenController mainScreenController;
-    private Set<Fan>fans;
-
+public class FootballerScreenController extends ItemShowService {
     @FXML
     private VBox fansVBox;
 
@@ -29,19 +18,19 @@ public class FootballerScreenController {
     private Label titleLabel;
 
     @FXML
-    private Label name;
+    private Label nameLabel;
 
     @FXML
-    private Label surname;
+    private Label surnameLabel;
 
     @FXML
-    private Label team;
+    private Label teamLabel;
 
     @FXML
-    private Label position;
+    private Label positionLabel;
 
     @FXML
-    private Label shirtNumber;
+    private Label shirtNumberLabel;
 
     @FXML
     private Button supportButton;
@@ -51,30 +40,24 @@ public class FootballerScreenController {
 
     @FXML
     void initialize() {
-        fans = footballer.getFans();
-
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
 
         setFootballerInfo();
         setFans();
 
-
-        team.setOnMouseClicked(event -> {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
+        teamLabel.setOnMouseClicked(event -> {
             TeamScreenController teamScreenController = new TeamScreenController();
-
-            teamScreenController.setDependencies(footballer.getTeam(), entityManager, mainScreenController, currentUser);
-            loader.setController(teamScreenController);
-            tryLoader(loader);
+            teamScreenController.setDependencies(currentUser, entityManager, mainScreenController, ((Footballer)currentData).getTeam());
+            loadCenterScene("/fxml/teamScreen.fxml", teamScreenController);
         });
     }
 
     @FXML
     public void support(){
         entityManager.getTransaction().begin();
-        footballer.getFans().add(currentUser);
-        currentUser.getSupportedFootballers().add(footballer);
+        ((Footballer)currentData).getFans().add(currentUser);
+        currentUser.getSupportedFootballers().add(((Footballer)currentData));
         entityManager.getTransaction().commit();
         supportButton.setDisable(true);
         stopSupportButton.setDisable(false);
@@ -83,62 +66,33 @@ public class FootballerScreenController {
     @FXML
     void stopSupport() {
         entityManager.getTransaction().begin();
-        footballer.getFans().remove(currentUser);
-        currentUser.getSupportedFootballers().remove(footballer);
+        ((Footballer)currentData).getFans().remove(currentUser);
+        currentUser.getSupportedFootballers().remove(((Footballer)currentData));
         entityManager.getTransaction().commit();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
         this.setFans();
     }
 
-    public Footballer getFootballer() {
-        return footballer;
-    }
-
-    public void setFootballer(Footballer footballer) {
-        this.footballer = footballer;
-    }
-
-    public Fan getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(Fan currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setDependency(Footballer footballer, Fan currentUser, EntityManager entityManager, MainScreenController mainScreenController){
-        setCurrentUser(currentUser);
-        setFootballer(footballer);
-        setEntityManager(entityManager);
-        setMainScreenController(mainScreenController);
-    }
 
     private void setFans(){
         fansVBox.getChildren().remove(0, fansVBox.getChildren().size());
-        if(fans.isEmpty()){
+        if(((Footballer)currentData).getFans().isEmpty()){
             Label emptyLabel = TableControls.Label(150, "Brak Kibiców");
             emptyLabel.setMaxWidth(1.7976931348623157E308);
             fansVBox.getChildren().add(emptyLabel);
         }
         else {
-            for (Fan f : fans) {
+            for (Fan f : ((Footballer)currentData).getFans()) {
                 if (f.getFanID() == currentUser.getFanID()) {
                     supportButton.setDisable(true);
                     stopSupportButton.setDisable(false);
                 }
                 Label fanLabel = TableControls.LabelVGrow(150, f.getNickname());
                 fanLabel.setOnMouseClicked(event -> {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/fanScreen.fxml"));
                     FanScreenController fanScreenController = new FanScreenController();
-
                     fanScreenController.setDependencies(f, entityManager, mainScreenController, currentUser);
-                    loader.setController(fanScreenController);
-                    tryLoader(loader);
+                    loadCenterScene("/fxml/fanScreen.fxml", fanScreenController);
                 });
                 fansVBox.getChildren().add(fanLabel);
             }
@@ -146,34 +100,24 @@ public class FootballerScreenController {
     }
 
     private void setFootballerInfo(){
-        name.setText(footballer.getName());
-        surname.setText(footballer.getSurname());
-        if(footballer.getTeam() != null)
-            team.setText(footballer.getTeam().getName());
+        nameLabel.setText( ((Footballer)currentData).getName() );
+        surnameLabel.setText(((Footballer)currentData).getSurname());
+
+        if(((Footballer)currentData).getTeam() != null)
+            teamLabel.setText(((Footballer)currentData).getTeam().getName());
         else {
-            team.setText("-");
-            team.setCursor(Cursor.DEFAULT);
-            team.setStyle("-fx-background-color: transparent; -fx-font-size: 20;  -fx-text-fill: forestgreen;  -fx-font-weight: bold;");
+            teamLabel.setText("-");
+            teamLabel.setCursor(Cursor.DEFAULT);
+            teamLabel.setStyle("-fx-background-color: transparent; -fx-font-size: 20;  -fx-text-fill: forestgreen;  -fx-font-weight: bold;");
         }
-        position.setText(footballer.getPosition());
-        if(footballer.getNumber() != null)
-            shirtNumber.setText(String.valueOf(footballer.getNumber()));
+
+        positionLabel.setText(((Footballer)currentData).getPosition());
+
+        if(((Footballer)currentData).getNumber() != null)
+            shirtNumberLabel.setText(String.valueOf(((Footballer)currentData).getNumber()));
         else
-            shirtNumber.setText("-");
-        titleLabel.setText(footballer.getName() + " " +  footballer.getSurname());
-    }
+            shirtNumberLabel.setText("-");
 
-    public void setMainScreenController(MainScreenController mainScreenController) {
-        this.mainScreenController = mainScreenController;
-    }
-
-    private void tryLoader(FXMLLoader loader){
-        try {
-            Parent root = loader.load();
-            mainScreenController.getBorderPane().setCenter(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        titleLabel.setText(((Footballer)currentData).getName() + " " +  ((Footballer)currentData).getSurname());
     }
 }
-

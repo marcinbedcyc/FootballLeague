@@ -1,23 +1,16 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import pl.football.league.entities.Fan;
 import pl.football.league.entities.Footballer;
 import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.Alerts;
 import pl.football.league.fxmlUtils.TableControls;
+import pl.football.league.services.MainService;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
 
-public class OptionScreenController {
-    private Fan currentUser;
-    private EntityManager entityManager;
-    private MainScreenController mainScreenController;
+public class OptionScreenController extends MainService {
 
     @FXML
     private TextField nameTextField;
@@ -50,6 +43,9 @@ public class OptionScreenController {
     void initialize() {
         setInfo();
         fillTables();
+        if(currentUser.getNickname().equals("admin")){
+            nicknameTextField.setDisable(true);
+        }
     }
 
     @FXML
@@ -104,24 +100,6 @@ public class OptionScreenController {
         }
     }
 
-    public void setCurrentUser(Fan currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setMainScreenController(MainScreenController mainScreenController) {
-        this.mainScreenController = mainScreenController;
-    }
-
-    public void setDependencies(EntityManager entityManager, Fan currentUser, MainScreenController mainScreenController) {
-        setEntityManager(entityManager);
-        setCurrentUser(currentUser);
-        setMainScreenController(mainScreenController);
-    }
-
     private void setInfo() {
         nameTextField.setText(currentUser.getName());
         surnameTextField.setText(currentUser.getSurname());
@@ -145,13 +123,9 @@ public class OptionScreenController {
                 Label footballerLabel = TableControls.LabelVGrow(100, f.getSurname());
                 Label x = TableControls.LabelX(30);
                 footballerLabel.setOnMouseClicked(event -> {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
-
                     FootballerScreenController footballerScreenController = new FootballerScreenController();
-                    footballerScreenController.setDependency(f, currentUser, entityManager, mainScreenController);
-
-                    loader.setController(footballerScreenController);
-                    tryLoader(loader);
+                    footballerScreenController.setDependencies(currentUser, entityManager, mainScreenController, f);
+                    loadCenterScene("/fxml/footballerScreen.fxml", footballerScreenController);
                 });
                 x.setOnMouseClicked(event -> {
                     entityManager.getTransaction().begin();
@@ -170,13 +144,9 @@ public class OptionScreenController {
                 Label teamLabel = TableControls.LabelVGrow(200, t.getName());
                 Label x = TableControls.LabelX(30);
                 teamLabel.setOnMouseClicked(event -> {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/teamScreen.fxml"));
-
                     TeamScreenController teamScreenController = new TeamScreenController();
-                    teamScreenController.setDependencies(t, entityManager, mainScreenController, currentUser);
-
-                    loader.setController(teamScreenController);
-                    tryLoader(loader);
+                    teamScreenController.setDependencies(currentUser, entityManager, mainScreenController, t);
+                    loadCenterScene("/fxml/teamScreen.fxml", teamScreenController);
                 });
                 x.setOnMouseClicked(event -> {
                     entityManager.getTransaction().begin();
@@ -191,13 +161,4 @@ public class OptionScreenController {
         }
     }
 
-    private void tryLoader(FXMLLoader loader) {
-        try {
-            Parent root = loader.load();
-            mainScreenController.getBorderPane().setCenter(root);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
-

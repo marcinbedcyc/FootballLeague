@@ -10,22 +10,19 @@ import pl.football.league.entities.Fan;
 import pl.football.league.entities.Footballer;
 import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.Alerts;
+import pl.football.league.services.ItemAddService;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
-public class RegisterScreenController {
-    private EntityManager entityManager;
-    private MainScreenController mainController;
+public class RegisterScreenController extends ItemAddService {
     private boolean separatelyWindow = false;
-    private Fan newUser;
 
     @FXML
     void initialize() {
         if(!separatelyWindow) {
-            mainController.getStage().setResizable(true);
-            mainController.getStage().setMinWidth(400);
-            mainController.getStage().setTitle("Rejestracja");
+            mainScreenController.getStage().setResizable(true);
+            mainScreenController.getStage().setMinWidth(400);
+            mainScreenController.getStage().setTitle("Rejestracja");
         }
     }
 
@@ -57,7 +54,7 @@ public class RegisterScreenController {
     void addUserAndBack() {
         String name, surname, nickname, password, repeatPassword;
         int age;
-        newUser = new Fan();
+        currentData = new Fan();
 
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -73,7 +70,7 @@ public class RegisterScreenController {
 
         try {
             age = Integer.parseUnsignedInt(ageTextField.getText());
-            newUser.setAge(age);
+            ((Fan)currentData).setAge(age);
         }
         catch(NumberFormatException e){
             if(!ageTextField.getText().equals("")) {
@@ -88,27 +85,17 @@ public class RegisterScreenController {
             diffrentPasswordsAlert.showAndWait();
             return;
         }
-        newUser.setName(name);
-        newUser.setSurname(surname);
-        newUser.setNickname(nickname);
-        newUser.setPassword(password);
+        ((Fan)currentData).setName(name);
+        ((Fan)currentData).setSurname(surname);
+        ((Fan)currentData).setNickname(nickname);
+        ((Fan)currentData).setPassword(password);
         Set<Footballer> emptyFootballerSet = new HashSet<>();
         Set<Team> emptyTeamSet = new HashSet<>();
-        newUser.setSupportedFootballers(emptyFootballerSet);
-        newUser.setSupportedTeams(emptyTeamSet);
+        ((Fan)currentData).setSupportedFootballers(emptyFootballerSet);
+        ((Fan)currentData).setSupportedTeams(emptyTeamSet);
 
-        entityManager.getTransaction().begin();
-        try {
-            entityManager.persist(newUser);
-            entityManager.getTransaction().commit();
-            back();
-        }
-        catch(Exception e){
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            Alert transactionFail = Alerts.wrongLoginAlert();
-            transactionFail.showAndWait();
-        }
+        addItem(currentData);
+        back();
     }
 
     @FXML
@@ -118,26 +105,10 @@ public class RegisterScreenController {
             stage.close();
         }
         else
-            mainController.initialize();
-    }
-
-    public MainScreenController getMainController() {
-        return mainController;
-    }
-
-    public void setMainController(MainScreenController mainController) {
-        this.mainController = mainController;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+            mainScreenController.initialize();
     }
 
     public void setSeparatelyWindow(){
         separatelyWindow = true;
-    }
-
-    public Fan getNewUser() {
-        return newUser;
     }
 }

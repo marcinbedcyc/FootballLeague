@@ -1,49 +1,38 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import pl.football.league.entities.Coach;
 import pl.football.league.entities.Fan;
 import pl.football.league.entities.Footballer;
 import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.TableControls;
+import pl.football.league.services.ItemShowService;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
 import java.util.List;
 
-public class TeamScreenController {
-    private Team team;
-    private Coach coach;
-    private EntityManager entityManager;
-    private MainScreenController mainScreenController;
-    private Fan currentUser;
-    private List<Footballer> footballers;
-
+public class TeamScreenController extends ItemShowService {
     @FXML
-    private Label name;
+    private Label nameLabel;
 
     @FXML
     private Label coachLabel;
 
     @FXML
-    private Label date;
+    private Label dateLabel;
 
     @FXML
-    private Label points;
+    private Label pointsLabel;
 
     @FXML
-    private Label wins;
+    private Label winsLabel;
 
     @FXML
-    private Label draws;
+    private Label drawsLabel;
 
     @FXML
-    private Label loses;
+    private Label losesLabel;
 
     @FXML
     private VBox footbalersVBox;
@@ -57,41 +46,37 @@ public class TeamScreenController {
     @FXML
     private Button stopSupportButton;
 
+    private List<Footballer> footballers;
+
     @FXML
     void initialize() {
-        footballers = entityManager.createQuery("select f from Footballer f", Footballer.class).getResultList();
+        footballers = entityManager.createQuery("select F from Footballer F", Footballer.class).getResultList();
         setTeamInfo();
         setFootballers();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
         setFans();
         coachLabel.setOnMouseClicked(event -> {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/coachScreen.fxml"));
             CoachScreenController coachScreenController = new CoachScreenController();
-
-            coachScreenController.setDependencies(team.getCoach(), entityManager, mainScreenController, currentUser);
-            loader.setController(coachScreenController);
-            tryLoader(loader);
+            coachScreenController.setDependencies(currentUser, entityManager, mainScreenController, ((Team)currentData).getCoach());
+            loadCenterScene("/fxml/coachScreen.fxml", coachScreenController);
         });
     }
 
     private void setFans() {
         fansVBox.getChildren().remove(0, fansVBox.getChildren().size());
 
-        if (team.getTeamFans().isEmpty()) {
+        if (((Team)currentData).getTeamFans().isEmpty()) {
             Label emptyLabel = TableControls.Label(150, "Brak kibiców");
             emptyLabel.setMaxWidth(1.7976931348623157E308);
             fansVBox.getChildren().add(emptyLabel);
         } else {
-            for (Fan f : team.getTeamFans()) {
+            for (Fan f : ((Team)currentData).getTeamFans()) {
                 Label fanLabel = TableControls.LabelVGrow(150, f.getNickname());
                 fanLabel.setOnMouseClicked(event -> {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/fanScreen.fxml"));
                     FanScreenController fanScreenController = new FanScreenController();
-
                     fanScreenController.setDependencies(f, entityManager, mainScreenController, currentUser);
-                    loader.setController(fanScreenController);
-                    tryLoader(loader);
+                    loadCenterScene("/fxml/fanScreen.fxml", fanScreenController);
                 });
                 if (f.getFanID() == currentUser.getFanID()) {
                     supportButton.setDisable(true);
@@ -103,25 +88,21 @@ public class TeamScreenController {
     }
 
     private void setFootballers() {
-        boolean areFootabllers = false;
-
+        boolean areFootaballers = false;
 
         for (Footballer f : footballers) {
-            if (f.getTeam() != null && f.getTeam().getTeamID() == team.getTeamID()) {
-                areFootabllers = true;
+            if (f.getTeam() != null && f.getTeam().getTeamID() == ((Team)currentData).getTeamID()) {
+                areFootaballers = true;
                 Label footballerLabel = TableControls.LabelVGrow(150, f.getName() + " " + f.getSurname());
                 footballerLabel.setOnMouseClicked(event -> {
-                    FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/footballerScreen.fxml"));
                     FootballerScreenController footballerScreenController = new FootballerScreenController();
-
-                    footballerScreenController.setDependency(f, currentUser, entityManager, mainScreenController);
-                    loader.setController(footballerScreenController);
-                    tryLoader(loader);
+                    footballerScreenController.setDependencies(currentUser, entityManager, mainScreenController, f);
+                    loadCenterScene("/fxml/footballerScreen.fxml", footballerScreenController);
                 });
                 footbalersVBox.getChildren().add(footballerLabel);
             }
         }
-        if (!areFootabllers) {
+        if (!areFootaballers) {
             Label emptyLabel = TableControls.Label(150, "Brak pilkarzy");
             emptyLabel.setMaxWidth(1.7976931348623157E308);
             footbalersVBox.getChildren().add(emptyLabel);
@@ -132,8 +113,8 @@ public class TeamScreenController {
     @FXML
     void stopSupport() {
         entityManager.getTransaction().begin();
-        team.getTeamFans().remove(currentUser);
-        currentUser.getSupportedTeams().remove(team);
+        ((Team)currentData).getTeamFans().remove(currentUser);
+        currentUser.getSupportedTeams().remove(((Team)currentData));
         entityManager.getTransaction().commit();
         supportButton.setDisable(false);
         stopSupportButton.setDisable(true);
@@ -143,57 +124,27 @@ public class TeamScreenController {
     @FXML
     void support() {
         entityManager.getTransaction().begin();
-        team.getTeamFans().add(currentUser);
-        currentUser.getSupportedTeams().add(team);
+        ((Team)currentData).getTeamFans().add(currentUser);
+        currentUser.getSupportedTeams().add(((Team)currentData));
         entityManager.getTransaction().commit();
         supportButton.setDisable(true);
         stopSupportButton.setDisable(false);
         this.setFans();
     }
 
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
-    public void setMainScreenController(MainScreenController mainScreenController) {
-        this.mainScreenController = mainScreenController;
-    }
-
-
-    public void setCurrentUser(Fan currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public void setDependencies(Team team, EntityManager entityManager, MainScreenController mainScreenController, Fan user) {
-        setCurrentUser(user);
-        setMainScreenController(mainScreenController);
-        setEntityManager(entityManager);
-        this.team = team;
-    }
-
-    private void tryLoader(FXMLLoader loader) {
-        try {
-            Parent root = loader.load();
-            mainScreenController.getBorderPane().setCenter(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void setTeamInfo() {
-        name.setText(team.getName());
-        coachLabel.setText(team.getCoach().getName() + " " + team.getCoach().getSurname());
+        nameLabel.setText(((Team)currentData).getName());
+        coachLabel.setText(((Team)currentData).getCoach().getName() + " " + ((Team)currentData).getCoach().getSurname());
         String result;
-        if (team.getCreationDate() == null) {
+        if (((Team)currentData).getCreationDate() == null) {
             result = "-";
         } else {
-            result = team.getCreationDate().toString();
+            result = ((Team)currentData).getCreationDate().toString();
         }
-        date.setText(result);
-        points.setText(String.valueOf(team.getPoints()));
-        wins.setText(String.valueOf(team.getWins()));
-        draws.setText(String.valueOf(team.getDraws()));
-        loses.setText(String.valueOf(team.getLoses()));
+        dateLabel.setText(result);
+        pointsLabel.setText(String.valueOf(((Team)currentData).getPoints()));
+        winsLabel.setText(String.valueOf(((Team)currentData).getWins()));
+        drawsLabel.setText(String.valueOf(((Team)currentData).getDraws()));
+        losesLabel.setText(String.valueOf(((Team)currentData).getLoses()));
     }
 }
