@@ -1,38 +1,40 @@
 package pl.football.league.fxmlUtils;
 
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class Alerts {
     public static Alert wrongLoginAlert(){
-        return  alert("Zajety login", "Uyztkownik o podanym loginie juz istnieje!", "Prosze wybrac inny login.");
+        return  alert("Zajęty login", "Użytkownik o podanym loginie już istnieje!", "Proszę wybrać inny login.");
     }
 
     public static Alert diffrentPasswords(){
-        return  alert("Rozne hasla", "Podano 2 rozne hasla!", "Prosze podac poprawne dane.");
+        return  alert("Różne hasła", "Podano 2 różne hasła!", "Proszę podać poprawne dane.");
     }
 
     public static Alert wrongPassword(){
-        return  alert("Zle haslo","Podane haslo jest nieprawidlowe",  "Prosze podac poprawne haslo.");
+        return  alert("Złe hasło","Podane hasło jest nieprawidłowe",  "Proszę podać poprawne hasło.");
     }
 
     public static  Alert emptyPasswordField(){
-        return alert("Puste pole z haslem", "Nie podano nowego hasla", "Prosze podac nowe haslo.");
+        return alert("Puste pole z hasłem", "Nie podano nowego hasła", "Proszę podać nowe hasło.");
     }
 
     public static Alert emptyField(){
-        return alert("Puste pole", "Jedno z obowiazkowych pol jest puste!", "Prosze je uzupelnic.");
+        return alert("Puste pole", "Jedno z obowiązkowych pól jest puste!", "Proszę je uzupelnić.");
     }
 
     public static Alert noCoach(){
-        return alert("Brak Trenera", "Nie wybrano trenera drużyny", "Prosze wybrać trenera z listy");
+        return alert("Brak Trenera", "Nie wybrano trenera drużyny", "Proszę wybrać trenera z listy");
     }
 
     public static Alert busyCoach(){
-        return alert("Nie można usunąć", "Nie można usunąć, trener ma przypisaną drużynę.", "Usun druzyne lub zmien trenera drużynie aby usunąć tego trenera.");
+        return alert("Nie można usunąć", "Nie można usunąć, trener ma przypisaną drużynę.", "Usuń drużynę lub zmień trenera drużynie aby usunąć tego trenera.");
     }
 
     public static Alert sameTeams(){
-        return alert("Takie same drużyny", "Wybrano taką samą drużynę jako gospodarza i gościa meczu!", "Prosze zmienić jedną z drużyn.");
+        return alert("Takie same drużyny", "Wybrano taką samą drużynę jako gospodarza i gościa meczu!", "Proszę zmienić jedną z drużyn.");
     }
 
     public static Alert noHomeTeam(){
@@ -44,19 +46,23 @@ public class Alerts {
     }
 
     public static Alert noPosition(){
-        return alert("Brak pozycji", "Nie określono pozycji dla zawodnika!", "Prosze wybrać.");
+        return alert("Brak pozycji", "Nie określono pozycji dla zawodnika!", "Proszę wybrać pozycję z listy.");
     }
 
     public static Alert transactionFail(){
-        return alert("Blad", "Blad przy modyfikowaniu bazy", "Prosze sprobowac jeszcze raz.");
+        return alert("Błąd", "Błąd przy modyfikowaniu bazy", "Proszę spróbować jeszcze raz.");
+    }
+
+    public static Alert sameTeamName(){
+        return alert("Zajęta nazwa drużyny", "Taka nazwa drużyny już istnieje w lidze.", "Proszę wybrać inną nazwę.");
     }
 
     public static Alert wrongNumber(){
-        return alert("Zla liczba", "Podano lanuch znakow zamiast liczby!", "Prosze podac poprawne dane.");
+        return alert("Zła liczba", "Podano łańuch znaków zamiast liczby!", "Proszę podać poprawne dane.");
     }
 
     public static Alert loginFail(){
-        return alert("Blad logowania", "Podane dane logowania sa niepoprawne!", "Sprobuj ponowanie. ");
+        return alert("Błąd logowania", "Podane dane logowania sa niepoprawne!", "Spróbuj ponowanie. ");
     }
 
     public static Alert success(){
@@ -75,6 +81,8 @@ public class Alerts {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(context);
+        Stage stage = (Stage)alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(Alerts.class.getResourceAsStream("/images/soccer.png")));
         alert.getDialogPane().getStylesheets().add(Alerts.class.getResource("/css/myDialogs.css").toExternalForm());
         return alert;
     }
