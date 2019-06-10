@@ -43,7 +43,7 @@
             </ImageView>
             <TextField fx:id="nameTextField" alignment="CENTER" prefHeight="32.0" prefWidth="266.0" promptText="Nazwa" style="-fx-text-fill: white; -fx-background-color: transparent; -fx-border-color: white; -fx-border-width: 0 0 1 0;" />
             <ComboBox fx:id="coachComboBox" prefWidth="250.0" promptText="Trener" styleClass="combo-box" stylesheets="@../../css/menuBarButton.css" />
-            <Button fx:id="addCoach" alignment="CENTER" mnemonicParsing="false" onAction="#addCoach" prefHeight="31.0" prefWidth="149.0" style="-fx-background-color: forestgreen; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;" text="Dodaj Trenera">
+            <Button fx:id="addCoachButton" alignment="CENTER" mnemonicParsing="false" onAction="#addCoach" prefHeight="31.0" prefWidth="149.0" style="-fx-background-color: forestgreen; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 15;" text="Dodaj Trenera">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
