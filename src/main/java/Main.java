@@ -10,8 +10,17 @@ import javax.persistence.Persistence;
 
 import pl.football.league.controllers.MainScreenController;
 
+/**
+ * Główna klasa programu, która uruchamia aplikację
+ * @author Marcin Cyc
+ * @see javafx.application.Application
+ */
 public class Main extends Application {
-
+    /**
+     * Tworzy połączenie z bazą danych oraz uruchamia pierwsze okno aplikacji
+     * @param primaryStage główne okno programu
+     * @throws Exception Nieprzechwycony wątek, który może wystąpić podczas operacji w tle
+     */
     public void start(Stage primaryStage) throws Exception {
         EntityManagerFactory entityManagerFactory  = Persistence.createEntityManagerFactory("footballDataBase");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -27,6 +36,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Uruchamia program
+     * @param args argumnety wywoałania w konsoli (nieistotne)
+     */
     public static void main(String[] args) {
         launch(args);
     }

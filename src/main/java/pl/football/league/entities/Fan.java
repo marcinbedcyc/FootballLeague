@@ -1,36 +1,62 @@
 package pl.football.league.entities;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Klasa mapująca encję kibic z bazy danych
+ * @author Marcin Cyc
+ */
 @Entity
 @Table(name = "kibic")
 public class Fan {
+    /**
+     * Identyfikator kibica
+     */
     @Id
     @Column(name = "id_kibica")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long fanID;
 
+    /**
+     * Imię kibica
+     */
     @Column(name = "imie")
     private String name;
 
+    /**
+     * Nazwisko kibica
+     */
     @Column(name = "nazwisko")
     private String surname;
 
+    /**
+     * Wiek kibica
+     */
     @Column(name = "wiek")
     private Integer age;
 
+    /**
+     * Pseudonim kibica
+     */
     @Column(name = "pseudonim")
     private String nickname;
 
+    /**
+     * Hasło kibica
+     */
     @Column(name = "haslo")
     private  String password;
 
+    /**
+     * Zbiór wspieranych piłkarzy przez kibica
+     */
     @ManyToMany(mappedBy = "fans")
     private Set<Footballer> supportedFootballers;
 
+    /**
+     * Zbiór wspieranych drużyn przez kibica
+     */
     @ManyToMany(mappedBy = "teamFans")
     private Set<Team> supportedTeams;
 
@@ -98,8 +124,12 @@ public class Fan {
         this.supportedTeams = supportedTeams;
     }
 
+    /**
+     * Przekształca obiekt kibic na napis
+     * @return imię + nazwisko + " a'ka " + pseudonim jako jeden napis
+     */
     @Override
     public String toString() {
-        return name + " " + surname + " aka " + nickname;
+        return name + " " + surname + " a'ka " + nickname;
     }
 }

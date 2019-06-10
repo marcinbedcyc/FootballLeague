@@ -16,28 +16,68 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Kontroler do pliku addMatchScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.ItemAddService
+ */
 public class AddMatchScreenController extends ItemAddService {
+    /**
+     * ComboBox z drużynami do wyboru gospodarza meczu
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Team> homeTeamComboBox;
 
+    /**
+     * ComboBox z wynikami do wyboru dla gopodarza meczu
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Integer> resultHomeTeamComboBox;
 
+    /**
+     * ComboBox z drużynami do wyboru gościa meczu
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Team> awayTeamComboBox;
 
+    /**
+     * ComboBox z z wynikami do wyboru dla gościa meczu
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Integer> resultAwayTeamComboBox;
 
+    /**
+     * Wybór daty meczu
+     * @see javafx.scene.control.DatePicker
+     */
     @FXML
     private DatePicker dateMatch;
 
+    /**
+     * Przycisk akceptujący podane dane
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button acceptButton;
 
+    /**
+     * Przycisk anulujący dodawanie i zamykjący okno
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button cancelButton;
 
+    /**
+     * Zaakceptowanie podanych danych, próba dodania meczu do bazy danych  oraz w przypadku sukcesu zamknięcie okna.
+     * Zostaje utworzony nowy obiekt Match i dane z poszczególnych pól kontrolnych przekazywane są do obiektu. Wyświetlany
+     * jest pierwszy napotkany błąd w formie komunikatu (Alert). Weryfikowane są: wybór gospodarza meczu, wybór gościa meczu,
+     * wybór różnych drużyn oraz sprawdzenie czy mecz nie jest w bazie danych.
+     * @see pl.football.league.fxmlUtils.Alerts
+     */
     @FXML
     void addMatchAndBack() {
         currentData = new Match();
@@ -85,6 +125,9 @@ public class AddMatchScreenController extends ItemAddService {
         back();
     }
 
+    /**
+     * Zakmnięcie okna
+     */
     @FXML
     void back() {
         if(isCanceled)
@@ -92,6 +135,9 @@ public class AddMatchScreenController extends ItemAddService {
         stage.close();
     }
 
+    /**
+     * Inicjalizacja okna: ustawienie comboBox'ów oraz daty meczu na bieżącą
+     */
     @FXML
     void initialize() {
         List<Team> teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();

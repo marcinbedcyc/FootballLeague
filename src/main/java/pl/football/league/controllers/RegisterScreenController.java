@@ -14,9 +14,21 @@ import pl.football.league.services.ItemAddService;
 
 import java.util.*;
 
+/**
+ * Kontroler do pliku registerScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.ItemAddService
+ */
 public class RegisterScreenController extends ItemAddService {
+    /**
+     * Flaga czy okna ma się wyświetlać w osobnym oknie
+     */
     private boolean separatelyWindow = false;
 
+    /**
+     * Inicjalizacja okna. Ustawienie skalowalności, minimalnej szerokości i tytułu okna gdy flaga separatelyWindow ma
+     * wartość false
+     */
     @FXML
     void initialize() {
         if(!separatelyWindow) {
@@ -26,30 +38,70 @@ public class RegisterScreenController extends ItemAddService {
         }
     }
 
+    /**
+     * TextField z imieniem kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField nameTextField;
 
+    /**
+     * TextField z nazwiska kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField surnameTextField;
 
+    /**
+     * TextField z pseudonimem kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField nicknameTextField;
 
+    /**
+     * TextField z hasłem kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private PasswordField passwordTextField;
 
+    /**
+     * TextField z powtórzonym hasłem kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private PasswordField repeatPasswordTextField;
 
+    /**
+     * TextField z wiekiem kibica
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField ageTextField;
 
+    /**
+     * Przycisk akceptujący podane dane
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button acceptButton;
 
+    /**
+     * Przycisk anulujący dodawanie i zamykjący okno
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button cancelButton;
 
+    /**
+     * Zaakceptowanie podanych danych, próba dodania kibica do bazy danych  oraz w przypadku sukcesu zamknięcie okna.
+     * Zostaje utworzony nowy obiekt Fan i dane z poszczególnych pól kontrolnych przekazywane są do obiektu. Wyświetlany
+     * jest pierwszy napotkany błąd w formie komunikatu (Alert). Weryfikowane są: niepustość obowiązkowych pól(imię,
+     * naziwsko, pseudonim, hasło, powtórzone hasło), poprawność podanego wieku, równość dwóch podanych haseł. Następuje
+     * wzerowanie zbiorów wspieranych drużyn i piłkarzy.
+     * @see pl.football.league.fxmlUtils.Alerts
+     */
     @FXML
     void addUserAndBack() {
         String name, surname, nickname, password, repeatPassword;
@@ -98,6 +150,9 @@ public class RegisterScreenController extends ItemAddService {
         back();
     }
 
+    /**
+     * Zakmnięcie okna jeśli flaga separatelyWindow ma wartość true, jeśli nie inicjalizacja głównego ekranu
+     */
     @FXML
     void back() {
         if(separatelyWindow){

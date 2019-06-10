@@ -13,28 +13,67 @@ import pl.football.league.services.ItemAddService;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Kontroler do pliku addFootballerScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.ItemAddService
+ */
 public class AddFootballerScreenController extends ItemAddService {
+    /**
+     * TextField z imieniem piłkarza
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField nameTextField;
 
+    /**
+     * TextField z nazwiskiem piłkarza
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField surnameTextField;
 
+    /**
+     * ComboBox z możliwymi pozycjami dla zawodnika
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<String> positionComboBox;
 
+    /**
+     * ComboBox z numerami na koszulce dla zawodnika
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Integer> numberComboBox;
 
+    /**
+     * ComboBox z drużynami dla zawodnika
+     * @see javafx.scene.control.ComboBox
+     */
     @FXML
     private ComboBox<Team> teamComboBox;
 
+    /**
+     * Przycisk akceptujący podane dane
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button acceptButton;
 
+    /**
+     * Przycisk anulujący dodawanie i zamykjący okno
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button cancelButton;
 
+    /**
+     * Zaakceptowanie podanych danych, próba dodania piłkarza do bazy danych  oraz w przypadku sukcesu zamknięcie okna.
+     * Zostaje utworzony nowy obiekt Footballer i dane z poszczególnych pól kontrolnych przekazywane są do obiektu. Wyświetlany
+     * jest pierwszy napotkany błąd w formie komunikatu (Alert). Weryfikowane są: niepustość imieniam nazwiska oraz pozycji.
+     * @see pl.football.league.fxmlUtils.Alerts
+     */
     @FXML
     void addFootballerAndBack() {
         String name, surname, position;
@@ -79,6 +118,9 @@ public class AddFootballerScreenController extends ItemAddService {
         back();
     }
 
+    /**
+     * Zakmnięcie okna
+     */
     @FXML
     void back() {
         if(isCanceled)
@@ -86,6 +128,9 @@ public class AddFootballerScreenController extends ItemAddService {
         stage.close();
     }
 
+    /**
+     * Inicjalizacja okna: ustawienie comboBox'ów.
+     */
     @FXML
     void initialize() {
         for(int i = 0; i <= 99 ; i++){

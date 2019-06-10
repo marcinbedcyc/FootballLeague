@@ -7,7 +7,22 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Zbiór metod statycznych odpowidzialnych za tworznie pewnych kontrolek dla okien JavyFx
+ * @author Marcin Cyc
+ * @see javafx.scene.control.Label
+ * @see javafx.scene.control.ComboBox
+ * @see javafx.scene.control.Button
+ */
 public class TableControls {
+    /**
+     *  Tworzy nowy przeroczysty pl.football.league.fxmlUtils.TableControls.Label(), z szarym obramowanie, o stałej
+     *  wielkości podanej w argumencie oraz o wyśrodkowanej
+     *  zawartości.
+     * @param size szerokość Label'a
+     * @param value zawartość Label'a
+     * @return nowy Label
+     */
     public static Label Label(int size, String  value){
         Label label = new Label(value);
         label.setStyle("-fx-background-color: transparent; -fx-border-color: gray; -fx-border-width: 1");
@@ -18,6 +33,13 @@ public class TableControls {
         return label;
     }
 
+    /**
+     * Tworzy nowy Label jak w pl.football.league.fxmlUtils.TableControls.Label() ze zmianą koloru tła, tekstu,
+     * obramowania oraz kursora podczas najechania myszką.
+     * @param size szerokość Label'a
+     * @param value zawartość Label'a
+     * @return nowy Label
+     */
     public static  Label LabelDecorated(int size, String value){
         Label label = Label(size, value);
         label.setOnMouseEntered((MouseEvent event)-> {
@@ -32,6 +54,13 @@ public class TableControls {
         return label;
     }
 
+    /**
+     * Tworzy nowy Label jak w pl.football.league.fxmlUtils.TableControls.LabelDecorated() skalowalny według szerokości
+     * okna, w którym się znajduje.
+     * @param size szerokość Label'a
+     * @param value zawartość Label'a
+     * @return nowy Label
+     */
     public static Label LabelVGrow(int size, String value){
         Label label = LabelDecorated(size, value);
         label.setStyle("-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-width: 1");
@@ -40,6 +69,12 @@ public class TableControls {
         return label;
     }
 
+    /**
+     * Tworzy Label o zawartości "X", czerwonym, pogrubionym napisie, przezroczystym tle, jasno-szarym obramowaniu,
+     * zmienijącym się kolorze napisu, kolorze tła oraz kursorze po najechaniu myszką.
+     * @param size szerokość Label'a
+     * @return nowy Label
+     */
     public static Label LabelX(int size){
         Label label = new Label("X");
         label.setMinWidth(size);
@@ -61,6 +96,12 @@ public class TableControls {
         return label;
     }
 
+    /**
+     * Tworzy nowy przycisk o zielonym kolorze tła, zaokrąglonym na krawędziach z biały napisem, o minimalenej szerokości
+     * 100.
+     * @param text tekst na przycisku
+     * @return nowy przycisk
+     */
     public static Button greenButton(String text){
         Button greenButton = new Button(text);
         greenButton.setStyle("-fx-background-color: forestgreen; -fx-text-fill: white; -fx-font-weight: bold; " +
@@ -69,6 +110,12 @@ public class TableControls {
         return greenButton;
     }
 
+    /**
+     * Tworzy nowy przycisk o czerwonym kolorze tła, zaokrąglonym na krawędziach z biały napisem, o minimalenej szerokości
+     * 100.
+     * @param text tekst na przycisku
+     * @return nowy przycisk
+     */
     public static Button redButton(String text){
         Button redButton = new Button(text);
         redButton.setStyle("-fx-background-color: crimson; -fx-text-fill: white; -fx-font-weight: bold;" +
@@ -77,6 +124,11 @@ public class TableControls {
         return redButton;
     }
 
+    /**
+     * Tworzy nowy comboBox uzupełniony liczbami od 0 do 120
+     * @param initValue początkowa wartość w comboBox'ie
+     * @return nowy comboBox
+     */
     public static ComboBox<Integer> comboBoxAge(Integer initValue){
         ComboBox<Integer> age = new ComboBox<>();
         age.setMinWidth(80);
@@ -94,15 +146,20 @@ public class TableControls {
         return  age;
     }
 
-    public static ComboBox<Integer> comboBoxHundred(Integer iniValue){
+    /**
+     * Tworzy nowy comboBox uzupełniony liczbami od 0 do 99
+     * @param initValue początkowa wartość w comboBox'ie
+     * @return nowy comboBox
+     */
+    public static ComboBox<Integer> comboBoxHundred(Integer initValue){
         ComboBox<Integer> comboBox = new ComboBox<>();
         comboBox.setMinWidth(80);
         for(int i = 0; i <= 99 ; i++){
             comboBox.getItems().add(i);
         }
-        if(iniValue != null){
-            comboBox.setValue(iniValue);
-            comboBox.setPromptText(iniValue.toString());
+        if(initValue != null){
+            comboBox.setValue(initValue);
+            comboBox.setPromptText(initValue.toString());
         }
         return  comboBox;
     }

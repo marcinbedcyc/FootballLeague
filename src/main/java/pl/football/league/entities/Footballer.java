@@ -1,30 +1,50 @@
 package pl.football.league.entities;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Klasa mapująca encję piłkarz z bazy danych
+ * @author Marcin Cyc
+ */
 @Entity
 @Table(name="pilkarz")
 public class Footballer {
+    /**
+     * Identyfiaktor piłkarza
+     */
     @Id
     @GeneratedValue
     @Column(name = "id_pilkarza")
     private long footballerID;
 
+    /**
+     * Imię piłkarza
+     */
     @Column(name = "imie")
     private String name;
 
+    /**
+     * Nazwisko piłkarza
+     */
     @Column(name = "nazwisko")
     private String surname;
 
+    /**
+     * Pozycja, na której gra piłkarz
+     */
     @Column(name = "pozycja")
     private String position;
 
+    /**
+     * Numer na koszulce piłakrza
+     */
     @Column(name ="numer")
     private Integer number;
 
+    /**
+     * Drużyna, w której gra piłkarz
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "druzyna")
     private Team team;
@@ -33,12 +53,24 @@ public class Footballer {
 
     }
 
+    /**
+     * Zbiór kibiców, którzy wspierają piłkarza reprezentowanego przez obiekt tej klasy
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "kibicowanie_pilkarzowi",
             joinColumns = {@JoinColumn(name = "id_pilkarza")},
             inverseJoinColumns = {@JoinColumn(name = "id_kibica")})
     private Set<Fan> fans;
 
+    /**
+     * Tworzy  nowy obiekt piłkarza
+     * @param id identyfikator piłkarza
+     * @param name imię piłkarza
+     * @param surname nazwisko piłkarza
+     * @param position pozycja piłkarza
+     * @param number numer na koszulce piłkarza
+     * @param team drużyna, w której gra piłkarz
+     */
     public Footballer(long id, String name, String surname, String position, Integer number, Team team ){
         this.footballerID = id;
         this.name = name;
@@ -105,6 +137,10 @@ public class Footballer {
         this.fans = fans;
     }
 
+    /**
+     * Przekształca obiekt piłkarza na napis
+     * @return imię + nazwisko piłkarza jako jeden napis
+     */
     @Override
     public String toString() {
         return this.name + " " + surname;

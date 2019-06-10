@@ -12,42 +12,99 @@ import pl.football.league.services.ItemShowService;
 
 import java.util.List;
 
+/**
+ * Kontroler do pliku teamScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.ItemShowService
+ */
 public class TeamScreenController extends ItemShowService {
+    /**
+     * Label z nazwą drużyny
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * Label z trenerem
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label coachLabel;
 
+    /**
+     * Label z datą powstania drużyny
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label dateLabel;
 
+    /**
+     * Label z ilością punktów drużyny
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label pointsLabel;
 
+    /**
+     * Label z ilością wygranych meczów
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label winsLabel;
 
+    /**
+     * Label z ilością zremisowanych meczów
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label drawsLabel;
 
+    /**
+     * Label z ilością przegranych meczów
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label losesLabel;
 
+    /**
+     * VBox z piłkarzami grającymi w drużynie
+     * @see javafx.scene.layout.VBox
+     */
     @FXML
     private VBox footbalersVBox;
 
+    /**
+     * VBox z kibicami wspierającymi drużynę
+     * @see javafx.scene.layout.VBox
+     */
     @FXML
     private VBox fansVBox;
 
+    /**
+     * Przycisk umożliwiającym kibicowanie drużynie
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button supportButton;
 
+    /**
+     * Przycisk umożliwiającym zaprzestanie kibicowania drużynie
+     * @see javafx.scene.control.Button
+     */
     @FXML
     private Button stopSupportButton;
 
+    /**
+     * Lista piłkarzy w drużynie
+     * @see pl.football.league.entities.Footballer
+     */
     private List<Footballer> footballers;
 
+    /**
+     * Inicjalizacja okna: ustawienie informacji o drużynie, piłkarzy w niej grających, kibiców jej kibicujących
+     * oraz ustawienie akcji po kliknięciu na nazwę trenera.
+     */
     @FXML
     void initialize() {
         footballers = entityManager.createQuery("select F from Footballer F", Footballer.class).getResultList();
@@ -63,6 +120,11 @@ public class TeamScreenController extends ItemShowService {
         });
     }
 
+    /**
+     * Pobiera kibiców wspierających drużynę z bazy danych i uzupełnia danymi odpowiedniego VBox'a. W przypadku braku
+     * kibiców zostaje wyświetlony napis "Brak kibiców". Dodaje akcję kliknięcia na pseduonim kibica. Akcja otwiera nowe
+     * okno z informacjami o tym kibicu.
+     */
     private void setFans() {
         fansVBox.getChildren().remove(0, fansVBox.getChildren().size());
 
@@ -87,6 +149,11 @@ public class TeamScreenController extends ItemShowService {
         }
     }
 
+    /**
+     * Pobiera piłkarzy grających w drużynie z bazy danych i uzupełnia nimi odpowiedniego VBox'a. W przypadku braku piłkarzy
+     * zostaje wyświetlony napis "Brak piłkarzy".Dodaje akcję kliknięcia na imię i naziwsko piłkarza. Akcja otwiera nowe
+     * okno z informacjami o tym piłkarzu.
+     */
     private void setFootballers() {
         boolean areFootaballers = false;
 
@@ -103,13 +170,15 @@ public class TeamScreenController extends ItemShowService {
             }
         }
         if (!areFootaballers) {
-            Label emptyLabel = TableControls.Label(150, "Brak pilkarzy");
+            Label emptyLabel = TableControls.Label(150, "Brak piłkarzy");
             emptyLabel.setMaxWidth(1.7976931348623157E308);
             footbalersVBox.getChildren().add(emptyLabel);
         }
-
     }
 
+    /**
+     * Usuwa z bazy danych wspieranie drużyny przez obecnie zalogowanego użytkownika.
+     */
     @FXML
     void stopSupport() {
         entityManager.getTransaction().begin();
@@ -121,6 +190,9 @@ public class TeamScreenController extends ItemShowService {
         this.setFans();
     }
 
+    /**
+     * Dodaje do bazy danych wspieranie drużyny przez obecnie zalogowanego użytkownika.
+     */
     @FXML
     void support() {
         entityManager.getTransaction().begin();
@@ -132,6 +204,12 @@ public class TeamScreenController extends ItemShowService {
         this.setFans();
     }
 
+    /**
+     * Uzupełnia pola kontrolne okna informacjami z drużyny. nameLabel jest uzupełniany nazwą drużyny, coachLabel imieniem
+     * i nazwiskiem trenera, który prowadzi drużynę, dateLabel jest uzupełniany datą założenia drużyny w przypadku braku
+     * daty jest wpisany "-", pointsLabel jest uzupełniany ilością punktów, winsLabel jest uzupełniany ilością zwycięstw,
+     * drwasLabel jest uzupełniany ilością remisów, losesLabel jest uzupełniany ilością porażek.
+     */
     private void setTeamInfo() {
         nameLabel.setText(((Team)currentData).getName());
         coachLabel.setText(((Team)currentData).getCoach().getName() + " " + ((Team)currentData).getCoach().getSurname());

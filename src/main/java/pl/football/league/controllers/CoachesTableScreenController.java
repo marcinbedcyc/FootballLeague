@@ -8,19 +8,43 @@ import pl.football.league.services.TableItemsShowService;
 
 import java.util.Comparator;
 
+/**
+ * Kontroler do pliku coachesTableScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.TableItemsShowService
+ */
 public class CoachesTableScreenController extends TableItemsShowService {
+    /**
+     * Label z nagłówkiem kolumny imię
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny nazwisko
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label surnameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny wiek
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label ageLabel;
 
+    /**
+     * GridPane'a z informacjami o trenerach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane gridPane;
 
+    /**
+     * Inicjalizacja okna: pobranie danych z bazy danych, ustawienie sortowania oraz uzupełnienie gridPane'a danymi
+     */
     @FXML
     void initialize() {
         currentData = entityManager.createQuery("select C from Coach C", Coach.class).getResultList();
@@ -28,10 +52,18 @@ public class CoachesTableScreenController extends TableItemsShowService {
         fillTable();
     }
 
+    /**
+     * Uzupełnia gridPane'a danymi o trenerach z bazy
+     */
     private void fillTable(){
         fillGridPane(gridPane, 3);
     }
 
+    /**
+     * Ustawia akcje kliknięcia w Label'e nagłówkowe, które posortują pobrane dane: po kliknięciu w ageLabel dane zostną
+     * posortowane względem wieku, po kliknięciu w nameLabel dane będą posortowane po imieniu, po kliknięciu w surnameLabel
+     * dane będą posorotowane po naziwsku.
+     */
     private void setSorts(){
         currentData.sort(Comparator.comparing(Coach::getSurname));
 

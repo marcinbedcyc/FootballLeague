@@ -8,22 +8,50 @@ import pl.football.league.services.TableItemsShowService;
 
 import java.util.Comparator;
 
+/**
+ * Kontroler do pliku fansTableScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.TableItemsShowService
+ */
 public class FansScreenTableController extends TableItemsShowService {
+    /**
+     * Label z nagłówkiem kolumny imię
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny nazwisko
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label surnameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny pseudonim
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nicknameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny wiek
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label ageLabel;
 
+    /**
+     * GridPane'a z informacjami o kibicach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane gridPane;
 
+    /**
+     * Inicjalizacja danych: pobranie danych z bazy danych, ustawienie sortowań oraz uzupełnienie gridPane'a danymi.
+     */
     @FXML
     void initialize() {
         currentData = entityManager.createQuery("select F from Fan F").getResultList();
@@ -31,10 +59,18 @@ public class FansScreenTableController extends TableItemsShowService {
         fillTable();
     }
 
+    /**
+     * Uzupełnia gridPane'a danymi o kibicach z bazy
+     */
     private void fillTable(){
         fillGridPane(gridPane, 4);
     }
 
+    /**
+     * Ustawia akcje kliknięcia w Label'e nagłówkowe, które posortują pobrane dane: po kliknięciu w ageLabel dane zostną
+     * posortowane względem wieku, po kliknięciu w nameLabel dane będą posortowane po imieniu, po kliknięciu w surnameLabel
+     * dane będą posorotowane po naziwsku, po kliknięciu w nicknameLabel dane zostaną posortowane po pseudonimie.
+     */
     private  void setSorts(){
         nameLabel.setOnMouseClicked(event -> {
             currentData.sort(Comparator.comparing(Fan::getName));

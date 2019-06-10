@@ -12,45 +12,102 @@ import pl.football.league.services.MainService;
 import pl.football.league.threads.Buffer;
 import pl.football.league.threads.ReceiverItemTask;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Kontroler do pliku managmentScreen.fxml. Okno umożliwiające dodatkowe opcje administratorowi takie jak edytowanie elementów
+ * w bazie danych, dodawanie i usuwanie.
+ * @author Marcin Cyc
+ * @see pl.football.league.services.MainService
+ */
 public class ManagementScreenController extends MainService {
+    /**
+     * Lista trenerów z bazy danych
+     * @see pl.football.league.entities.Coach
+     */
     private List<Coach> coaches;
+
+    /**
+     * Lista trenerów z bazy danych, którzy nie prowadzą żadnej drużyny
+     * @see pl.football.league.entities.Coach
+     */
     private List<Coach> freeCoaches;
+
+    /**
+     * Lista kibiców z bazy danych
+     * @see pl.football.league.entities.Fan
+     */
     private List<Fan> fans;
+
+    /**
+     * Lista piłkarzy z bazy danych
+     * @see pl.football.league.entities.Footballer
+     */
     private List<Footballer> footballers;
+
+    /**
+     * Lista drużyn z bazy danych
+     * @see pl.football.league.entities.Team
+     */
     private List<Team> teams;
+
+    /**
+     * Lista meczów z bazy danych
+     * @see pl.football.league.entities.Match
+     */
     private List<Match> matches;
 
+    /**
+     * GridPane'a z informacjami o trenerach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane coachGridPane;
 
+
+    /**
+     * GridPane'a z informacjami o kibicach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane fanGridPane;
 
+    /**
+     * GridPane'a z informacjami o piłkarzach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private  GridPane footballerGridPane;
 
+    /**
+     * GridPane'a z informacjami o meczach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private  GridPane matchGridPane;
 
+    /**
+     * GridPane'a z informacjami o drużynach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private  GridPane teamGridPane;
 
-    @FXML
-    private Button editButton;
-
-    @FXML
-    private Button deleteButton;
-
+    /**
+     * Główny layout okna, który przechowuje wszystkie gridPane'y z danymi z bazy danych
+     * @see javafx.scene.control.TabPane
+     */
     @FXML
     private TabPane tabPane;
 
+    /**
+     * Inicjalizacja okna: uzupełnienie zakładki z trenerami danymi, przypisanie stylu .css do okna oraz zainicjalizowanie
+     * pustej listy dla trenerów bez drużyny.
+     */
     @FXML
     void initialize() {
         fillCoachesTable();
@@ -58,6 +115,9 @@ public class ManagementScreenController extends MainService {
         freeCoaches = new LinkedList<>();
     }
 
+    /**
+     * Jeśli lista coaches jest pusta to pobierane są dane z bazy danych. Ponadto uzupełniana jest zakładka trenerów danymi
+     */
     @FXML
     void coachFill() {
         if(coaches == null)
@@ -65,6 +125,9 @@ public class ManagementScreenController extends MainService {
         fillCoachesTable();
     }
 
+    /**
+     * Jeśli lista fans jest pusta to pobierane są dane z bazy danych. Ponadto uzupełniana jest zakładka kibiców danymi
+     */
     @FXML
     void fanFill() {
         if(fans == null)
@@ -72,6 +135,10 @@ public class ManagementScreenController extends MainService {
         fillFansTable();
     }
 
+    /**
+     * Jeśli lista footballers jest pusta to pobierane są dane z bazy danych. Jeśli lista teams jest pusta to pobierane
+     * są dane z bazy danych. Ponadto uzupełniana jest zakładka piłkarzy danymi.
+     */
     @FXML
     void footballerFill() {
         if(teams == null)
@@ -81,6 +148,9 @@ public class ManagementScreenController extends MainService {
         fillFootballersTable();
     }
 
+    /**
+     * Jeśli lista matches jest pusta to pobierane są dane z bazy danych. Ponadto uzupełniana jest zakładka meczów danymi
+     */
     @FXML
     void matchFill() {
         if(matches == null)
@@ -88,6 +158,11 @@ public class ManagementScreenController extends MainService {
         fillMatchesTable();
     }
 
+    /**
+     * Jeśli lista footballers  jest pusta to pobierane są dane z bazy danych. Jeśli lista teams  jest pusta to pobierane
+     * są dane z bazy danych. Jeśli lista matches  jest pusta to pobierane są dane z bazy danych. Ponadto uzupełniana
+     * jest zakładka drużyn danymi
+     */
     @FXML
     void teamFill() {
         if(footballers == null)
@@ -99,6 +174,9 @@ public class ManagementScreenController extends MainService {
         fillTeamsTable();
     }
 
+    /**
+     * Otwiera nowe okno do dodania trenera do bazy danych. Dodanie do bazy odbbywa się w osobny wątku i działa współbieżnie.
+     */
     @FXML
     void addCoach(){
         Buffer bufferAddCoach = new Buffer();
@@ -120,6 +198,9 @@ public class ManagementScreenController extends MainService {
         });
     }
 
+    /**
+     * Otwiera nowe okno do dodania kibica do bazy danych. Dodanie do bazy odbbywa się w osobny wątku i działa współbieżnie.
+     */
     @FXML
     void addFan() {
         Buffer bufferAddFan = new Buffer();
@@ -142,6 +223,9 @@ public class ManagementScreenController extends MainService {
         });
     }
 
+    /**
+     * Otwiera nowe okno do dodania piłkarza do bazy danych. Dodanie do bazy odbbywa się w osobny wątku i działa współbieżnie.
+     */
     @FXML
     void addFootballer(){
         Buffer bufferAddFootbalelr = new Buffer();
@@ -163,6 +247,9 @@ public class ManagementScreenController extends MainService {
         });
     }
 
+    /**
+     * Otwiera nowe okno do dodania meczu do bazy danych. Dodanie do bazy odbbywa się w osobny wątku i działa współbieżnie.
+     */
     @FXML
     void addMatch(){
         Buffer bufferAddMatch = new Buffer();
@@ -187,6 +274,9 @@ public class ManagementScreenController extends MainService {
         });
     }
 
+    /**
+     * Otwiera nowe okno do dodania drużyny do bazy danych. Dodanie do bazy odbbywa się w osobny wątku i działa współbieżnie.
+     */
     @FXML
     void addTeam(){
         Buffer bufferAddTeam = new Buffer();
@@ -213,10 +303,10 @@ public class ManagementScreenController extends MainService {
         });
     }
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    /**
+     * Uzupełnia coachGridPane danymi o trenerach. Wiersz wygląda następująco: TextField z imieniem, TextField  z nazwiskiem,
+     * ComboBox z wiekiem, przycisk "Zapisz" do zatwierdzenia zmian oraz przycisk "Usuń" do usunięcia elementu z bazy danych.
+     */
     private void fillCoachesTable(){
         int row = 0;
         coachGridPane.getChildren().remove(0, coachGridPane.getChildren().size());
@@ -280,6 +370,11 @@ public class ManagementScreenController extends MainService {
         }
     }
 
+    /**
+     * Uzupełnia fanGridPane danymi o kibicach. Wiersz wygląda następująco: TextField z imieniem, TextField  z nazwiskiem,
+     * TextField z hasłem, TextField z pseudonimem, ComboBox z wiekiem, przycisk "Zapisz" do zatwierdzenia zmian oraz
+     * przycisk "Usuń" do usunięcia elementu z bazy danych.
+     */
     private void fillFansTable(){
         int row = 0;
         fanGridPane.getChildren().remove(0, fanGridPane.getChildren().size());
@@ -349,6 +444,11 @@ public class ManagementScreenController extends MainService {
         }
     }
 
+    /**
+     * Uzupełnia footballerGridPane danymi o piłkarzach. Wiersz wygląda następująco: TextField z imieniem, TextField  z nazwiskiem,
+     * ComboBox z pozycją na boisku, ComboBox z numerem na koszulce, ComboBox z drużyną, w której gra piłkarz, przycisk
+     * "Zapisz" do zatwierdzenia zmian oraz przycisk "Usuń" do usunięcia elementu z bazy danych.
+     */
     private void fillFootballersTable(){
         int row = 0;
         footballerGridPane.getChildren().remove(0, footballerGridPane.getChildren().size());
@@ -438,6 +538,11 @@ public class ManagementScreenController extends MainService {
         }
     }
 
+    /**
+     * Uzupełnia matchGridPane danymi o meczach. Wiersz wygląda następująco: Label z nazwą drużyna gospodarza, ComboBox
+     * z wynikiem gospodarza, Label ":", ComboBox z wynikiem gościa, Label z nazwą drużyny gościa, DatePicker z datą meczu,
+     * przycisk "Zapisz" do zatwierdzenia zmian oraz przycisk "Usuń" do usunięcia elementu z bazy danych.
+     */
     private  void fillMatchesTable(){
         int row = 0;
         matchGridPane.getChildren().remove(0, matchGridPane.getChildren().size());
@@ -496,11 +601,16 @@ public class ManagementScreenController extends MainService {
                 }
             });
 
-            matchGridPane.addRow(row, homeTeam, resultHome,colon, resultAway, awayTeam, datePicker,  edit, delete);
+            matchGridPane.addRow(row, homeTeam, resultHome, colon, resultAway, awayTeam, datePicker,  edit, delete);
             row++;
         }
     }
 
+    /**
+     * Uzupełnia teamGridPane danymi o drużynach. Wiersz wygląda następująco: TextField z nazwą drużyny, DatePicker z datą
+     * założenia drużyny, ComboBox z trenerem, który może prowadzić drużynę, przycisk "Zapisz" do zatwierdzenia zmian oraz
+     * przycisk "Usuń" do usunięcia elementu z bazy danych.
+     */
     private void fillTeamsTable(){
         int row = 0;
         teamGridPane.getChildren().remove(0, teamGridPane.getChildren().size());
@@ -576,6 +686,9 @@ public class ManagementScreenController extends MainService {
         }
     }
 
+    /**
+     * Uzupełnia listę freeCoaches trenerami, którzy nie prowadzą żadnej drużyny.
+     */
     private void setFreeCoaches(){
         freeCoaches.clear();
         boolean busyCoach;

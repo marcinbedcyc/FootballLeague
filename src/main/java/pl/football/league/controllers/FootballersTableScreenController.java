@@ -8,25 +8,57 @@ import pl.football.league.services.TableItemsShowService;
 
 import java.util.Comparator;
 
+/**
+ * Kontroler do pliku footballersTableScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.TableItemsShowService
+ */
 public class FootballersTableScreenController extends TableItemsShowService {
+    /**
+     * Label z nagłówkiem kolumny imię
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny nazwisko
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label surnameLabel;
 
+    /**
+     * Label z nagłówkiem kolumny drużyna
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label teamLabel;
 
+    /**
+     * Label z nagłówkiem kolumny numer na koszulce
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label numberLabel;
 
+    /**
+     * Label z nagłówkiem kolumny pozycja
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label positionLabel;
 
+    /**
+     * GridPane'a z informacjami o piłkarzach z bazy danych
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane gridPane;
 
+    /**
+     * Inicjalizacja okna: pobranie danych z bazy danych, ustawienie sortowania oraz uzupełnienie gridPane'a danymi
+     */
     @FXML
     void initialize() {
         currentData = entityManager.createQuery("select F from Footballer F", Footballer.class).getResultList();
@@ -34,10 +66,19 @@ public class FootballersTableScreenController extends TableItemsShowService {
         fillTable();
     }
 
+    /**
+     * Uzupełnia gridPane'a danymi o piłkarzach z bazy
+     */
     private void fillTable(){
        fillGridPane(gridPane, 5);
     }
 
+    /**
+     * Ustawia akcje kliknięcia w Label'e nagłówkowe, które posortują pobrane dane: po kliknięciu w teamLabel dane zostną
+     * posortowane względem drużyny, po kliknięciu w nameLabel dane będą posortowane po imieniu, po kliknięciu w surnameLabel
+     * dane będą posorotowane po naziwsku, po kliknięciu w positionLabel dane zostaną posortowane po pozycji, po kliknięciu
+     * w numberLabel dane zostaną posortowane po numerze na koszulce.
+     */
     private void setSorts() {
         currentData.sort(Comparator.comparing(Footballer::getSurname));
 

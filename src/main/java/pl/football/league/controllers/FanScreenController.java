@@ -9,29 +9,65 @@ import pl.football.league.entities.Team;
 import pl.football.league.fxmlUtils.TableControls;
 import pl.football.league.services.ItemShowService;
 
-
+/**
+ * Kontroler dla pliku fanScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.ItemShowService
+ */
 public class FanScreenController extends ItemShowService {
+    /**
+     * Label z tytułem okna
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label titleLabel;
 
+    /**
+     * Label z imieniem kibica
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * Label z nazwiskiem kibica
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label surnameLabel;
 
+    /**
+     * Label z wiekiem kibica
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label ageLabel;
 
+    /**
+     * Label z pseudonimem kibica
+     * @see javafx.scene.control.Label
+     */
     @FXML
     private Label nicknameLabel;
 
+    /**
+     * VBox z piłkarzami wspieranymi przez kibica
+     * @see javafx.scene.layout.VBox
+     */
     @FXML
     private VBox footballersVBox;
 
+    /**
+     * VBox z druzynami wspieranymi przez kibica
+     * @see javafx.scene.layout.VBox
+     */
     @FXML
     private VBox teamsVBox;
 
+    /**
+     * Inicjalizacja okna: ustawienie informacji o kibicu, uzupełnienie odpowednich VBox'ów piłkarzami i drużynami wspieranymi
+     * przez kibica.
+     */
     @FXML
     void initialize() {
         setFanInfo();
@@ -39,6 +75,11 @@ public class FanScreenController extends ItemShowService {
         setTeams();
     }
 
+    /**
+     * Uzupełnia pola kontrolne informacjami o kibicu. titleLabel jesy uzupełniany imieniem naziwskiem oraz pseudonimem,
+     * nameLabel imieniem kibica, surnameLabel nazwiskiem kibica, nicknameLabel pseudonimem kibica, ageLabel wiekiem
+     * kibica, w przypadku braku uzupełniany jest "-".
+     */
     private void setFanInfo(){
         titleLabel.setText(((Fan)currentData).getName() + " " + ((Fan)currentData).getSurname() + " ( " + ((Fan)currentData).getNickname() + " )");
         nameLabel.setText(((Fan)currentData).getName());
@@ -50,6 +91,11 @@ public class FanScreenController extends ItemShowService {
         ageLabel.setText(result);
     }
 
+    /**
+     * Pobiera z bazy danych piłkarzy, których wspiera kibic i uzupełnia nimi odpowiedniego VBox'a. W przypadku braku piłkarzy
+     * zostaje wyświetlony napis "Brak wspieranych piłkarzy". Dodaje akcje kliknięcia na imię i nazwisko piłkarza. Akcja
+     * otwiera nowe okno z informacjami o tym piłkarzu.
+     */
     private void setFootballers(){
         if(((Fan)currentData).getSupportedFootballers().isEmpty()){
             Label emptyLabel = TableControls.Label(150, "Brak wspieranych piłkarzy");
@@ -70,6 +116,11 @@ public class FanScreenController extends ItemShowService {
         }
     }
 
+    /**
+     * Pobiera z bazy danych druzyny, które wspiera kibic i uzupełnia nimi odpowiedniego VBox'a. W przypadku braku drużyn
+     * zostaje wyświetlony napis "Brak wspieranych drużyn". Dodaje akcje kliknięcia na nazwę drużyny. Akcja otwiera nowe
+     * okno z informacjami o tej drużynie.
+     */
     private void setTeams(){
         if(((Fan)currentData).getSupportedTeams().isEmpty()){
             Label emptyLabel = TableControls.Label(150, "Brak wspieranych drużyn");

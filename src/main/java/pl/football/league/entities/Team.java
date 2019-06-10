@@ -1,41 +1,70 @@
 package pl.football.league.entities;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Set;
 
+/**
+ * Klasa mapująca encję drużyna z bazy danych
+ * @author Marcin Cyc
+ */
 @Entity
 @Table(name = "druzyna")
 public class Team {
+    /**
+     * Identyfikator drużyny
+     */
     @Id
     @GeneratedValue
     @Column(name = "kod_druzyny")
     private long teamID;
 
+    /**
+     * Nazwa drużyny
+     */
     @Column(name = "nazwa")
     private String name;
 
+    /**
+     * Data założenia druzyny
+     */
     @Column(name = "data_zalozenia")
     private java.sql.Date creationDate;
 
+    /**
+     * Ilość punktów zdobytych przez drużynę w lidze
+     */
     @Column(name = "ilosc_punktow")
     private int points;
 
+    /**
+     * Ilość meczów wygranych przez drużynę
+     */
     @Column(name = "zwyciestwa")
     private int wins;
 
+    /**
+     * Ilość meczów zremisowanych przez drużynę
+     */
     @Column(name = "remisy")
     private int draws;
 
+    /**
+     * Ilość meczów przegranych przez drużynę
+     */
     @Column(name = "porazki")
     private int loses;
 
+    /**
+     * Trener drużyny
+     */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "trener")
     private Coach coach;
 
+    /**
+     * Zbiór kibiców, którzy wspierają drużynę
+     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "kibicowanie_druzynie",
             joinColumns = {@JoinColumn(name = "kod_druzyny")},
@@ -114,6 +143,10 @@ public class Team {
         this.teamFans = teamFans;
     }
 
+    /**
+     * Przekształca obiekt meczu na napis
+     * @return nazwę drużyny
+     */
     @Override
     public String toString() {
         return this.name;

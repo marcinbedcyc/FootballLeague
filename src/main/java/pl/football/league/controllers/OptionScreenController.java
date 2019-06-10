@@ -9,36 +9,79 @@ import pl.football.league.fxmlUtils.Alerts;
 import pl.football.league.fxmlUtils.TableControls;
 import pl.football.league.services.MainService;
 
-
+/**
+ * Kontroler dp pliku optionScreen.fxml
+ * @author Marcin Cyc
+ * @see pl.football.league.services.MainService
+ */
 public class OptionScreenController extends MainService {
-
+    /**
+     * TextFiled z imieniem użytkownika
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField nameTextField;
 
+    /**
+     * TextField z nazwiskiem użytkownika
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField surnameTextField;
 
+    /**
+     * TextField z pseudonimem użytkownika
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField nicknameTextField;
 
+    /**
+     * PasswordField ze starym hasłem użytkownika
+     * @see javafx.scene.control.PasswordField
+     */
     @FXML
     private PasswordField oldPasswordTextFIeld;
 
+    /**
+     * PasswordField z nowym hasłem użytkownika
+     * @see javafx.scene.control.PasswordField
+     */
     @FXML
     private PasswordField newPasswordTextField;
 
+    /**
+     * PasswordField z powtórzonym nowym hasłem użytkownika
+     * @see javafx.scene.control.PasswordField
+     */
     @FXML
     private PasswordField newPasswordRepeatTextField;
 
+    /**
+     * TextFiled z wiekiem użytkownika
+     * @see javafx.scene.control.TextField
+     */
     @FXML
     private TextField agetextField;
 
+    /**
+     * GridPane z piłkarzami, którym kibicuje zalogowany użytkownik
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane footballersGridPane;
 
+    /**
+     * GridPane z druzynami, którym kibicuje zalogowany użytkownik
+     * @see javafx.scene.layout.GridPane
+     */
     @FXML
     private GridPane teamsGridPane;
 
+    /**
+     * Inicjalizacja okna: ustawienie informacji o zalogowanym użytkowniku oraz uzupełnienie tabel wspieranych piłkarzy i
+     * drużyn. W przypadku zalgowanego administratora wyłączenie opcji modyfikacji pseudnimu.
+     */
     @FXML
     void initialize() {
         setInfo();
@@ -48,6 +91,13 @@ public class OptionScreenController extends MainService {
         }
     }
 
+    /**
+     * Edytowanie informacji o zalogowanym kibicu. Po kolei weryfikowane są dane wprowadzone prez użytkownika: sprawdzenie
+     * czy w polu agetextField została podana poprawna liczba, sprawdzenie czy jest poprawnie podane stare hasło, czy jesy
+     * poprawnie podane nowe hasło oraz jego powtórzenie, sprawdzenie czy podany nowy login nie jest zajęty przez innego
+     * użytkownika. W przypadku jakiegokolwiek błędu wyświetlany jest stosowny komuniakt w postaci Alert'u.
+     * @see pl.football.league.fxmlUtils.Alerts
+     */
     @FXML
     void edit() {
         boolean succes = true;
@@ -100,6 +150,11 @@ public class OptionScreenController extends MainService {
         }
     }
 
+    /**
+     * Uzupełnienie pól kontrolnych informacjami o zalogowanym użytkowniku: nameTextField uzupełniany jest imieniem zalogowanego
+     * użytkownika, surnameTextField uzupełniany jest nazwiskiem użytkownika, nicknameTextField uzupełniany jest pseudonimem
+     * użytkownika, agetextField uzupełniany jest wiekiem użytkownika, w przypadku braku podanego wieku wpisywane jest "-".
+     */
     private void setInfo() {
         nameTextField.setText(currentUser.getName());
         surnameTextField.setText(currentUser.getSurname());
@@ -113,6 +168,11 @@ public class OptionScreenController extends MainService {
         agetextField.setText(result);
     }
 
+    /**
+     * Uzupełnienie odpowednich gridPane'ów z informacjami o wspieranych piłkarzach i drużynach. Dodanie akacji usuwania
+     * kibicowania po kliknięciu w Label "X" oraz dodanie akcji wyświetlania informacji o piłkarzu, drużynie po kliknięciu
+     * w odpowiedni Label z imieniem i nazwiskiem piłkarza lub nazwą drużyny.
+     */
     private void fillTables() {
         int i = 0;
         footballersGridPane.getChildren().remove(0, footballersGridPane.getChildren().size());
@@ -160,5 +220,4 @@ public class OptionScreenController extends MainService {
             }
         }
     }
-
 }
