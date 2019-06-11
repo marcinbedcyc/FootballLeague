@@ -129,10 +129,11 @@ public class AddFootballerScreenController extends ItemAddService {
     }
 
     /**
-     * Inicjalizacja okna: ustawienie comboBox'ów.
+     * Inicjalizacja okna: ustawienie comboBox'ów. Ustawienie akcji po zamknięciu okna.
      */
     @FXML
     void initialize() {
+        stage.setOnCloseRequest(event -> back());
         for(int i = 0; i <= 99 ; i++){
             numberComboBox.getItems().add(i);
         }

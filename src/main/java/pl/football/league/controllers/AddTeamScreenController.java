@@ -156,10 +156,11 @@ public class AddTeamScreenController extends ItemAddService {
     }
 
     /**
-     * Inicjalizacja okna. Ustawienie comboBox'a z trenerami oraz domyślnej daty na dzisiejszą.
+     * Inicjalizacja okna. Ustawienie comboBox'a z trenerami oraz domyślnej daty na dzisiejszą. Ustawienie akcji po zamknięciu okna.
      */
     @FXML
     void initialize() {
+        stage.setOnCloseRequest(event -> back());
         setCoachComboBox(entityManager.createQuery("select C from Coach  C", Coach.class).getResultList());
         creationDate.setValue(LocalDate.now());
     }

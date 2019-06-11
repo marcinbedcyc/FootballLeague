@@ -107,9 +107,10 @@ public class AddCoachScreenController extends ItemAddService {
     }
 
     /**
-     * Inicjalizacja okna. Żadnych dodatkowych akcji.
+     * Inicjalizacja okna. Ustawienie akcji po zamknięciu okna.
      */
     @FXML
     void initialize() {
+        stage.setOnCloseRequest(event -> back());
     }
 }

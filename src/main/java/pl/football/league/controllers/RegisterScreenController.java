@@ -27,7 +27,7 @@ public class RegisterScreenController extends ItemAddService {
 
     /**
      * Inicjalizacja okna. Ustawienie skalowalności, minimalnej szerokości i tytułu okna gdy flaga separatelyWindow ma
-     * wartość false
+     * wartość false. Ustawienie akcji po zamknięciu okna.
      */
     @FXML
     void initialize() {
@@ -35,6 +35,9 @@ public class RegisterScreenController extends ItemAddService {
             mainScreenController.getStage().setResizable(true);
             mainScreenController.getStage().setMinWidth(400);
             mainScreenController.getStage().setTitle("Rejestracja");
+        }
+        else{
+            stage.setOnCloseRequest(event -> back());
         }
     }
 

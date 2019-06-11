@@ -136,10 +136,11 @@ public class AddMatchScreenController extends ItemAddService {
     }
 
     /**
-     * Inicjalizacja okna: ustawienie comboBox'ów oraz daty meczu na bieżącą
+     * Inicjalizacja okna: ustawienie comboBox'ów oraz daty meczu na bieżącą. Ustawienie akcji po zamknięciu okna.
      */
     @FXML
     void initialize() {
+        stage.setOnCloseRequest(event -> back());
         List<Team> teams = entityManager.createQuery("select T from Team T", Team.class).getResultList();
 
         homeTeamComboBox.getItems().addAll(teams);
