@@ -126,10 +126,10 @@ public class Fan {
 
     /**
      * Przekształca obiekt kibic na napis
-     * @return imię + nazwisko + " a'ka " + pseudonim jako jeden napis
+     * @return imię + nazwisko + pseudonim jako jeden napis
      */
     @Override
     public String toString() {
-        return name + " " + surname + " a'ka " + nickname;
+        return name + " " + surname + " " + nickname;
     }
 }

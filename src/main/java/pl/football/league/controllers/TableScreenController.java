@@ -1,12 +1,17 @@
 package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import pl.football.league.entities.Team;
 import pl.football.league.services.TableItemsShowService;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Kontroler do pliku tableScreen.fxml
@@ -64,11 +69,20 @@ public class TableScreenController extends TableItemsShowService {
     private Label coachLabel;
 
     /**
+     * Pole do filtrowania wyników w tabeli
+     * @see javafx.scene.control.TextField
+     */
+    @FXML
+    private TextField searchTextField;
+
+    /**
      * Inicjalizacja okna: pobranie danych z bazy danych, ustawienie sortowania oraz uzupełnienie gridPane'a danymi
      */
     @FXML
     void initialize() {
         currentData = entityManager.createQuery("select t from Team t").getResultList();
+        allData = new ArrayList(currentData);
+        searchTextField.setTooltip(new Tooltip("Wyszukiwarka po nazwie drużyny oraz nazwisku trenera"));
         setSorts();
         fillTable();
     }
@@ -119,5 +133,17 @@ public class TableScreenController extends TableItemsShowService {
             currentData.sort((Object o1, Object o2)->((Team)o2).getCoach().getSurname().compareTo(((Team)o1).getCoach().getSurname()));
             fillTable();
         });
+    }
+
+    /**
+     * Filtruje dane wyświetlane użytkownikowi
+     */
+    @FXML
+    void searchElements() {
+        currentData = (List)allData.stream().filter(f -> {
+            String text = f.toString().toLowerCase() + "  " + ((Team)f).getCoach().getSurname().toLowerCase();
+            return text.contains(searchTextField.getText().toLowerCase());
+        }).collect(Collectors.toList());
+        fillTable();
     }
 }

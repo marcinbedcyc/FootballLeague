@@ -72,6 +72,6 @@ public class Match implements java.io.Serializable{
      */
     @Override
     public String toString() {
-        return matchID.getHome() + " " +resultHome + " : " + resultAway + " " + getMatchID().getAway();
+        return matchID.getHome() + " " +resultHome + ":" + resultAway + " " + getMatchID().getAway();
     }
 }

@@ -7,3 +7,7 @@
 .label:hover{
     -fx-background-color: lightgray;
 }
+
+.text-field{
+    -fx-background-radius: 15;
+}

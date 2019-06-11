@@ -2,11 +2,16 @@ package pl.football.league.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import pl.football.league.entities.Match;
 import pl.football.league.services.TableItemsShowService;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Kontroler do pliku resultTableScreen.fxml
@@ -43,11 +48,20 @@ public class ResultTableScreenController extends TableItemsShowService {
     private Label dateLabel;
 
     /**
+     * Pole do filtrowania wyników w tabeli
+     * @see javafx.scene.control.TextField
+     */
+    @FXML
+    private TextField searchTextField;
+
+    /**
      * Inicjalizacja okna: pobranie danych z bazy danych, ustawienie sortowania oraz uzupełnienie gridPane'a danymi
      */
     @FXML
     void initialize() {
         currentData = entityManager.createQuery("select M from Match M").getResultList();
+        allData = new ArrayList(currentData);
+        searchTextField.setTooltip(new Tooltip("Wyszukiwarka po drużynach meczu oraz wyniku"));
         setSorts();
         fillTable();
     }
@@ -83,5 +97,14 @@ public class ResultTableScreenController extends TableItemsShowService {
             currentData.sort(Comparator.comparing(Match::getMatchDate));
             fillTable();
         });
+    }
+
+    /**
+     * Filtruje dane wyświetlane użytkownikowi
+     */
+    @FXML
+    void searchElements() {
+        currentData = (List)allData.stream().filter(f -> f.toString().toLowerCase().contains(searchTextField.getText().toLowerCase())).collect(Collectors.toList());
+        fillTable();
     }
 }

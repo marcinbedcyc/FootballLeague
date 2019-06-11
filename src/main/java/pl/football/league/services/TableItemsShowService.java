@@ -1,8 +1,11 @@
 package pl.football.league.services;
 
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pl.football.league.controllers.CoachScreenController;
 import pl.football.league.controllers.FanScreenController;
@@ -13,7 +16,6 @@ import pl.football.league.fxmlUtils.TableControls;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Serwis wyświetlający wszystkie dane z tabeli z bazy danych
@@ -27,6 +29,11 @@ public class TableItemsShowService extends MainService {
      */
     protected List currentData;
 
+    /**
+     * Lista wszystkich danych z aktualnej tabeli
+     */
+    protected List allData;
+
     public List<?> getCurrentData() {
         return currentData;
     }
@@ -38,15 +45,24 @@ public class TableItemsShowService extends MainService {
     /**
      * Uzupełnenie gridPane'a aktualnie pobranymi danymi z bazy danych. W zależności od danych występujących w liście oraz
      * liczby kolumn podanej jako parametr funkcji gridPane jest usupełniany na inny sposób. W przypadku złych danych
-     * wypisuje komunikat do konsoli.
+     * wypisuje komunikat do konsoli. W przypadku braku danych wypisuje komunikat "Brak wyników".
      * @param gridPane gridPane, w którym zostaną wyświetlone dane
      * @param columnSize rozmiar kolumn gridPane'a
      */
     protected void fillGridPane(GridPane gridPane, int columnSize) {
-        if (currentData.isEmpty())
-            return;
-
         gridPane.getChildren().remove(0, gridPane.getChildren().size());
+
+        if (currentData.isEmpty()) {
+            while(gridPane.getColumnConstraints().size() > 0){
+                gridPane.getColumnConstraints().remove(0);
+            }
+            Label noResult = new Label("Brak wyników !");
+            noResult.setStyle("-fx-font-size: 20; -fx-font-weight: bold");
+            noResult.setAlignment(Pos.CENTER);
+            gridPane.addRow(0, noResult);
+            gridPane.setHalignment(noResult, HPos.CENTER);
+            return;
+        }
 
         if (currentData.get(0) instanceof Coach) {
             fillWithCoaches(gridPane);
